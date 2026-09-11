@@ -1,0 +1,9 @@
+{
+  "source_directories": [
+    "face_api",
+    "face_engine"
+  ],
+  "search_path": [
+    ".venv/lib/python3.11/site-packages"
+  ]
+}

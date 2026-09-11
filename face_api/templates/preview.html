@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VISTA AI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                                        colors: {
+                        "primary": "#0d9488", // Teal 600
+                        "secondary": "#14b8a6", // Teal 500
+                        "background-base": "#f4f4f5", // Zinc 100
+                        "background-dark": "#09090b", // Zinc 950
+                        "surface-white": "#ffffff",
+                        "surface-dark": "#18181b", // Zinc 900
+                        "text-primary": "#09090b",
+                        "text-secondary": "#52525b", // Zinc 600
+                        "text-tertiary": "#a1a1aa", // Zinc 400
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    boxShadow: {
+                        'none': 'none',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background-base dark:bg-background-dark font-sans text-text-primary dark:text-gray-100 antialiased min-h-screen flex flex-col">
+    <header
+        class="w-full bg-surface-white dark:bg-surface-dark border-b border-gray-100/30 dark:border-white/30 sticky top-0 z-50">
+        <div class="px-8 h-16 flex items-center justify-between max-w-[1400px] mx-auto w-full">
+            <a href="/" class="flex items-center gap-3 group focus:outline-none">
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-50/80 dark:bg-zinc-800/80 p-1 border border-teal-100/60 dark:border-white/10 shadow-sm group-hover:border-primary/40 transition-all duration-200">
+                    <img src="/static/images/vista_icon.png" alt="VISTA AI Logo" class="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-base font-black tracking-widest text-primary dark:text-white uppercase leading-none">VISTA <span class="font-light text-indigo-500">AI</span></span>
+                    <span class="text-[9px] tracking-[0.22em] text-text-tertiary uppercase font-semibold mt-1">From Sight to Insight</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/50">
+                    <div class="size-1.5 rounded-full bg-primary dark:bg-white"></div>
+                    <span
+                        class="text-[10px] font-semibold text-primary dark:text-white uppercase tracking-widest">System
+                        Live</span>
+                </div>
+                <button id="theme-toggle"
+                    class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-primary dark:text-white"
+                    aria-label="Toggle Dark Mode">
+                    <span class="material-symbols-outlined theme-icon-light hidden">light_mode</span>
+                    <span class="material-symbols-outlined theme-icon-dark">dark_mode</span>
+                </button>
+                <button onclick="doLogout()"
+                    class="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                    title="Sign out">
+                    Sign Out
+                </button>
+                <button onclick="confirmShutdown()"
+                    class="text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
+                    title="Stop the entire pipeline">
+                    ⏻ Shutdown
+                </button>
+            </div>
+        </div>
+    </header>
+<nav
+        class="sticky top-20 mx-auto w-max max-w-[95vw] flex-wrap justify-center mt-6 mb-2 z-40 bg-primary p-1.5 rounded-2xl shadow-xl flex items-center gap-1 border border-white/10">
+        <a href="/" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">dashboard</span>
+            <span class="text-sm tracking-wide">Dash</span>
+        </a>
+        <a href="/preview" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 bg-white/10 text-white font-medium shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">grid_view</span>
+            <span class="text-sm tracking-wide">Live Preview</span>
+        </a>
+        <a href="/boundary" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">shield</span>
+            <span class="text-sm tracking-wide">Border Vigil</span>
+        </a>
+        <a href="/vehicle" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">directions_car</span>
+            <span class="text-sm tracking-wide">Vehicle Intel</span>
+        </a>
+        <a href="/wanted" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">policy</span>
+            <span class="text-sm tracking-wide">Wanted Persons</span>
+        </a>
+        <a href="/database" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">folder_shared</span>
+            <span class="text-sm tracking-wide">Face Database</span>
+        </a>
+        <a href="/#camera-management" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">videocam</span>
+            <span class="text-sm tracking-wide">Cameras</span>
+        </a>
+    </nav>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 mt-16 pb-24">
+        <!-- HEADER -->
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-lg shadow-primary/30">
+                    <span class="material-symbols-outlined text-[24px]">grid_view</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-text-primary dark:text-white tracking-tight">Live Preview Grid</h1>
+                    <p class="text-sm text-text-secondary mt-1">Distraction-free monitoring of all active checkpoints.</p>
+                </div>
+            </div>
+            <a href="/" class="px-5 py-2.5 rounded-xl bg-white dark:bg-dark-card border border-gray-200 dark:border-white/10 text-sm font-bold shadow-sm hover:shadow-md transition-shadow flex items-center gap-2 dark:text-white">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <!-- LIVE CAMERA PREVIEWS -->
+        <section class="mt-8 mb-12">
+            <div id="live-camera-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+    </main>
+
+        <!-- Expand Modal -->
+        <div id="camera-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center">
+            <div class="w-full max-w-6xl p-6">
+                <div class="flex justify-between items-center mb-4 text-white">
+                    <h2 id="modal-cam-title" class="text-2xl font-bold tracking-widest uppercase">CAMERA</h2>
+                    <div class="flex items-center gap-4">
+                        <div id="modal-live-indicator" class="flex items-center gap-2 px-3 py-1 bg-red-500/20 rounded-full border border-red-500/50 text-red-500 font-bold text-xs tracking-wider uppercase transition-opacity">
+                            <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                            LIVE
+                        </div>
+                        <button onclick="closeCameraModal()" class="text-white/50 hover:text-white material-symbols-outlined text-3xl transition-colors">close</button>
+                    </div>
+                </div>
+                <div class="w-full aspect-video bg-black rounded-xl overflow-hidden relative shadow-2xl border border-white/10 group">
+                    <img id="modal-stream" class="w-full h-full object-contain">
+                    
+                    <!-- Controls overlay -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div class="flex items-center justify-center gap-6">
+                            <button onclick="seekPlayback(-5)" class="text-white hover:text-primary transition-colors flex items-center gap-1" title="Rewind 5s">
+                                <span class="material-symbols-outlined text-3xl">fast_rewind</span><span class="text-xs font-bold font-mono">-5s</span>
+                            </button>
+                            <button onclick="seekPlayback(-1)" class="text-white hover:text-primary transition-colors flex items-center gap-1" title="Rewind 1s">
+                                <span class="material-symbols-outlined text-2xl">fast_rewind</span><span class="text-xs font-bold font-mono">-1s</span>
+                            </button>
+                            <button id="modal-play-btn" onclick="togglePlayback()" class="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white hover:bg-secondary transition-colors shadow-lg">
+                                <span class="material-symbols-outlined text-3xl" id="modal-play-icon">pause</span>
+                            </button>
+                            <button onclick="seekPlayback(1)" class="text-white hover:text-primary transition-colors flex items-center gap-1" title="Forward 1s">
+                                <span class="text-xs font-bold font-mono">+1s</span><span class="material-symbols-outlined text-2xl">fast_forward</span>
+                            </button>
+                            <button onclick="seekPlayback(5)" class="text-white hover:text-primary transition-colors flex items-center gap-1" title="Forward 5s">
+                                <span class="text-xs font-bold font-mono">+5s</span><span class="material-symbols-outlined text-3xl">fast_forward</span>
+                            </button>
+                            
+                            <button onclick="goLive()" class="ml-auto text-xs font-bold uppercase tracking-widest text-red-500 hover:text-red-400 flex items-center gap-1 bg-red-500/10 px-4 py-2 rounded-lg transition-colors border border-red-500/30">
+                                <span class="material-symbols-outlined text-[16px]">stream</span> Go Live
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    <script>
+        // ── Live Pipeline Stats ───────────────────────────────────────────────
+        // Auto-poll /api/health every 8 seconds so stats update as the
+        // capture → scoring → upload pipeline adds new faces and images.
+        let lastNetBytes = { sent: null, recv: null, time: null };
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return { val: '0', unit: 'B' };
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return { val: parseFloat((bytes / Math.pow(k, i)).toFixed(2)), unit: sizes[i] };
+        }
+
+        function refreshStats() {
+            fetch('/api/health')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('stat-persons').textContent = data.person_count ?? '—';
+                    document.getElementById('stat-images').textContent = data.vector_count ?? '—';
+                    
+                    if (data.storage_used_bytes !== undefined) {
+                        const s = formatBytes(data.storage_used_bytes);
+                        const valEl = document.getElementById('stat-storage-value');
+                        const unitEl = document.getElementById('stat-storage-unit');
+                        if (valEl) valEl.textContent = s.val;
+                        if (unitEl) unitEl.textContent = s.unit;
+                    }
+                    
+                    const now = performance.now() / 1000;
+                    if (data.network_bytes_sent !== undefined && data.network_bytes_recv !== undefined) {
+                        if (lastNetBytes.sent !== null) {
+                            const dt = now - lastNetBytes.time;
+                            if (dt > 0) {
+                                const dSent = data.network_bytes_sent - lastNetBytes.sent;
+                                const dRecv = data.network_bytes_recv - lastNetBytes.recv;
+                                
+                                const upMbps = (dSent * 8 / (dt * 1000000)).toFixed(2);
+                                const downMbps = (dRecv * 8 / (dt * 1000000)).toFixed(2);
+                                
+                                const upEl = document.getElementById('stat-upload-speed');
+                                const downEl = document.getElementById('stat-download-speed');
+                                if (upEl) upEl.textContent = upMbps;
+                                if (downEl) downEl.textContent = downMbps;
+                            }
+                        }
+                        lastNetBytes = { sent: data.network_bytes_sent, recv: data.network_bytes_recv, time: now };
+                    }
+                })
+                .catch(() => {});
+        }
+        refreshStats();                      // immediate first load
+             // then every 8 s
+
+        function showRecognitionToast(event) {
+            const container = document.getElementById('toast-container');
+            const name = event.matched_identity_name || event.matched_identity_id || 'Unknown';
+            const timeStr = new Date(event.timestamp * 1000).toLocaleTimeString();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-enter pointer-events-auto bg-white dark:bg-dark-card border border-primary/30 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-xl p-4 flex items-center gap-4 w-80 relative overflow-hidden';
+            
+            const imgHtml = event.image 
+                ? `<img src="data:image/jpeg;base64,${event.image}" class="h-14 w-14 object-cover rounded-lg shadow-sm border border-gray-100 dark:border-white/10">` 
+                : `<div class="h-14 w-14 bg-gray-100 dark:bg-white/5 rounded-lg flex items-center justify-center text-xs text-gray-400">No Img</div>`;
+
+            toast.innerHTML = `
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-green-500"></div>
+                ${imgHtml}
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold text-text-primary dark:text-white truncate">${name} is here!</p>
+                    <p class="text-[11px] text-text-secondary mt-1 truncate font-mono">${event.camera_id}</p>
+                    <p class="text-[10px] text-text-tertiary mt-0.5">${timeStr}</p>
+                </div>
+                <button class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors" onclick="this.closest('.toast-enter').remove()">
+                    <span class="material-symbols-outlined text-[16px]">close</span>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Auto dismiss after 7 seconds
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 400);
+            }, 7000);
+        }
+
+        let lastAlertTimestamp = 0;
+        function refreshLiveEvents() {
+            fetch('/api/events/live?n=15')
+                .then(r => r.json())
+                .then(data => {
+                    const tbody = document.getElementById('live-events-tbody');
+                    const section = document.getElementById('recent-shots-section');
+                    
+                    if (!data.events || data.events.length === 0) {
+                        section.classList.add('hidden');
+                        return;
+                    }
+                    
+                    // Trigger alert for new matches
+                    const newMatches = data.events.filter(ev => ev.match_status === 'MATCH' && ev.timestamp > lastAlertTimestamp);
+                    if (newMatches.length > 0) {
+                        lastAlertTimestamp = Math.max(...newMatches.map(ev => ev.timestamp));
+                        // Show toast for each new match (newest first in the events array, but we want to show oldest first to stack properly)
+                        newMatches.reverse().forEach(match => showRecognitionToast(match));
+                    }
+                    
+                    section.classList.remove('hidden');
+                    tbody.innerHTML = data.events.map(ev => {
+                        let date = new Date(ev.timestamp * 1000);
+                        let timeStr = date.toLocaleTimeString();
+                        
+                        let statusColor = 'text-gray-500';
+                        if (ev.match_status === 'MATCH') statusColor = 'text-green-500 font-bold';
+                        else if (ev.match_status === 'UNKNOWN') statusColor = 'text-red-500 font-bold';
+                        else if (ev.match_status === 'AMBIGUOUS') statusColor = 'text-orange-500 font-bold';
+                        
+                        let distStr = ev.embedding_distance != null ? ev.embedding_distance.toFixed(3) : '—';
+                        
+                        let imgHtml = ev.image ? 
+                            `<img src="data:image/jpeg;base64,${ev.image}" class="h-10 w-10 object-cover rounded shadow-sm border border-gray-200">` : 
+                            `<span class="text-xs text-gray-400">—</span>`;
+                            
+                        return `
+                            <tr>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-secondary">${timeStr}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-primary font-mono text-xs">${ev.camera_id}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap ${statusColor}">${ev.match_status || '—'}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap font-medium">${ev.matched_identity_name || ev.matched_identity_id || '—'}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-secondary font-mono text-xs">${distStr}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-secondary text-xs">${ev.action || '—'}</td>
+                                <td class="py-3 whitespace-nowrap">${imgHtml}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                })
+                .catch(() => {});
+        }
+        refreshLiveEvents();
+         // Poll every 2 seconds
+    </script>
+    <script>
+        // ── Master Camera Toggle API ─────────────────────────────────────────
+        let isCameraActive = false;
+        async function fetchCameraStatus() {
+            try {
+                const res = await fetch('/api/camera/status');
+                if (res.ok) {
+                    const data = await res.json();
+                    updateCameraUI(data.active, data.pending_jobs || 0);
+                }
+            } catch (e) { console.error('Failed to read camera state', e); }
+        }
+
+        function updateCameraUI(active, pending_jobs = 0) {
+            isCameraActive = active;
+            const btn = document.getElementById('cam-toggle-btn');
+            const ind = document.getElementById('cam-status-indicator');
+            const pipeInd = document.getElementById('pipeline-status-indicator');
+            
+            if (active) {
+                btn.textContent = "Stop Camera";
+                btn.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600');
+                btn.classList.remove('bg-primary', 'dark:bg-white', 'dark:text-primary');
+                ind.innerHTML = `
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-20"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Camera Running</span>
+                `;
+            } else {
+                btn.textContent = "Start Camera";
+                btn.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600');
+                btn.classList.add('bg-primary', 'dark:bg-white', 'dark:text-primary');
+                ind.innerHTML = `
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-400"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Camera Stopped</span>
+                `;
+            }
+            
+            // Set dual-state Pipeline Indicator
+            if (pending_jobs > 0) {
+                pipeInd.classList.remove('hidden');
+                // Use absolute positioning or margin for correct visual placement
+                pipeInd.innerHTML = `
+                    <div class="h-4 w-px bg-gray-300 dark:bg-white/20 mx-1"></div>
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-40"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Processing ${pending_jobs} Job${pending_jobs>1?'s':''}...</span>
+                `;
+            } else {
+                pipeInd.classList.remove('hidden');
+                pipeInd.innerHTML = `
+                    <div class="h-4 w-px bg-gray-300 dark:bg-white/20 mx-1"></div>
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-300 dark:bg-white/20"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-gray-400 dark:text-white/40 uppercase tracking-widest">Pipeline Idle</span>
+                `;
+            }
+        }
+
+        async function toggleSystemCamera() {
+            const newState = !isCameraActive;
+            const endpoint = newState ? '/api/camera/start' : '/api/camera/stop';
+            updateCameraUI(newState); // Optimistic UI update
+            try {
+                const res = await fetch(endpoint, {method: 'POST', credentials: 'same-origin'});
+                if (!res.ok) throw new Error("API Failure");
+            } catch (e) {
+                updateCameraUI(!newState); // Revert on failure
+                console.error("Failed to toggle camera", e);
+            }
+        }
+
+        fetchCameraStatus();
+        setInterval(fetchCameraStatus, 1500); // Poll status
+    </script>
+    <script>
+        // ── Camera Management Logic ───────────────────────────────────────────
+        
+        async function fetchCameras() {
+            try {
+                const res = await fetch('/api/cameras');
+                if (!res.ok) return;
+                const data = await res.json();
+                renderCameras(data.cameras || []);
+            } catch (e) { console.error('Failed to fetch cameras', e); }
+        }
+
+        function renderCameras(cameras) {
+            // ---- LIVE PREVIEW GRID POPULATION ----
+            const previewGrid = document.getElementById('live-camera-grid');
+            if (previewGrid) {
+                if (cameras.length === 0) {
+                    previewGrid.innerHTML = `<div class="col-span-full py-12 text-center text-text-tertiary bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-white/5">No active cameras found. Add one in the dashboard.</div>`;
+                } else {
+                    const activeCams = cameras.filter(cam => cam.enabled);
+                    if (activeCams.length === 0) {
+                        previewGrid.innerHTML = `<div class="col-span-full py-12 text-center text-text-tertiary bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-white/5">All cameras are disabled. Enable them to view live feeds.</div>`;
+                    } else {
+                        previewGrid.innerHTML = activeCams.map(cam => `
+                            <div class="bg-white dark:bg-dark-card rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-white/5 flex flex-col gap-4 overflow-hidden relative group">
+                                <div class="flex justify-between items-start">
+                                    <div class="truncate pr-4">
+                                        <h3 class="font-bold text-text-primary dark:text-white truncate" title="${cam.label || cam.id}">${cam.label || cam.id}</h3>
+                                        <p class="text-xs text-text-tertiary mt-0.5 font-mono truncate" title="${cam.id}">${cam.id}</p>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-50 dark:bg-green-500/10 border border-green-200/50 dark:border-green-500/20 shrink-0">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                        <span class="text-[10px] font-bold text-green-700 dark:text-green-400 tracking-wide uppercase">Live</span>
+                                    </div>
+                                </div>
+                                <div class="w-full aspect-video bg-black rounded-xl overflow-hidden relative shadow-inner cursor-pointer" onclick="expandCamera('${cam.id}', '${cam.label || cam.id}')">
+                                    <img src="/api/stream/${cam.id}" class="w-full h-full object-contain" 
+                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23666\' stroke-width=\'1\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M2 12h20M12 2v20M8 2l8 20M16 2L8 22\'/%3E%3C/svg%3E'; this.onerror=null; this.parentElement.classList.add('flex','items-center','justify-center');">
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            }
+        }
+
+        async function toggleCam(id, enable) {
+            await fetch(`/api/cameras/${id}`, {
+                credentials: 'same-origin',
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({enabled: enable})
+            });
+            fetchCameras();
+        }
+
+        let modalCamId = null;
+        let isPaused = false;
+        let playbackOffset = 0.0;
+        let playbackInterval = null;
+
+        function expandCamera(camId, label) {
+            modalCamId = camId;
+            document.getElementById('modal-cam-title').textContent = label;
+            document.getElementById('camera-modal').classList.remove('hidden');
+            goLive();
+        }
+        
+        function closeCameraModal() {
+            document.getElementById('camera-modal').classList.add('hidden');
+            modalCamId = null;
+            if (playbackInterval) clearInterval(playbackInterval);
+            document.getElementById('modal-stream').src = "";
+        }
+        
+        function goLive() {
+            isPaused = false;
+            playbackOffset = 0.0;
+            if (playbackInterval) clearInterval(playbackInterval);
+            
+            // Append random query string to break cache and force reload stream
+            document.getElementById('modal-stream').src = `/api/stream/${modalCamId}?t=${new Date().getTime()}`;
+            document.getElementById('modal-play-icon').textContent = 'pause';
+            document.getElementById('modal-live-indicator').classList.remove('opacity-0');
+        }
+        
+        function togglePlayback() {
+            if (isPaused) {
+                isPaused = false;
+                document.getElementById('modal-play-icon').textContent = 'pause';
+                if (playbackOffset >= 0) goLive();
+                else startPlaybackLoop();
+            } else {
+                isPaused = true;
+                document.getElementById('modal-play-icon').textContent = 'play_arrow';
+                document.getElementById('modal-live-indicator').classList.add('opacity-0');
+                if (playbackInterval) clearInterval(playbackInterval);
+                fetchFrame(); 
+            }
+        }
+        
+        function seekPlayback(seconds) {
+            playbackOffset += seconds;
+            if (playbackOffset >= 0) {
+                goLive();
+                return;
+            }
+            if (!isPaused) {
+                isPaused = true;
+                document.getElementById('modal-play-icon').textContent = 'play_arrow';
+                document.getElementById('modal-live-indicator').classList.add('opacity-0');
+                if (playbackInterval) clearInterval(playbackInterval);
+            }
+            fetchFrame();
+        }
+        
+        function fetchFrame() {
+            if (!modalCamId) return;
+            const img = document.getElementById('modal-stream');
+            const ts = new Date().getTime();
+            img.src = `/api/video_buffer/${modalCamId}?offset=${playbackOffset}&_t=${ts}`;
+        }
+        
+        function startPlaybackLoop() {
+            if (playbackInterval) clearInterval(playbackInterval);
+            playbackInterval = setInterval(() => {
+                if (!isPaused) {
+                    playbackOffset += 0.2; // simulate forward playback
+                    if (playbackOffset >= 0) {
+                        goLive();
+                    } else {
+                        fetchFrame();
+                    }
+                }
+            }, 200);
+        }
+
+        async function deleteCam(id) {
+            if (!confirm('Remove this camera?')) return;
+            await fetch(`/api/cameras/${id}`, {
+                credentials: 'same-origin', method: 'DELETE', credentials: 'same-origin' });
+            fetchCameras();
+        }
+
+        function showCamMsg(msg, isError=false) {
+            const el = document.getElementById('cam-msg');
+            el.textContent = msg;
+            el.className = `text-xs mt-2 ${isError ? 'text-red-500' : 'text-green-600 dark:text-green-400'}`;
+            el.classList.remove('hidden');
+            // setTimeout(() => el.classList.add('hidden'), 5000);
+        }
+
+        async function testCamera() {
+            const source = document.getElementById('cam-source').value.trim();
+            if (!source) return showCamMsg('Please enter a source to test', true);
+            
+            showCamMsg('Testing connection... (this may take a few seconds)');
+            try {
+                const res = await fetch('/api/cameras/test', {
+                    credentials: 'same-origin',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({source: source, label: '', enabled: true})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showCamMsg('✓ Connection successful!');
+                } else {
+                    showCamMsg(`✗ Test failed: ${data.error}`, true);
+                }
+            } catch (e) {
+                showCamMsg('✗ Test failed: Network error', true);
+            }
+        }
+
+        async function addCamera() {
+            const id = document.getElementById('cam-id').value.trim();
+            const label = document.getElementById('cam-label').value.trim();
+            const source = document.getElementById('cam-source').value.trim();
+            if (!source) return showCamMsg('Please enter a camera source', true);
+
+            showCamMsg('Adding camera and verifying connection...');
+            try {
+                const payload = {source: source, label: label, enabled: true};
+                if (id) payload.id = id;
+                const res = await fetch('/api/cameras', {
+                    credentials: 'same-origin',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById('cam-id').value = '';
+                    document.getElementById('cam-label').value = '';
+                    document.getElementById('cam-source').value = '';
+                    showCamMsg('✓ Camera added successfully');
+                    fetchCameras();
+                } else {
+                    showCamMsg(`✗ Failed: ${data.error}`, true);
+                }
+            } catch (e) {
+                showCamMsg('✗ Failed to add camera: Network error', true);
+            }
+        }
+
+        // Initialize camera list and refresh periodically
+        fetchCameras();
+        setInterval(fetchCameras, 10000);
+
+        // ── Theme Logic ───────────────────────────────────────────────
+        (function () {
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                const htmlRoot = document.documentElement;
+                const iconLight = document.querySelector('.theme-icon-light');
+                const iconDark = document.querySelector('.theme-icon-dark');
+
+                function updateThemeUI() {
+                    const isDark = htmlRoot.classList.contains('dark');
+                    if (isDark) {
+                        iconLight.classList.remove('hidden');
+                        iconDark.classList.add('hidden');
+                    } else {
+                        iconLight.classList.add('hidden');
+                        iconDark.classList.remove('hidden');
+                    }
+                }
+
+                // Initialize state
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    htmlRoot.classList.add('dark');
+                } else {
+                    htmlRoot.classList.remove('dark');
+                }
+                updateThemeUI();
+
+                themeToggleBtn.addEventListener('click', () => {
+                    if (htmlRoot.classList.contains('dark')) {
+                        htmlRoot.classList.remove('dark');
+                        localStorage.theme = 'light';
+                    } else {
+                        htmlRoot.classList.add('dark');
+                        localStorage.theme = 'dark';
+                    }
+                    updateThemeUI();
+                });
+            })();
+    </script>
+
+    <!-- ── Shutdown Overlay ──────────────────────────────────────────────── -->
+    <div id="shutdown-overlay"
+         style="display:none;position:fixed;inset:0;z-index:9999;
+                background:rgba(1,32,123,0.97);
+                flex-direction:column;align-items:center;justify-content:center;gap:16px">
+      <div style="font-size:3rem">⏻</div>
+      <h2 style="font-size:1.4rem;font-weight:700;color:#fff;font-family:Inter,sans-serif">
+        Shutting down SIH26187…
+      </h2>
+      <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;font-family:Inter,sans-serif">
+        The camera and AI pipeline are stopping. You can close this window.
+      </p>
+    </div>
+
+    <!-- ── Auth Action Scripts ──────────────────────────────────────────── -->
+    <script>
+      /* Fetch a CSRF token from the server (session must be valid) */
+      async function getCsrfToken() {
+        try {
+          const r = await fetch('/api/csrf', { credentials: 'same-origin' });
+          if (!r.ok) return '';
+          const d = await r.json();
+          return d.token || '';
+        } catch { return ''; }
+      }
+
+      /* ⏻  Shutdown: confirm → POST /api/shutdown */
+      async function confirmShutdown() {
+        if (!confirm('⏻  Shut down SIH26187?\n\nThis will stop the camera, AI pipeline, and close the server.')) return;
+        const overlay = document.getElementById('shutdown-overlay');
+        const overlayText = overlay.querySelector('p');
+        overlay.style.display = 'flex';
+        
+        try {
+          const csrf = await getCsrfToken();
+          const fd = new FormData();
+          fd.append('csrf_token', csrf);
+          await fetch('/api/shutdown', { method: 'POST', body: fd, credentials: 'same-origin' });
+        } catch { /* server going down — expected */ }
+
+        // Attempt to close the window automatically after a short delay
+        setTimeout(() => {
+          overlayText.innerText = "System has been shut down successfully.\nThis tab will now close (or you can close it manually).";
+          window.close();
+        }, 1500);
+      }
+
+      /* 🚪 Logout: POST /auth/logout → redirect to /login */
+      async function doLogout() {
+        try {
+          const csrf = await getCsrfToken();
+          const fd = new FormData();
+          fd.append('csrf_token', csrf);
+          const r = await fetch('/auth/logout', { method: 'POST', body: fd, credentials: 'same-origin' });
+          const d = await r.json().catch(() => ({}));
+          window.location.href = d.redirect || '/login';
+        } catch {
+          window.location.href = '/login';
+        }
+      }
+    </script>
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-24 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <style>
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .toast-enter { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-exit { animation: slideOutRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</body>
+
+</html>
