@@ -1,0 +1,42 @@
+{
+  "VIDEO-2026-09-09-15-33-40.mp4": {
+    "Original": {
+      "fps": 3.69,
+      "plate_calls": 1422,
+      "lpr_calls": 349,
+      "plate_calls_per_frame": 3.231818181818182,
+      "lpr_calls_per_frame": 0.7931818181818182,
+      "unknown_count": 20,
+      "tracks_no_evidence": 19,
+      "short_track_count": 12,
+      "long_track_count": 9,
+      "confirmed_tracks_count": 1,
+      "correct_confirmations": 1,
+      "false_confirmations": 0,
+      "plate_recall": 1.0,
+      "missed_recognitions": 0,
+      "avg_latency_sec": 10.89655172413793
+    },
+    "Optimized": {
+      "fps": 17.36,
+      "plate_calls": 83,
+      "lpr_calls": 23,
+      "plate_calls_per_frame": 0.18863636363636363,
+      "lpr_calls_per_frame": 0.05227272727272727,
+      "unknown_count": 20,
+      "tracks_no_evidence": 19,
+      "short_track_count": 12,
+      "long_track_count": 9,
+      "confirmed_tracks_count": 1,
+      "correct_confirmations": 1,
+      "false_confirmations": 0,
+      "plate_recall": 1.0,
+      "missed_recognitions": 0,
+      "avg_latency_sec": 11.0
+    },
+    "Improvements": {
+      "compute_reduction_pct": 94.1631504922644,
+      "fps_improvement_pct": 370.46070460704607
+    }
+  }
+}

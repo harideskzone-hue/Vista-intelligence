@@ -1,0 +1,125 @@
+{
+  "total_crops": 1307,
+  "split_counts": {
+    "train": 914,
+    "val": 196,
+    "test": 197
+  },
+  "split_percentages": {
+    "train": 69.93,
+    "val": 15.0,
+    "test": 15.07
+  },
+  "plate_lengths": {
+    "10": 805,
+    "7": 79,
+    "6": 47,
+    "8": 48,
+    "9": 299,
+    "3": 6,
+    "5": 13,
+    "2": 1,
+    "4": 9
+  },
+  "character_frequencies": {
+    "M": 207,
+    "P": 718,
+    "0": 1171,
+    "8": 548,
+    "C": 273,
+    "A": 914,
+    "6": 589,
+    "2": 731,
+    "9": 654,
+    "3": 810,
+    "F": 91,
+    "R": 178,
+    "1": 778,
+    "V": 45,
+    "L": 187,
+    "U": 95,
+    "K": 187,
+    "7": 761,
+    "E": 111,
+    "B": 323,
+    "4": 604,
+    "D": 224,
+    "5": 567,
+    "S": 148,
+    "I": 27,
+    "G": 137,
+    "J": 159,
+    "H": 203,
+    "Z": 52,
+    "W": 71,
+    "N": 131,
+    "Q": 47,
+    "T": 126,
+    "Y": 106,
+    "O": 65,
+    "X": 43
+  },
+  "invalid_excluded": 11,
+  "invalid_examples": [
+    {
+      "file": "AP20.png",
+      "raw": "AP04AAS8753",
+      "norm": "AP04AAS8753",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "C (27).png",
+      "raw": "M17108FV1232",
+      "norm": "M17108FV1232",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "C (161).png",
+      "raw": "007PLATECOM",
+      "norm": "007PLATECOM",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "C (186).png",
+      "raw": "ZB064MF9000",
+      "norm": "ZB064MF9000",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "HP20.png",
+      "raw": "HP2020TR6255G",
+      "norm": "HP2020TR6255G",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "PB24.png",
+      "raw": "PB022DY7380",
+      "norm": "PB022DY7380",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "y (473).jpg",
+      "raw": "AP369HJ4707",
+      "norm": "AP369HJ4707",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "y (760).jpg",
+      "raw": "AP727AF2883",
+      "norm": "AP727AF2883",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "y (803).jpg",
+      "raw": "AP07BY53685",
+      "norm": "AP07BY53685",
+      "reason": "Length > 10"
+    },
+    {
+      "file": "y (826).jpg",
+      "raw": "AP339KJ3464",
+      "norm": "AP339KJ3464",
+      "reason": "Length > 10"
+    }
+  ]
+}
