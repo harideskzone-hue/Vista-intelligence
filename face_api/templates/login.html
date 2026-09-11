@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SIH26187 — Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                                        colors: {
+                        "primary": "#0d9488", // Teal 600
+                        "secondary": "#14b8a6", // Teal 500
+                        "background-base": "#f4f4f5", // Zinc 100
+                        "background-dark": "#09090b", // Zinc 950
+                        "surface-white": "#ffffff",
+                        "surface-dark": "#18181b", // Zinc 900
+                        "text-primary": "#09090b",
+                        "text-secondary": "#52525b", // Zinc 600
+                        "text-tertiary": "#a1a1aa", // Zinc 400
+                    },
+                    fontFamily: { "sans": ["Inter", "sans-serif"] },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background-base dark:bg-background-dark font-sans text-text-primary dark:text-gray-100 antialiased min-h-screen flex flex-col">
+
+    <!-- ── Header (matches dashboard) ─────────────────────────────────── -->
+    <header class="w-full bg-surface-white dark:bg-surface-dark border-b border-gray-100/30 dark:border-white/30 sticky top-0 z-50">
+        <div class="px-8 h-16 flex items-center justify-between max-w-[1400px] mx-auto w-full">
+            <a href="/login" class="flex items-center gap-3 group focus:outline-none">
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-50/80 dark:bg-zinc-800/80 p-1 border border-teal-100/60 dark:border-white/10 shadow-sm">
+                    <img src="/static/images/vista_icon.png" alt="VISTA AI Logo" class="h-8 w-8 object-contain">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-base font-black tracking-widest text-primary dark:text-white uppercase leading-none">VISTA <span class="font-light text-indigo-500">AI</span></span>
+                    <span class="text-[9px] tracking-[0.22em] text-text-tertiary uppercase font-semibold mt-1">From Sight to Insight</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-6">
+                <button id="theme-toggle"
+                    class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-primary dark:text-white"
+                    aria-label="Toggle Dark Mode">
+                    <span class="material-symbols-outlined theme-icon-light hidden">light_mode</span>
+                    <span class="material-symbols-outlined theme-icon-dark">dark_mode</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ── Login Card ──────────────────────────────────────────────────── -->
+    <main class="flex-1 flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-md bg-surface-white dark:bg-surface-dark rounded-2xl border border-gray-100/50 dark:border-white/30 shadow-xl p-10">
+
+            <!-- Brand Identity -->
+            <div class="flex flex-col items-center justify-center mb-8 text-center">
+                <div class="p-3.5 bg-gradient-to-br from-teal-50/80 to-indigo-50/50 dark:from-zinc-800/80 dark:to-zinc-800/40 rounded-2xl border border-teal-100/60 dark:border-zinc-700/60 shadow-md mb-3">
+                    <img src="/static/images/vista_icon.png" alt="VISTA AI" class="h-16 w-16 object-contain drop-shadow-sm">
+                </div>
+                <h1 class="text-2xl font-black tracking-widest text-primary dark:text-white uppercase leading-tight">VISTA <span class="font-light text-indigo-500">AI</span></h1>
+                <p class="text-[10px] tracking-[0.25em] text-text-tertiary uppercase font-semibold mt-1">AI-Powered Surveillance Solutions</p>
+            </div>
+
+            <!-- Title -->
+            <div class="mb-8 text-center border-t border-gray-100 dark:border-zinc-800/80 pt-6">
+                <h2 id="card-title"
+                    class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em] mb-1">
+                    Authentication Required
+                </h2>
+                <p id="card-subtitle" class="text-text-tertiary text-xs">
+                    Sign in to access the VISTA AI surveillance system
+                </p>
+            </div>
+
+            <!-- Biometric button (shown only when WebAuthn is available) -->
+            <div id="biometric-section" class="mb-6" style="display:none">
+                <p class="text-[10px] font-semibold text-text-tertiary uppercase tracking-widest mb-3">Quick Sign-in</p>
+                <button id="biometric-btn" onclick="tryBiometric()"
+                    class="w-full flex items-center gap-4 px-5 py-4 rounded-xl border border-primary/20 dark:border-white/20
+                           bg-blue-50/50 dark:bg-white/5 hover:bg-blue-100/60 dark:hover:bg-white/10
+                           transition-colors text-primary dark:text-white text-left">
+                    <span class="text-2xl flex-shrink-0">🔐</span>
+                    <div>
+                        <div class="text-sm font-semibold">Use Biometrics</div>
+                        <div class="text-[11px] text-text-tertiary">Touch ID · Face ID · Windows Hello</div>
+                    </div>
+                </button>
+
+                <div class="flex items-center gap-3 my-6">
+                    <div class="flex-1 h-px bg-gray-200 dark:bg-white/10"></div>
+                    <span class="text-[11px] text-text-tertiary">or use password</span>
+                    <div class="flex-1 h-px bg-gray-200 dark:bg-white/10"></div>
+                </div>
+            </div>
+
+            <!-- Password form -->
+            <div id="pass-section">
+                <p id="pass-section-title" class="text-[10px] font-semibold text-text-tertiary uppercase tracking-widest mb-4">Password</p>
+
+                <!-- Confirm field — first-run only -->
+                <div id="confirm-row" class="mb-4" style="display:none">
+                    <label for="confirm-input" class="block text-xs font-medium text-text-secondary dark:text-white/70 mb-1.5">
+                        Confirm password
+                    </label>
+                    <input type="password" id="confirm-input"
+                        placeholder="Re-enter your new password"
+                        autocomplete="new-password"
+                        class="block w-full rounded-lg border border-gray-200 dark:border-white/20
+                               bg-gray-50 dark:bg-white/5 px-4 py-2.5 text-sm
+                               text-text-primary dark:text-white placeholder-text-tertiary
+                               focus:outline-none focus:ring-2 focus:ring-primary/30 dark:focus:ring-white/20
+                               transition-all" />
+                </div>
+
+                <div class="mb-6">
+                    <label for="pass-input" id="pass-label"
+                        class="block text-xs font-medium text-text-secondary dark:text-white/70 mb-1.5">
+                        Password
+                    </label>
+                    <input type="password" id="pass-input"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        onkeydown="if(event.key==='Enter') submitPassword()"
+                        class="block w-full rounded-lg border border-gray-200 dark:border-white/20
+                               bg-gray-50 dark:bg-white/5 px-4 py-2.5 text-sm
+                               text-text-primary dark:text-white placeholder-text-tertiary
+                               focus:outline-none focus:ring-2 focus:ring-primary/30 dark:focus:ring-white/20
+                               transition-all" />
+                </div>
+
+                <button id="submit-btn" onclick="submitPassword()"
+                    class="w-full py-3 rounded-xl text-sm font-semibold text-white
+                           bg-primary hover:bg-primary/90 dark:bg-white dark:text-primary
+                           dark:hover:bg-white/90 transition-colors shadow-sm">
+                    Sign In
+                </button>
+            </div>
+
+            <!-- Toast message -->
+            <div id="toast" class="hidden mt-5 rounded-xl px-4 py-3 text-sm font-medium border"></div>
+        </div>
+    </main>
+
+    <!-- ── Theme + Auth JS ─────────────────────────────────────────────── -->
+    <script>
+    // ── Injected by server ────────────────────────────────────────────────────
+    const CSRF_TOKEN = "__CSRF_TOKEN__";
+    const IS_FIRST_RUN = __FIRST_RUN__;
+
+    // ── First-run UI ──────────────────────────────────────────────────────────
+    if (IS_FIRST_RUN) {
+        document.getElementById('card-title').textContent    = 'First-Time Setup';
+        document.getElementById('card-subtitle').textContent = 'Create an admin password to protect the dashboard';
+        document.getElementById('pass-section-title').textContent = 'Create Password';
+        document.getElementById('pass-label').textContent   = 'New password (min 6 characters)';
+        document.getElementById('pass-input').placeholder   = 'Choose a strong password';
+        document.getElementById('pass-input').autocomplete  = 'new-password';
+        document.getElementById('submit-btn').textContent   = 'Create Password & Sign In';
+        document.getElementById('confirm-row').style.display = 'block';
+    }
+
+    // ── WebAuthn check ────────────────────────────────────────────────────────
+    (async function checkWebAuthn() {
+        if (!IS_FIRST_RUN && window.PublicKeyCredential) {
+            const ok = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().catch(() => false);
+            if (ok) document.getElementById('biometric-section').style.display = 'block';
+        }
+    })();
+
+    // ── Biometric login ───────────────────────────────────────────────────────
+    async function tryBiometric() {
+        const btn = document.getElementById('biometric-btn');
+        btn.disabled = true;
+        showToast('Waiting for biometric prompt…', 'info');
+        try {
+            const cred = await navigator.credentials.get({
+                publicKey: {
+                    challenge: crypto.getRandomValues(new Uint8Array(32)),
+                    rpId: location.hostname || 'localhost',
+                    allowCredentials: [],
+                    userVerification: 'required',
+                    timeout: 60000,
+                }
+            });
+            if (cred) {
+                showToast('Biometric verified! Signing in…', 'success');
+                const fd = new FormData();
+                fd.append('csrf_token', CSRF_TOKEN);
+                fd.append('credential_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId))));
+                const r = await fetch('/auth/biometric', { method: 'POST', body: fd });
+                const d = await r.json();
+                if (d.success) { window.location = d.redirect || '/'; return; }
+                showToast(d.error || 'Biometric not registered — use password.', 'warn');
+            }
+        } catch (e) {
+            showToast(e.name === 'NotAllowedError'
+                ? 'Biometric cancelled — use your password below.'
+                : 'Biometric unavailable — use your password below.', 'info');
+        }
+        btn.disabled = false;
+    }
+
+    // ── Password submit ───────────────────────────────────────────────────────
+    async function submitPassword() {
+        const pass    = document.getElementById('pass-input').value;
+        const confirm = document.getElementById('confirm-input').value;
+        const btn     = document.getElementById('submit-btn');
+
+        if (!pass) { showToast('Please enter your password.', 'error'); return; }
+        if (IS_FIRST_RUN && pass.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
+        if (IS_FIRST_RUN && pass !== confirm) { showToast('Passwords do not match.', 'error'); return; }
+
+        btn.disabled = true;
+        btn.textContent = 'Verifying…';
+
+        const endpoint = IS_FIRST_RUN ? '/auth/setup' : '/auth/login';
+        const fd = new FormData();
+        fd.append('password', pass);
+        fd.append('csrf_token', CSRF_TOKEN);
+        if (IS_FIRST_RUN) fd.append('confirm', confirm);
+
+        try {
+            const r = await fetch(endpoint, { method: 'POST', body: fd, credentials: 'same-origin' });
+            const d = await r.json();
+            if (d.success) {
+                showToast('✓ Signed in! Loading dashboard…', 'success');
+                setTimeout(() => { window.location = d.redirect || '/'; }, 600);
+                return;
+            }
+            showToast(d.error || 'Login failed. Please try again.', 'error');
+        } catch {
+            showToast('Network error. Please reload the page.', 'error');
+        }
+        btn.disabled = false;
+        btn.textContent = IS_FIRST_RUN ? 'Create Password & Sign In' : 'Sign In';
+    }
+
+    // ── Toast ─────────────────────────────────────────────────────────────────
+    function showToast(msg, type) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'mt-5 rounded-xl px-4 py-3 text-sm font-medium border ';
+        if (type === 'error')   t.className += 'bg-red-50 border-red-200 text-red-700 dark:bg-red-900/30 dark:border-red-500/30 dark:text-red-300';
+        else if (type === 'success') t.className += 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-900/30 dark:border-emerald-500/30 dark:text-emerald-300';
+        else t.className += 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/30 dark:border-blue-500/30 dark:text-blue-300';
+    }
+
+    // ── Theme toggle (same as dashboard) ─────────────────────────────────────
+    (() => {
+        const htmlRoot = document.documentElement;
+        const btn = document.getElementById('theme-toggle');
+        function updateUI() {
+            const dark = htmlRoot.classList.contains('dark');
+            document.querySelector('.theme-icon-light').classList.toggle('hidden', !dark);
+            document.querySelector('.theme-icon-dark').classList.toggle('hidden', dark);
+        }
+        if (localStorage.theme === 'dark') htmlRoot.classList.add('dark');
+        else htmlRoot.classList.remove('dark');
+        updateUI();
+        btn.addEventListener('click', () => {
+            htmlRoot.classList.toggle('dark');
+            localStorage.theme = htmlRoot.classList.contains('dark') ? 'dark' : 'light';
+            updateUI();
+        });
+    })();
+
+    document.getElementById('pass-input').focus();
+    </script>
+</body>
+</html>

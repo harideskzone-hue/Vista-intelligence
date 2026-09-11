@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+# Logs & Runtime
+logs/
+*.log
+.venv/
+.env
+magic_click_setup.log
+
+# Data (Standalone Repo)
+data/
+face_api/data/
+captured_videos/
+captured_shots/
+
+temp_output/
+*.mp4
+*.jpg
+*.png
+!face_api/templates/*.png
+!face_api/static/**/*.png
+
+# AI/Agent metadata
+.agent/
+.gemini/
+.pyre/
+.pytype/
+.mypy_cache/
+.pytest_cache/
+
+# OS/Editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project Caches
+models/
+.insightface/
+
+# Temporary
+tmp/
+
+# Large dataset / binary directories (too big for GitHub)
+sets/
+uploads/
+wanted_persons/
+test_videos/
+chokepoint-bbs/
+Vehicle Intelligence/
+
+# Runtime / scratch
+live_scorer.log
+cameras.json

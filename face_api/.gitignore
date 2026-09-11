@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# VS Code
+.vscode/
+
+# Project Data and Images
+data/images/
+data/db/*.index
+data/db/*.db
+data/db/*.npy
+uploads/
+app/static/uploads/
+
+# Testing
+.pytest_cache/
+test_output.txt
+
+# OS generated files
+Thumbs.db
+Desktop.ini

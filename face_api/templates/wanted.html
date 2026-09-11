@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Wanted Persons - VISTA AI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d9488",
+                        "secondary": "#14b8a6",
+                        "background-base": "#f4f4f5",
+                        "background-dark": "#09090b",
+                        "surface-white": "#ffffff",
+                        "surface-dark": "#18181b",
+                        "text-primary": "#09090b",
+                        "text-secondary": "#52525b",
+                        "text-tertiary": "#a1a1aa",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-base dark:bg-background-dark font-sans text-text-primary dark:text-gray-100 antialiased min-h-screen flex flex-col">
+    <header class="w-full bg-surface-white dark:bg-surface-dark border-b border-gray-100/30 dark:border-white/30 sticky top-0 z-50">
+        <div class="px-8 h-16 flex items-center justify-between max-w-[1400px] mx-auto w-full">
+            <a href="/" class="flex items-center gap-3 group focus:outline-none">
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-50/80 dark:bg-zinc-800/80 p-1 border border-teal-100/60 dark:border-white/10 shadow-sm group-hover:border-primary/40 transition-all duration-200">
+                    <img src="/static/images/vista_icon.png" alt="VISTA AI Logo" class="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-base font-black tracking-widest text-primary dark:text-white uppercase leading-none">VISTA <span class="font-light text-indigo-500">AI</span></span>
+                    <span class="text-[9px] tracking-[0.22em] text-text-tertiary uppercase font-semibold mt-1">From Sight to Insight</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/50">
+                    <div class="size-1.5 rounded-full bg-primary dark:bg-white"></div>
+                    <span class="text-[10px] font-semibold text-primary dark:text-white uppercase tracking-widest">System Live</span>
+                </div>
+            </div>
+        </div>
+    </header>
+<nav class="sticky top-20 mx-auto w-max max-w-[95vw] flex-wrap justify-center mt-6 mb-2 z-40 bg-primary p-1.5 rounded-2xl shadow-xl flex items-center gap-1 border border-white/10">
+        <a href="/" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">dashboard</span><span class="text-sm tracking-wide">Dash</span>
+        </a>
+        <a href="/preview" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">grid_view</span><span class="text-sm tracking-wide">Preview</span>
+        </a>
+        <a href="/boundary" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">shield</span><span class="text-sm tracking-wide">Border Vigil</span>
+        </a>
+        <a href="/vehicle" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">directions_car</span>
+            <span class="text-sm tracking-wide">Vehicle Intel</span>
+        </a>
+        <a href="/wanted" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 bg-white/10 text-white font-medium shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">policy</span><span class="text-sm tracking-wide">Wanted</span>
+        </a>
+        <a href="/database" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">folder_shared</span><span class="text-sm tracking-wide">Database</span>
+        </a>
+    </nav>
+
+
+    <main class="pt-24 pb-12 px-6 max-w-3xl mx-auto min-h-screen flex flex-col w-full">
+        <header class="mb-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-black tracking-tight text-red-600 dark:text-red-500 mb-2 flex items-center gap-3">
+                    <span class="bg-red-100 dark:bg-red-900/30 text-red-600 p-2 rounded-xl">
+                        <span class="material-symbols-outlined text-[28px]">policy</span>
+                    </span>
+                    Register Wanted Person
+                </h1>
+                <p class="text-text-tertiary text-sm">Enroll a suspect into the high-priority alert system using the existing pipeline.</p>
+            </div>
+        </header>
+
+        <section class="bg-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 p-8">
+            <form id="enrollmentForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-2">Reference Image</label>
+                    <div id="dropZone" class="border-2 border-dashed border-gray-200 dark:border-white/10 rounded-2xl p-8 text-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer flex flex-col items-center justify-center group relative overflow-hidden h-64">
+                        <input type="file" id="imageInput" accept="image/jpeg,image/png" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        <div id="uploadPrompt" class="flex flex-col items-center">
+                            <div class="w-16 h-16 mb-4 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-[32px]">add_photo_alternate</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-text-secondary">Upload Photo</h3>
+                            <p class="text-sm text-text-tertiary mt-1">Drag and drop or click to select</p>
+                        </div>
+                        <img id="imagePreview" class="absolute inset-0 w-full h-full object-contain hidden" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-text-secondary mb-2">Full Name / Alias</label>
+                        <input type="text" id="nameInput" required placeholder="e.g. John Doe" class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-red-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-secondary mb-2">Category (Optional)</label>
+                        <input type="text" id="categoryInput" placeholder="e.g. SUSPECT, BANNED" value="WANTED" class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-red-500 outline-none">
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-gray-100 dark:border-white/10 flex justify-end">
+                    <button type="submit" id="submitBtn" class="px-8 py-3 rounded-xl bg-red-600 text-white hover:bg-red-700 font-bold transition-all shadow-md shadow-red-500/20 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">how_to_reg</span> Register Identity
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- Navigation -->
+    
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-24 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadPrompt = document.getElementById('uploadPrompt');
+        const form = document.getElementById('enrollmentForm');
+        const submitBtn = document.getElementById('submitBtn');
+        let selectedFile = null;
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                selectedFile = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                    uploadPrompt.classList.add('hidden');
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!selectedFile) {
+                showToast('Please select an image', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-spin material-symbols-outlined">refresh</span> Registering...';
+
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            formData.append('name', document.getElementById('nameInput').value);
+            formData.append('role', document.getElementById('categoryInput').value || 'WANTED');
+
+            try {
+                // 1. Enroll person via existing pipeline
+                const res = await fetch('/api/enroll', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                
+                if (data.success && data.person_id) {
+                    // 2. Immediately update classification to wanted
+                    const updateRes = await fetch(`/api/persons/${data.person_id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ classification: 'wanted', category: document.getElementById('categoryInput').value || 'WANTED' })
+                    });
+                    
+                    const updateData = await updateRes.json();
+                    
+                    if (updateData.success) {
+                        showToast('Wanted person registered successfully!', 'success');
+                        form.reset();
+                        selectedFile = null;
+                        imagePreview.classList.add('hidden');
+                        uploadPrompt.classList.remove('hidden');
+                        
+                        setTimeout(() => {
+                            window.location.href = '/database';
+                        }, 1500);
+                    } else {
+                        showToast('Enrolled but failed to flag as wanted: ' + updateData.error, 'error');
+                    }
+                } else {
+                    showToast('Registration failed: ' + data.error, 'error');
+                }
+            } catch (err) {
+                showToast('Error connecting to server', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">how_to_reg</span> Register Identity';
+            }
+        });
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            el.className = `toast-enter px-4 py-3 rounded-xl shadow-lg border flex items-center gap-3 w-80 pointer-events-auto bg-white`;
+            if (type === 'error') el.className += ' border-red-200 text-red-800';
+            else if (type === 'success') el.className += ' border-green-200 text-green-800';
+            
+            const icon = type === 'error' ? 'error' : type === 'success' ? 'check_circle' : 'info';
+            const iconColor = type === 'error' ? 'text-red-500' : type === 'success' ? 'text-green-500' : 'text-blue-500';
+            
+            el.innerHTML = `<span class="material-symbols-outlined ${iconColor}">${icon}</span><p class="text-sm font-medium flex-1">${msg}</p>`;
+            
+            container.appendChild(el);
+            setTimeout(() => {
+                el.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

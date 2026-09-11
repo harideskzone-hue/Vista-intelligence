@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VISTA AI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                                        colors: {
+                        "primary": "#0d9488", // Teal 600
+                        "secondary": "#14b8a6", // Teal 500
+                        "background-base": "#f4f4f5", // Zinc 100
+                        "background-dark": "#09090b", // Zinc 950
+                        "surface-white": "#ffffff",
+                        "surface-dark": "#18181b", // Zinc 900
+                        "text-primary": "#09090b",
+                        "text-secondary": "#52525b", // Zinc 600
+                        "text-tertiary": "#a1a1aa", // Zinc 400
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    boxShadow: {
+                        'none': 'none',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background-base dark:bg-background-dark font-sans text-text-primary dark:text-gray-100 antialiased min-h-screen flex flex-col">
+    <header
+        class="w-full bg-surface-white dark:bg-surface-dark border-b border-gray-100/30 dark:border-white/30 sticky top-0 z-50">
+        <div class="px-8 h-16 flex items-center justify-between max-w-[1400px] mx-auto w-full">
+            <a href="/" class="flex items-center gap-3 group focus:outline-none">
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-50/80 dark:bg-zinc-800/80 p-1 border border-teal-100/60 dark:border-white/10 shadow-sm group-hover:border-primary/40 transition-all duration-200">
+                    <img src="/static/images/vista_icon.png" alt="VISTA AI Logo" class="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-base font-black tracking-widest text-primary dark:text-white uppercase leading-none">VISTA <span class="font-light text-indigo-500">AI</span></span>
+                    <span class="text-[9px] tracking-[0.22em] text-text-tertiary uppercase font-semibold mt-1">From Sight to Insight</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/50">
+                    <div class="size-1.5 rounded-full bg-primary dark:bg-white"></div>
+                    <span
+                        class="text-[10px] font-semibold text-primary dark:text-white uppercase tracking-widest">System
+                        Live</span>
+                </div>
+                <button id="theme-toggle"
+                    class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-primary dark:text-white"
+                    aria-label="Toggle Dark Mode">
+                    <span class="material-symbols-outlined theme-icon-light hidden">light_mode</span>
+                    <span class="material-symbols-outlined theme-icon-dark">dark_mode</span>
+                </button>
+                <button onclick="doLogout()"
+                    class="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                    title="Sign out">
+                    Sign Out
+                </button>
+                <button onclick="confirmShutdown()"
+                    class="text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
+                    title="Stop the entire pipeline">
+                    ⏻ Shutdown
+                </button>
+            </div>
+        </div>
+    </header>
+<nav
+        class="sticky top-20 mx-auto w-max max-w-[95vw] flex-wrap justify-center mt-6 mb-2 z-40 bg-primary p-1.5 rounded-2xl shadow-xl flex items-center gap-1 border border-white/10">
+        <a href="/" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 bg-white/10 text-white font-medium shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">dashboard</span>
+            <span class="text-sm tracking-wide">Dash</span>
+        </a>
+        <a href="/preview" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">grid_view</span>
+            <span class="text-sm tracking-wide">Live Preview</span>
+        </a>
+        <a href="/boundary" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">shield</span>
+            <span class="text-sm tracking-wide">Border Vigil</span>
+        </a>
+        <a href="/vehicle" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">directions_car</span>
+            <span class="text-sm tracking-wide">Vehicle Intel</span>
+        </a>
+        <a href="/wanted" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">policy</span>
+            <span class="text-sm tracking-wide">Wanted Persons</span>
+        </a>
+        <a href="/database" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">folder_shared</span>
+            <span class="text-sm tracking-wide">Face Database</span>
+        </a>
+        <a href="/#camera-management" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">videocam</span>
+            <span class="text-sm tracking-wide">Cameras</span>
+        </a>
+    </nav>
+
+    <main class="flex-1 w-full max-w-[1400px] mx-auto px-8 py-8 pb-48 space-y-6">
+        <section>
+            <div
+                class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/50 dark:border-white/30">
+                <div
+                    class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10 border-b border-gray-50 dark:border-white/30 pb-4">
+                    <div>
+                        <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">
+                            Real-time Operations
+                            Summary</h2>
+                        <p class="text-text-tertiary text-xs mt-1">Live asset monitoring and connectivity status</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div id="cam-status-indicator" class="flex items-center gap-2">
+                            <span class="relative flex h-2.5 w-2.5">
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-400"></span>
+                            </span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Camera Stopped</span>
+                        </div>
+                        <div id="pipeline-status-indicator" class="flex items-center gap-2 hidden">
+                            <!-- Injected dynamically -->
+                        </div>
+                        <button id="cam-toggle-btn" onclick="toggleSystemCamera()" class="px-5 py-2 text-xs font-bold rounded-lg bg-primary dark:bg-white text-white dark:text-primary hover:opacity-90 shadow-sm transition-all focus:outline-none">
+                            Start Camera
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-gray-100 dark:divide-white/30">
+                    <div class="flex flex-col items-center justify-center gap-1 px-4">
+                        <span
+                            class="material-symbols-outlined text-primary/80 dark:text-white/80 font-light text-5xl mb-2">group</span>
+                        <div class="flex items-baseline gap-1.5">
+                            <span id="stat-persons" class="text-6xl font-light text-primary dark:text-white tracking-tight">—</span>
+                        </div>
+                        <p
+                            class="text-text-secondary dark:text-white/60 text-[10px] font-bold uppercase tracking-wider mt-2">
+                            Persons Stored</p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center gap-1 px-4">
+                        <span
+                            class="material-symbols-outlined text-primary/80 dark:text-white/80 font-light text-5xl mb-2">photo_library</span>
+                        <div class="flex items-baseline gap-1.5">
+                            <span id="stat-images" class="text-6xl font-light text-primary dark:text-white tracking-tight">—</span>
+                        </div>
+                        <p
+                            class="text-text-secondary dark:text-white/60 text-[10px] font-bold uppercase tracking-wider mt-2">
+                            Images Stored</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Camera Management ────────────────────────────────────────── -->
+        <section>
+            <div class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/30 dark:border-white/30">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 border-b border-gray-50 dark:border-white/30 pb-4">
+                    <div>
+                        <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">Camera Management</h2>
+                        <p class="text-text-tertiary text-xs mt-1">Add, configure, or remove camera sources. Changes apply automatically within 10 s.</p>
+                    </div>
+                    <span id="cam-count-badge"
+                        class="text-[9px] font-bold text-primary dark:text-white uppercase bg-blue-50 dark:bg-white/10 px-3 py-1 rounded">
+                        — cameras
+                    </span>
+                </div>
+
+                <!-- Camera list -->
+                <div id="cam-list" class="space-y-2 mb-6"></div>
+
+                <!-- Add Camera Form -->
+                <div class="border-t border-gray-100 dark:border-white/20 pt-5">
+                    <p class="text-[10px] font-bold text-text-secondary dark:text-white/60 uppercase tracking-widest mb-3">Add Camera</p>
+                    <div class="flex flex-wrap gap-3 items-end">
+                        <div class="w-full flex gap-3 mb-2">
+                            <div class="flex-1">
+                                <label class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">Camera Name</label>
+                                <input id="cam-id" type="text" placeholder="e.g. CAM-01-MAIN"
+                                    class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white">
+                            </div>
+                            <div class="flex-1">
+                                <label class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">Camera Type</label>
+                                <select id="cam-type" onchange="toggleCamType()"
+                                    class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white">
+                                    <option value="ip">IP Camera</option>
+                                    <option value="usb">Webcam</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-[140px]">
+                            <label class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">Checkpoint / Location</label>
+                            <input id="cam-label" type="text" placeholder="e.g. Main Gate"
+                                class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white">
+                        </div>
+                        <div class="flex-1 min-w-[180px]">
+                            <label id="cam-source-label" class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">RTSP URL</label>
+                            <input id="cam-source" type="text" placeholder="rtsp://admin:pass@192.168.1.100:554/stream1"
+                                class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white font-mono">
+                        </div>
+                        <script>
+                            function toggleCamType() {
+                                const type = document.getElementById('cam-type').value;
+                                const srcLabel = document.getElementById('cam-source-label');
+                                const srcInput = document.getElementById('cam-source');
+                                if (type === 'ip') {
+                                    srcLabel.innerText = 'RTSP URL';
+                                    srcInput.placeholder = 'rtsp://admin:pass@192.168.1.100:554/stream1';
+                                } else {
+                                    srcLabel.innerText = 'Device ID';
+                                    srcInput.placeholder = '0 or 1';
+                                }
+                            }
+                        </script>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="testCamera()"
+                                class="px-4 py-2 text-xs font-semibold rounded-lg border border-primary dark:border-white text-primary dark:text-white hover:bg-blue-50 dark:hover:bg-white/10 transition-colors">
+                                Test
+                            </button>
+                            <button type="button" onclick="addCamera()"
+                                class="px-5 py-2 text-xs font-semibold rounded-lg bg-primary dark:bg-white text-white dark:text-primary hover:opacity-90 transition-opacity">
+                                Add Camera
+                            </button>
+                        </div>
+                    </div>
+                    <p id="cam-msg" class="text-xs mt-2 hidden"></p>
+                </div>
+            </div>
+        </section>
+        
+        
+        <!-- ── Unified Intelligence / Alerts ────────────────────────────── -->
+        <section id="unified-alerts-section" class="mb-8">
+            <div class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+                <div class="flex items-center justify-between mb-6 border-b border-gray-50 dark:border-white/30 pb-4">
+                    <div>
+                        <h2 class="text-[11px] font-bold text-red-600 dark:text-red-400 uppercase tracking-[0.2em]">Unified Intelligence & Alerts</h2>
+                        <p class="text-text-tertiary text-xs mt-1">Cross-modal correlation and high-priority security alerts</p>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-100 dark:border-white/10 text-[10px] uppercase tracking-wider text-text-tertiary">
+                                <th class="pb-3 font-semibold">Time</th>
+                                <th class="pb-3 font-semibold">Camera</th>
+                                <th class="pb-3 font-semibold">Type</th>
+                                <th class="pb-3 font-semibold">Confidence</th>
+                                <th class="pb-3 font-semibold">Details</th>
+                                <th class="pb-3 font-semibold">Source Events</th>
+                            </tr>
+                        </thead>
+                        <tbody id="unified-alerts-tbody" class="text-sm divide-y divide-gray-50 dark:divide-white/5">
+                            <!-- Alerts injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Live Recognition Events ──────────────────────────────────── -->
+        <section id="recent-shots-section" class="hidden">
+            <div class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/30 dark:border-white/30">
+                <div class="flex items-center justify-between mb-6 border-b border-gray-50 dark:border-white/30 pb-4">
+                    <div>
+                        <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">Live Recognition Events</h2>
+                        <p class="text-text-tertiary text-xs mt-1">Real-time match and temporal confirmation logs</p>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-100 dark:border-white/10 text-[10px] uppercase tracking-wider text-text-tertiary">
+                                <th class="pb-3 font-semibold">Time</th>
+                                <th class="pb-3 font-semibold">Camera</th>
+                                <th class="pb-3 font-semibold">State</th>
+                                <th class="pb-3 font-semibold">Match</th>
+                                <th class="pb-3 font-semibold">Identity</th>
+                                <th class="pb-3 font-semibold">Score / Distance</th>
+                                <th class="pb-3 font-semibold">Action</th>
+                                <th class="pb-3 font-semibold">Evidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="live-events-tbody" class="text-sm divide-y divide-gray-50 dark:divide-white/5">
+                            <!-- Events injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div
+                class="bg-surface-white dark:bg-surface-dark rounded-lg px-6 py-5 border border-gray-100/30 dark:border-gray-700 flex items-center justify-between shadow-sm hover:shadow-none transition-shadow">
+
+                <div class="flex gap-4 items-center">
+                    <div class="p-2 bg-gray-50 dark:bg-white/10 rounded-md">
+                        <span
+                            class="material-symbols-outlined text-primary/70 dark:text-white/70 font-light text-xl">database</span>
+                    </div>
+                    <div>
+                        <p
+                            class="text-text-secondary dark:text-white/60 text-[10px] font-bold uppercase tracking-widest mb-0.5 flex justify-between items-center w-full">
+                            Storage Usage
+                        </p>
+                        <div class="flex items-baseline gap-1">
+                            <span id="stat-storage-value" class="text-lg font-medium text-text-primary dark:text-white">0.0</span>
+                            <span id="stat-storage-unit" class="text-xs text-text-tertiary">MB</span>
+                        </div>
+                        <div class="text-[9px] text-text-tertiary mt-1 space-y-0.5">
+                            <div>DB: <span id="stat-db-value">0</span></div>
+                            <div>Ref: <span id="stat-ref-value">0</span></div>
+                            <div>Evid: <span id="stat-evid-value">0</span></div>
+                            <div>Rec: <span id="stat-rec-value">0</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-end gap-1.5">
+                    <button onclick="runStorageCleanup()" class="px-3 py-1 bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 rounded text-[10px] font-bold uppercase hover:bg-red-100 transition-colors cursor-pointer border border-red-100 dark:border-red-500/20">Run Cleanup</button>
+                    <span class="text-[9px] text-text-tertiary mt-2">Retains last 30d</span>
+                </div>
+            </div>
+            <div
+                class="bg-surface-white dark:bg-surface-dark rounded-lg px-6 py-5 border border-gray-100/30 dark:border-gray-700 flex items-center justify-between shadow-sm hover:shadow-none transition-shadow">
+                <div class="flex gap-4 items-center">
+                    <div class="p-2 bg-gray-50 dark:bg-white/10 rounded-md">
+                        <span
+                            class="material-symbols-outlined text-primary/70 dark:text-white/70 font-light text-xl">psychology</span>
+                    </div>
+                    <div>
+                        <p
+                            class="text-text-secondary dark:text-white/60 text-[10px] font-bold uppercase tracking-widest mb-0.5">
+                            AI Latency
+                        </p>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-lg font-medium text-text-primary dark:text-white">42</span>
+                            <span class="text-xs text-text-tertiary">ms</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-end gap-1.5">
+                    <span
+                        class="text-[9px] font-bold text-primary dark:text-white uppercase bg-blue-50 dark:bg-white/10 px-2 py-0.5 rounded">Optimal</span>
+                    <div class="w-24 bg-gray-100 dark:bg-white/10 h-1 rounded-full overflow-hidden">
+                        <div class="bg-primary dark:bg-white h-full rounded-full" style="width: 42%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-4">
+            <div
+                class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/30 dark:border-white/30">
+                <div class="flex items-start justify-between mb-8">
+                    <div>
+                        <h3 class="text-text-primary dark:text-white font-semibold text-xs uppercase tracking-wider">
+                            Network Ingress
+                        </h3>
+                        <p class="text-text-tertiary dark:text-white/60 text-[10px] mt-1">Upload Speed</p>
+                    </div>
+                    <div class="text-right">
+                        <p id="stat-upload-speed" class="text-2xl font-light text-primary dark:text-white">0.0</p>
+                        <p class="text-[9px] text-text-tertiary font-bold uppercase tracking-widest">Mbps</p>
+                    </div>
+                </div>
+                <div class="h-[100px] w-full text-primary dark:text-white">
+                    <svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 400 100">
+                        <line stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="400" y1="0" y2="0">
+                        </line>
+                        <line stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="400" y1="50"
+                            y2="50"></line>
+                        <line stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="400" y1="100"
+                            y2="100"></line>
+                        <path d="M0 70 C 40 60, 80 80, 120 50 S 200 30, 240 40 S 320 10, 360 20 L 400 5" fill="none"
+                            stroke="currentColor" stroke-linecap="round" stroke-width="1.2"
+                            vector-effect="non-scaling-stroke"></path>
+                        <circle cx="400" cy="5" fill="currentColor" r="2"></circle>
+                    </svg>
+                </div>
+                <div
+                    class="flex justify-between mt-6 text-[9px] text-text-tertiary font-bold uppercase tracking-widest">
+                    <span>60 Seconds Ago</span>
+                    <span>Live Now</span>
+                </div>
+            </div>
+            <div
+                class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/30 dark:border-white/30">
+                <div class="flex items-start justify-between mb-8">
+                    <div>
+                        <h3 class="text-text-primary dark:text-white font-semibold text-xs uppercase tracking-wider">
+                            Network Egress</h3>
+                        <p class="text-text-tertiary dark:text-white/60 text-[10px] mt-1">Download Speed</p>
+                    </div>
+                    <div class="text-right">
+                        <p id="stat-download-speed" class="text-2xl font-light text-primary dark:text-white">0.0</p>
+                        <p class="text-[9px] text-text-tertiary font-bold uppercase tracking-widest">Mbps</p>
+                    </div>
+                </div>
+                <div class="h-[100px] w-full text-primary dark:text-white">
+                    <svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 400 100">
+                        <line stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="400" y1="0" y2="0">
+                        </line>
+                        <line stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="400" y1="50"
+                            y2="50"></line>
+                        <line stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="400" y1="100"
+                            y2="100"></line>
+                        <path d="M0 40 C 50 45, 100 20, 150 30 S 250 60, 300 50 S 350 20, 400 25" fill="none"
+                            stroke="currentColor" stroke-linecap="round" stroke-opacity="0.6" stroke-width="1.2"
+                            vector-effect="non-scaling-stroke"></path>
+                        <circle cx="400" cy="25" fill="currentColor" fill-opacity="0.6" r="2"></circle>
+                    </svg>
+                </div>
+                <div
+                    class="flex justify-between mt-6 text-[9px] text-text-tertiary font-bold uppercase tracking-widest">
+                    <span>60 Seconds Ago</span>
+                    <span>Live Now</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- LIVE CAMERA PREVIEWS -->
+        <section class="mt-8 mb-12">
+            <div class="mb-6 flex justify-between items-end">
+                <div>
+                    <h2 class="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Live Video Feeds</h2>
+                    <p class="text-sm text-text-tertiary mt-1">Real-time MJPEG streams from active checkpoints</p>
+                </div>
+            </div>
+            <div id="live-camera-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+    </main>
+        
+
+    <script>
+        // ── Live Pipeline Stats ───────────────────────────────────────────────
+        function runStorageCleanup() {
+            if (!confirm("Are you sure you want to run cleanup? This will permanently delete old recognition evidence and video segments.")) return;
+            
+            fetch('/api/system/cleanup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ retention_days: 30 })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Cleanup completed:\n- Evidence images deleted: ${data.deleted_evidence}\n- Video recordings deleted: ${data.deleted_recordings}`);
+                    refreshStats();
+                } else {
+                    alert("Cleanup failed: " + data.error);
+                }
+            })
+            .catch(err => alert("Error: " + err));
+        }
+
+        // Auto-poll /api/health every 8 seconds so stats update as the
+        // capture → scoring → upload pipeline adds new faces and images.
+        let lastNetBytes = { sent: null, recv: null, time: null };
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return { val: '0', unit: 'B' };
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return { val: parseFloat((bytes / Math.pow(k, i)).toFixed(2)), unit: sizes[i] };
+        }
+
+        function refreshStats() {
+            fetch('/api/health')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('stat-persons').textContent = data.person_count ?? '—';
+                    document.getElementById('stat-images').textContent = data.vector_count ?? '—';
+                    
+                    if (data.storage_used_bytes !== undefined) {
+                        const s = formatBytes(data.storage_used_bytes);
+                        document.getElementById('stat-storage-value').textContent = s.val;
+                        document.getElementById('stat-storage-unit').textContent = s.unit;
+                        
+                        if (data.database_bytes !== undefined) {
+                            const db = formatBytes(data.database_bytes);
+                            document.getElementById('stat-db-value').textContent = db.val + db.unit;
+                            
+                            const ref = formatBytes(data.reference_images_bytes);
+                            document.getElementById('stat-ref-value').textContent = ref.val + ref.unit;
+                            
+                            const evid = formatBytes(data.evidence_bytes);
+                            document.getElementById('stat-evid-value').textContent = evid.val + evid.unit;
+                            
+                            const rec = formatBytes(data.recordings_bytes);
+                            document.getElementById('stat-rec-value').textContent = rec.val + rec.unit;
+                        }
+                    }
+                    
+                    const now = performance.now() / 1000;
+                    if (data.network_bytes_sent !== undefined && data.network_bytes_recv !== undefined) {
+                        if (lastNetBytes.sent !== null) {
+                            const dt = now - lastNetBytes.time;
+                            if (dt > 0) {
+                                const dSent = data.network_bytes_sent - lastNetBytes.sent;
+                                const dRecv = data.network_bytes_recv - lastNetBytes.recv;
+                                
+                                const upMbps = (dSent * 8 / (dt * 1000000)).toFixed(2);
+                                const downMbps = (dRecv * 8 / (dt * 1000000)).toFixed(2);
+                                
+                                const upEl = document.getElementById('stat-upload-speed');
+                                const downEl = document.getElementById('stat-download-speed');
+                                if (upEl) upEl.textContent = upMbps;
+                                if (downEl) downEl.textContent = downMbps;
+                            }
+                        }
+                        lastNetBytes = { sent: data.network_bytes_sent, recv: data.network_bytes_recv, time: now };
+                    }
+                })
+                .catch(() => {});
+        }
+        refreshStats();                      // immediate first load
+        setInterval(refreshStats, 8000);     // then every 8 s
+
+        function showRecognitionToast(event) {
+            const container = document.getElementById('toast-container');
+            const name = event.matched_identity_name || event.matched_identity_id || 'Unknown';
+            const timeStr = new Date(event.timestamp * 1000).toLocaleTimeString();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-enter pointer-events-auto bg-white dark:bg-dark-card border border-primary/30 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-xl p-4 flex items-center gap-4 w-80 relative overflow-hidden';
+            
+            const imgHtml = event.image 
+                ? `<img src="data:image/jpeg;base64,${event.image}" class="h-14 w-14 object-cover rounded-lg shadow-sm border border-gray-100 dark:border-white/10">` 
+                : `<div class="h-14 w-14 bg-gray-100 dark:bg-white/5 rounded-lg flex items-center justify-center text-xs text-gray-400">No Img</div>`;
+
+            toast.innerHTML = `
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-green-500"></div>
+                ${imgHtml}
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold text-text-primary dark:text-white truncate">${name} is here!</p>
+                    <p class="text-[11px] text-text-secondary mt-1 truncate font-mono">${event.camera_id}</p>
+                    <p class="text-[10px] text-text-tertiary mt-0.5">${timeStr}</p>
+                </div>
+                <button class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors" onclick="this.closest('.toast-enter').remove()">
+                    <span class="material-symbols-outlined text-[16px]">close</span>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Auto dismiss after 7 seconds
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 400);
+            }, 7000);
+        }
+
+        let lastAlertTimestamp = 0;
+        function refreshLiveEvents() {
+            fetch('/api/events/live?n=15')
+                .then(r => r.json())
+                .then(data => {
+                    const tbody = document.getElementById('live-events-tbody');
+                    const section = document.getElementById('recent-shots-section');
+                    
+                    if (!data.events || data.events.length === 0) {
+                        section.classList.add('hidden');
+                        return;
+                    }
+                    
+                    // Trigger alert for new matches
+                    const newMatches = data.events.filter(ev => ev.match_status === 'MATCH' && ev.timestamp > lastAlertTimestamp && (ev.temporal_state === 'CONFIRMED' || ev.temporal_state === 'LOCKED'));
+                    if (newMatches.length > 0) {
+                        lastAlertTimestamp = Math.max(...newMatches.map(ev => ev.timestamp));
+                        // Show toast for each new match (newest first in the events array, but we want to show oldest first to stack properly)
+                        newMatches.reverse().forEach(match => showRecognitionToast(match));
+                    }
+                    
+                    section.classList.remove('hidden');
+                    tbody.innerHTML = data.events.map(ev => {
+                        let date = new Date(ev.timestamp * 1000);
+                        let timeStr = date.toLocaleTimeString();
+                        
+                        let statusColor = 'text-gray-500';
+                        if (ev.match_status === 'MATCH') statusColor = 'text-green-500 font-bold';
+                        else if (ev.match_status === 'UNKNOWN') statusColor = 'text-red-500 font-bold';
+                        else if (ev.match_status === 'AMBIGUOUS') statusColor = 'text-orange-500 font-bold';
+                        
+                        let distStr = ev.embedding_distance != null ? ev.embedding_distance.toFixed(3) : '—';
+                        
+                        let imgHtml = ev.image ? 
+                            `<img src="data:image/jpeg;base64,${ev.image}" class="h-10 w-10 object-cover rounded shadow-sm border border-gray-200">` : 
+                            `<span class="text-xs text-gray-400">—</span>`;
+                            
+                        let stateColor = 'text-gray-500';
+                        if (ev.temporal_state === 'CONFIRMED') stateColor = 'text-blue-500 font-bold';
+                        else if (ev.temporal_state === 'LOCKED') stateColor = 'text-green-600 font-bold';
+                        else if (ev.temporal_state === 'CANDIDATE') stateColor = 'text-orange-400 font-bold';
+                            
+                        return `
+                            <tr>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-secondary">${timeStr}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-primary font-mono text-xs">${ev.camera_id}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap ${stateColor} text-xs tracking-wider">${ev.temporal_state || '—'}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap ${statusColor}">${ev.match_status || '—'}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap font-medium">${ev.matched_identity_name || ev.matched_identity_id || '—'}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-secondary font-mono text-xs">${distStr}</td>
+                                <td class="py-3 pr-4 whitespace-nowrap text-text-secondary text-xs">${ev.action || '—'}</td>
+                                <td class="py-3 whitespace-nowrap">${imgHtml}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                })
+                .catch(() => {});
+        }
+        refreshLiveEvents();
+        setInterval(refreshLiveEvents, 2000); // Poll every 2 seconds
+    </script>
+    <script>
+        // ── Master Camera Toggle API ─────────────────────────────────────────
+        let isCameraActive = false;
+        async function fetchCameraStatus() {
+            try {
+                const res = await fetch('/api/camera/status');
+                if (res.ok) {
+                    const data = await res.json();
+                    updateCameraUI(data.active, data.pending_jobs || 0);
+                }
+            } catch (e) { console.error('Failed to read camera state', e); }
+        }
+
+        function updateCameraUI(active, pending_jobs = 0) {
+            isCameraActive = active;
+            const btn = document.getElementById('cam-toggle-btn');
+            const ind = document.getElementById('cam-status-indicator');
+            const pipeInd = document.getElementById('pipeline-status-indicator');
+            
+            if (active) {
+                btn.textContent = "Stop Camera";
+                btn.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600');
+                btn.classList.remove('bg-primary', 'dark:bg-white', 'dark:text-primary');
+                ind.innerHTML = `
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-20"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Camera Running</span>
+                `;
+            } else {
+                btn.textContent = "Start Camera";
+                btn.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600');
+                btn.classList.add('bg-primary', 'dark:bg-white', 'dark:text-primary');
+                ind.innerHTML = `
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-400"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Camera Stopped</span>
+                `;
+            }
+            
+            // Set dual-state Pipeline Indicator
+            if (pending_jobs > 0) {
+                pipeInd.classList.remove('hidden');
+                // Use absolute positioning or margin for correct visual placement
+                pipeInd.innerHTML = `
+                    <div class="h-4 w-px bg-gray-300 dark:bg-white/20 mx-1"></div>
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-40"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Processing ${pending_jobs} Job${pending_jobs>1?'s':''}...</span>
+                `;
+            } else {
+                pipeInd.classList.remove('hidden');
+                pipeInd.innerHTML = `
+                    <div class="h-4 w-px bg-gray-300 dark:bg-white/20 mx-1"></div>
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-300 dark:bg-white/20"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-gray-400 dark:text-white/40 uppercase tracking-widest">Pipeline Idle</span>
+                `;
+            }
+        }
+
+        async function toggleSystemCamera() {
+            const newState = !isCameraActive;
+            const endpoint = newState ? '/api/camera/start' : '/api/camera/stop';
+            updateCameraUI(newState); // Optimistic UI update
+            try {
+                const res = await fetch(endpoint, {method: 'POST', credentials: 'same-origin'});
+                if (!res.ok) throw new Error("API Failure");
+            } catch (e) {
+                updateCameraUI(!newState); // Revert on failure
+                console.error("Failed to toggle camera", e);
+            }
+        }
+
+        fetchCameraStatus();
+        setInterval(fetchCameraStatus, 1500); // Poll status
+    </script>
+    <script>
+        // ── Camera Management Logic ───────────────────────────────────────────
+        
+        async function fetchCameras() {
+            try {
+                const res = await fetch('/api/cameras');
+                if (!res.ok) return;
+                const data = await res.json();
+                renderCameras(data.cameras || []);
+            } catch (e) { console.error('Failed to fetch cameras', e); }
+        }
+
+        function renderCameras(cameras) {
+            const list = document.getElementById('cam-list');
+            const badge = document.getElementById('cam-count-badge');
+            badge.textContent = `${cameras.length} camera${cameras.length !== 1 ? 's' : ''}`;
+            
+            if (cameras.length === 0) {
+                list.innerHTML = `<div class="text-xs text-text-tertiary italic py-2">No cameras configured. Add one below.</div>`;
+                return;
+            }
+
+            list.innerHTML = cameras.map(cam => `
+                <div class="flex items-center justify-between p-3 rounded-lg border ${cam.enabled ? 'border-primary/20 bg-blue-50/30 dark:border-white/20 dark:bg-white/5' : 'border-gray-200 bg-gray-50 opacity-60 dark:border-white/10 dark:bg-white/5'} transition-all mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="${cam.enabled ? 'bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 'bg-gray-300'} rounded-full" style="width: 8px; height: 8px; min-width: 8px;"></div>
+                        <div>
+                            <p class="text-xs font-semibold text-text-primary dark:text-white">${cam.label || cam.id}</p>
+                            <p class="text-[10px] text-text-tertiary font-mono mt-0.5">${cam.source}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleCam('${cam.id}', ${!cam.enabled})" class="text-[10px] uppercase font-bold px-2 py-1 rounded bg-white dark:bg-white/10 border border-gray-200 dark:border-white/20 hover:border-primary dark:hover:border-white transition-colors text-text-primary dark:text-white">
+                            ${cam.enabled ? 'Disable' : 'Enable'}
+                        </button>
+                        <button onclick="deleteCam('${cam.id}')" class="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 p-1 rounded transition-colors material-symbols-outlined text-[18px]">
+                            delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        
+            // ---- LIVE PREVIEW GRID POPULATION ----
+            const previewGrid = document.getElementById('live-camera-grid');
+            if (previewGrid) {
+                if (cameras.length === 0) {
+                    previewGrid.innerHTML = `<div class="col-span-full py-12 text-center text-text-tertiary bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-white/5">No active cameras found. Add one in the dashboard.</div>`;
+                } else {
+                    const activeCams = cameras.filter(cam => cam.enabled);
+                    if (activeCams.length === 0) {
+                        previewGrid.innerHTML = `<div class="col-span-full py-12 text-center text-text-tertiary bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-white/5">All cameras are disabled. Enable them to view live feeds.</div>`;
+                    } else {
+                        previewGrid.innerHTML = activeCams.map(cam => `
+                            <div class="bg-white dark:bg-dark-card rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-white/5 flex flex-col gap-4 overflow-hidden relative group">
+                                <div class="flex justify-between items-start">
+                                    <div class="truncate pr-4">
+                                        <h3 class="font-bold text-text-primary dark:text-white truncate" title="${cam.label || cam.id}">${cam.label || cam.id}</h3>
+                                        <p class="text-xs text-text-tertiary mt-0.5 font-mono truncate" title="${cam.id}">${cam.id}</p>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-50 dark:bg-green-500/10 border border-green-200/50 dark:border-green-500/20 shrink-0">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                        <span class="text-[10px] font-bold text-green-700 dark:text-green-400 tracking-wide uppercase">Live</span>
+                                    </div>
+                                </div>
+                                <div class="w-full aspect-video bg-black rounded-xl overflow-hidden relative shadow-inner">
+                                    <img src="/api/stream/${cam.id}" class="w-full h-full object-contain" 
+                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23666\' stroke-width=\'1\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M2 12h20M12 2v20M8 2l8 20M16 2L8 22\'/%3E%3C/svg%3E'; this.onerror=null; this.parentElement.classList.add('flex','items-center','justify-center');">
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            }
+        }
+
+        async function toggleCam(id, enable) {
+            await fetch(`/api/cameras/${id}`, {
+                credentials: 'same-origin',
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({enabled: enable})
+            });
+            fetchCameras();
+        }
+
+        async function deleteCam(id) {
+            if (!confirm('Remove this camera?')) return;
+            await fetch(`/api/cameras/${id}`, {
+                credentials: 'same-origin', method: 'DELETE', credentials: 'same-origin' });
+            fetchCameras();
+        }
+
+        function showCamMsg(msg, isError=false) {
+            const el = document.getElementById('cam-msg');
+            el.textContent = msg;
+            el.className = `text-xs mt-2 ${isError ? 'text-red-500' : 'text-green-600 dark:text-green-400'}`;
+            el.classList.remove('hidden');
+            // setTimeout(() => el.classList.add('hidden'), 5000);
+        }
+
+        async function testCamera() {
+            const source = document.getElementById('cam-source').value.trim();
+            if (!source) return showCamMsg('Please enter a source to test', true);
+            
+            showCamMsg('Testing connection... (this may take a few seconds)');
+            try {
+                const res = await fetch('/api/cameras/test', {
+                    credentials: 'same-origin',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({source: source, label: '', enabled: true})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showCamMsg('✓ Connection successful!');
+                } else {
+                    showCamMsg(`✗ Test failed: ${data.error}`, true);
+                }
+            } catch (e) {
+                showCamMsg('✗ Test failed: Network error', true);
+            }
+        }
+
+        async function addCamera() {
+            const id = document.getElementById('cam-id').value.trim();
+            const label = document.getElementById('cam-label').value.trim();
+            const source = document.getElementById('cam-source').value.trim();
+            if (!source) return showCamMsg('Please enter a camera source', true);
+
+            showCamMsg('Adding camera and verifying connection...');
+            try {
+                const payload = {source: source, label: label, enabled: true};
+                if (id) payload.id = id;
+                const res = await fetch('/api/cameras', {
+                    credentials: 'same-origin',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById('cam-id').value = '';
+                    document.getElementById('cam-label').value = '';
+                    document.getElementById('cam-source').value = '';
+                    showCamMsg('✓ Camera added successfully');
+                    fetchCameras();
+                } else {
+                    showCamMsg(`✗ Failed: ${data.error}`, true);
+                }
+            } catch (e) {
+                showCamMsg('✗ Failed to add camera: Network error', true);
+            }
+        }
+
+        // Initialize camera list and refresh periodically
+        fetchCameras();
+        setInterval(fetchCameras, 10000);
+
+        // ── Theme Logic ───────────────────────────────────────────────
+        (function () {
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                const htmlRoot = document.documentElement;
+                const iconLight = document.querySelector('.theme-icon-light');
+                const iconDark = document.querySelector('.theme-icon-dark');
+
+                function updateThemeUI() {
+                    const isDark = htmlRoot.classList.contains('dark');
+                    if (isDark) {
+                        iconLight.classList.remove('hidden');
+                        iconDark.classList.add('hidden');
+                    } else {
+                        iconLight.classList.add('hidden');
+                        iconDark.classList.remove('hidden');
+                    }
+                }
+
+                // Initialize state
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    htmlRoot.classList.add('dark');
+                } else {
+                    htmlRoot.classList.remove('dark');
+                }
+                updateThemeUI();
+
+                themeToggleBtn.addEventListener('click', () => {
+                    if (htmlRoot.classList.contains('dark')) {
+                        htmlRoot.classList.remove('dark');
+                        localStorage.theme = 'light';
+                    } else {
+                        htmlRoot.classList.add('dark');
+                        localStorage.theme = 'dark';
+                    }
+                    updateThemeUI();
+                });
+            })();
+    </script>
+
+    <!-- ── Shutdown Overlay ──────────────────────────────────────────────── -->
+    <div id="shutdown-overlay"
+         style="display:none;position:fixed;inset:0;z-index:9999;
+                background:rgba(1,32,123,0.97);
+                flex-direction:column;align-items:center;justify-content:center;gap:16px">
+      <div style="font-size:3rem">⏻</div>
+      <h2 style="font-size:1.4rem;font-weight:700;color:#fff;font-family:Inter,sans-serif">
+        Shutting down SIH26187…
+      </h2>
+      <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;font-family:Inter,sans-serif">
+        The camera and AI pipeline are stopping. You can close this window.
+      </p>
+    </div>
+
+    <!-- ── Auth Action Scripts ──────────────────────────────────────────── -->
+    <script>
+      /* Fetch a CSRF token from the server (session must be valid) */
+      async function getCsrfToken() {
+        try {
+          const r = await fetch('/api/csrf', { credentials: 'same-origin' });
+          if (!r.ok) return '';
+          const d = await r.json();
+          return d.token || '';
+        } catch { return ''; }
+      }
+
+      /* ⏻  Shutdown: confirm → POST /api/shutdown */
+      async function confirmShutdown() {
+        if (!confirm('⏻  Shut down SIH26187?\n\nThis will stop the camera, AI pipeline, and close the server.')) return;
+        const overlay = document.getElementById('shutdown-overlay');
+        const overlayText = overlay.querySelector('p');
+        overlay.style.display = 'flex';
+        
+        try {
+          const csrf = await getCsrfToken();
+          const fd = new FormData();
+          fd.append('csrf_token', csrf);
+          await fetch('/api/shutdown', { method: 'POST', body: fd, credentials: 'same-origin' });
+        } catch { /* server going down — expected */ }
+
+        // Attempt to close the window automatically after a short delay
+        setTimeout(() => {
+          overlayText.innerText = "System has been shut down successfully.\nThis tab will now close (or you can close it manually).";
+          window.close();
+        }, 1500);
+      }
+
+      /* 🚪 Logout: POST /auth/logout → redirect to /login */
+      async function doLogout() {
+        try {
+          const csrf = await getCsrfToken();
+          const fd = new FormData();
+          fd.append('csrf_token', csrf);
+          const r = await fetch('/auth/logout', { method: 'POST', body: fd, credentials: 'same-origin' });
+          const d = await r.json().catch(() => ({}));
+          window.location.href = d.redirect || '/login';
+        } catch {
+          window.location.href = '/login';
+        }
+      }
+    </script>
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-24 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <style>
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .toast-enter { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-exit { animation: slideOutRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</body>
+
+</html>
