@@ -1,108 +1,179 @@
-# SIH26187 — Core Pipeline
+# Vista Intelligence — AI Border & Perimeter Surveillance System
 
-AI-powered photo booth system: camera → detection → scoring → database → dashboard.
+An end-to-end AI surveillance platform for SIH 2026 (Problem Statement 26187):
+- 🧠 **Face Recognition** — enrollment, real-time matching, temporal confirmation
+- 🚧 **Border / Perimeter Detection** — virtual line crossing, zone entry/exit, intrusion alerts
+- 🚗 **Vehicle Intelligence** — ANPR (plate detection + OCR), vehicle classification & tracking
+- 📊 **Live Dashboard** — real-time feeds, event log, evidence management
 
-## Quick Start
+---
 
+## ⚡ Quick Start (after cloning)
+
+### 1. System prerequisite
+```bash
+# macOS
+brew install ffmpeg
+
+# Ubuntu/Debian
+sudo apt install ffmpeg
+```
+
+### 2. Python environment
+```bash
+cd face_api
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 3. Start the server
+```bash
+# From the face_api/ directory (with venv active)
+python run.py
+```
+
+Dashboard opens at → **http://localhost:5001/**
+
+### Or use the full auto-launcher (macOS/Linux)
 ```bash
 bash dev_start.sh
 ```
-
-That's it. The launcher handles everything automatically:
-1. ✅ Python 3.10–3.12 check
-2. ✅ Disk space check (≥ 2GB)
-3. ✅ Port conflict detection (5001)
-4. ✅ Virtual environment creation
-5. ✅ Dependency installation
-6. ✅ AI model validation + auto-download
-7. ✅ YOLO + InsightFace warmup
-8. ✅ FastAPI backend startup (port 5001)
-9. ✅ Camera pipeline launch
-10. ✅ Dashboard opens at http://localhost:5001/
-11. ✅ Clean shutdown on Ctrl+C
-
-### Optional flags
-
-```bash
-bash dev_start.sh --debug       # Show bounding boxes + confidence overlays
-bash dev_start.sh --safe-mode   # Skip InsightFace (lightweight mode)
-bash dev_start.sh --skip-warmup # Faster startup, slower first inference
-```
+The launcher handles venv creation, dependency install, model warmup, and startup automatically.
 
 ---
 
-## Repository Structure
+## 🗂 Repository Structure
 
 ```
-SIH26187/
-├── dev_start.sh              # Single-command launcher
-├── cameras.json              # Camera configuration
-├── pipeline_test.py          # End-to-end test suite
-├── pyrightconfig.json        # VS Code type checking config
+Vista-intelligence/
 │
-├── face_api/              # FastAPI backend
-│   ├── run.py                # Server entry point
-│   ├── requirements.txt
+├── requirements.txt              # Combined requirements for all modules
+├── dev_start.sh                  # Auto-launcher (macOS/Linux)
+│
+├── face_api/                     # FastAPI backend (main web server)
+│   ├── run.py                    # Server entry point → http://localhost:5001
+│   ├── requirements.txt          # Backend-only requirements
 │   └── app/
-│       ├── api/routes.py     # All endpoints (incl. /api/debug/last_upload)
+│       ├── api/
+│       │   ├── routes.py         # Face enrollment, search, camera management
+│       │   ├── boundary_routes.py# Border detection API endpoints
+│       │   ├── vehicle_routes.py # ANPR & vehicle intelligence API
+│       │   └── event_routes.py   # Event & clip retrieval
 │       ├── services/face_service.py
-│       ├── core/             # encoder, vector_db, storage, image_utils
-│       └── config.py
+│       └── core/                 # encoder, vector_db, storage
+│   └── templates/
+│       ├── dashboard.html        # Live feed + event dashboard
+│       ├── boundary.html         # 🚧 Border detection UI (canvas line drawing)
+│       ├── database.html         # Identity enrollment & management
+│       ├── vehicle.html          # Vehicle intelligence dashboard
+│       ├── preview.html          # Live camera preview
+│       └── wanted.html           # Watchlist / wanted persons
 │
-└── face_engine/                # AI camera pipeline
-    ├── live_scorer.py        # Camera stream + YOLO detection
-    ├── model_manager.py      # Model registry + SHA256 download
-    ├── requirements.txt
-    └── models/               # AI model weights (auto-downloaded)
+├── edge/                         # Edge AI intelligence modules
+│   ├── boundary/
+│   │   ├── adapter.py            # YOLO + ByteTrack → TrackObservation adapter
+│   │   ├── crossing_engine.py    # Virtual line crossing state machine
+│   │   ├── geometry.py           # Point-segment distance, side-of-line math
+│   │   ├── anomaly_engine.py     # Rule-based anomaly detection
+│   │   └── manager.py            # BoundaryManager orchestrator (singleton)
+│   ├── events/
+│   │   ├── event_hub.py          # Central event logging
+│   │   └── clip_manager.py       # H.264 clip extraction via ffmpeg
+│   ├── face/                     # Face recognition pipeline
+│   └── vehicle/                  # Vehicle detection & ANPR
+│
+├── face_engine/                  # Live camera scorer daemon
+│   ├── live_scorer.py
+│   ├── model_manager.py
+│   └── models/                   # Pre-trained model weights (included)
+│       ├── buffalo_sc/           # InsightFace face recognition models
+│       ├── yolo26n-face.pt       # YOLO face detector
+│       └── face_landmarker.task  # MediaPipe face landmarks
+│
+├── Vehicle Intelligence/SIH26187/
+│   ├── anpr/                     # Automatic Number Plate Recognition
+│   │   ├── detector.py           # Plate detection (YOLO)
+│   │   ├── ocr.py                # Plate OCR (fast-plate-ocr)
+│   │   ├── temporal_voter.py     # Multi-frame plate voting
+│   │   └── models/best.pt        # ANPR YOLO model weights
+│   ├── vehicle_ai/               # Vehicle classifier + tracker
+│   ├── integration/              # Combined ANPR + tracking pipeline
+│   └── data/fast_plate_ocr/models/ # Fine-tuned OCR model weights
+│
+├── yolo11n.pt                    # YOLO11n vehicle detection model
+├── chokepoint-bbs/               # Benchmark ground-truth annotations
+└── tests/                        # Full test suite (19 test files)
 ```
 
 ---
 
-## API Endpoints
+## 🌐 Web Pages
 
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| GET | `/api/health` | Public | Health check + person count |
-| GET | `/api/debug/last_upload` | Public | Last upload metadata |
-| POST | `/api/add` | Token | Add image to database |
-| POST | `/api/search` | Session | Search by face |
-| GET | `/api/search` | Session | Search by ID or name |
-| POST | `/api/batch_add` | Token | Bulk add images |
-| GET | `/` | Session | Dashboard |
-
----
-
-## Dependencies
-
-**Backend** (`face_api/requirements.txt`):
-- `fastapi`, `uvicorn`, `insightface`, `onnxruntime`, `faiss-cpu`
-
-**Pipeline** (`face_engine/requirements.txt`):
-- `ultralytics`, `mediapipe==0.10.14`, `opencv-python`, `numpy`, `scipy`
+| URL | Page | Description |
+|-----|------|-------------|
+| `http://localhost:5001/` | Dashboard | Live feed, recognition events |
+| `http://localhost:5001/boundary` | Border Detection | Draw virtual border, upload test video |
+| `http://localhost:5001/database` | Database | Enroll & manage identities |
+| `http://localhost:5001/vehicle` | Vehicle | ANPR live feed & plate logs |
+| `http://localhost:5001/preview` | Live Preview | Multi-camera live view |
+| `http://localhost:5001/wanted` | Watchlist | Wanted persons management |
 
 ---
 
-## AI Models
+## 🚧 Border Detection Module
 
-Auto-downloaded on first run to `face_engine/models/`:
+The border/perimeter detection system works as follows:
 
-| Model | Size | Purpose |
-|-------|------|---------|
-| `yolo26n-face.pt` | 5.6 MB | Face detection |
+1. **Draw a virtual border line** directly on the video preview using the canvas UI
+2. **Upload a surveillance video** for offline testing, or connect a live camera
+3. The system runs **YOLO + ByteTrack** multi-object tracking on every frame
+4. **Line crossings** are detected by tracking each person's foot-point (bottom-center of bbox)
+5. Events are classified as **INTRUDING** (safe→restricted) or **RETREATING** (restricted→safe)
+6. **Clips** are automatically cut around each crossing event (pre + event + post) and encoded as H.264
+
+### Border Detection API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/boundary/line` | Set virtual border line (normalized coords) |
+| POST | `/api/boundary/test-video` | Upload video for offline detection |
+| GET | `/api/boundary/events` | Get all boundary crossing events |
+| GET | `/api/events/{id}/clip` | Download a specific event clip |
 
 ---
 
-## Observability
+## 🔑 AI Models Included
 
-- **Logs**: `~/Library/Application Support/MagicClick/logs/` (`api.log`, `scorer.log`, `worker.log`)
-- **Failed uploads**: `failed_uploads.json` in the output directory (auto-retried)
-- **Debug endpoint**: `GET http://localhost:5001/api/debug/last_upload`
-- **Preflight table**: Printed on every startup
+| Model | Location | Purpose |
+|-------|----------|---------|
+| `yolo11n.pt` | root + `Vehicle Intelligence/` | Vehicle detection |
+| `yolo26n-face.pt` | `face_engine/models/` | Face detection |
+| `det_500m.onnx` | `face_engine/models/buffalo_sc/` | Face landmark detection |
+| `w600k_mbf.onnx` | `face_engine/models/buffalo_sc/` | Face recognition embeddings |
+| `face_landmarker.task` | `face_engine/models/` | MediaPipe face landmarks |
+| `anpr/models/best.pt` | `Vehicle Intelligence/SIH26187/anpr/models/` | Plate detection |
+| `cct_xs_v2_global.onnx` | `Vehicle Intelligence/.../fast_plate_ocr/models/` | Plate OCR |
+| Fine-tuned OCR models | `Vehicle Intelligence/.../fine_tuned/` | Custom OCR weights |
 
 ---
 
-## Running Tests
+## 📦 Dependencies
 
 ```bash
-~/Library/Application\ Support/MagicClick/.venv/bin/python pipeline_test.py
+# Python packages
+pip install -r requirements.txt
+
+# System packages (required for clip encoding)
+brew install ffmpeg     # macOS
+apt install ffmpeg      # Ubuntu
+```
+
+---
+
+## 🧪 Running Tests
+
+```bash
+cd face_api && source .venv/bin/activate
+python -m pytest ../tests/ -v
 ```
