@@ -1,0 +1,46 @@
+# Vista Intelligence — Root Requirements
+# Install with: pip install -r requirements.txt
+#
+# This file covers ALL subsystems:
+#   - Face AI API (face_api/)
+#   - Border Detection (edge/boundary/)
+#   - Vehicle Intelligence / ANPR (edge/vehicle/, Vehicle Intelligence/)
+#   - Live Scorer (face_engine/)
+
+# ── Web Framework ─────────────────────────────────────────────────────────────
+fastapi>=0.100.0,<1.0
+uvicorn>=0.22.0,<1.0
+python-multipart>=0.0.6
+starlette>=0.27.0
+
+# ── Face Recognition ─────────────────────────────────────────────────────────
+insightface>=0.7.3,<0.8
+onnxruntime>=1.16.0,<2.0
+faiss-cpu>=1.7.4,<2.0
+
+# ── Computer Vision ───────────────────────────────────────────────────────────
+opencv-python>=4.9.0
+Pillow>=10.0.0
+numpy>=1.24.0,<2.3
+scipy>=1.13.0
+
+# ── Object Detection & Tracking (YOLO + ByteTrack) ───────────────────────────
+ultralytics>=8.3.0,<9.0
+
+# ── ANPR / Plate OCR ─────────────────────────────────────────────────────────
+fast-plate-ocr>=0.2.0
+
+# ── Auth & Session ────────────────────────────────────────────────────────────
+itsdangerous>=2.1.0
+bcrypt>=4.0.0
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+requests>=2.31.0
+pandas>=2.2.0
+tqdm>=4.66.0
+mediapipe==0.10.14
+
+# ── System Dependencies (install separately) ──────────────────────────────────
+# ffmpeg  →  macOS: brew install ffmpeg | Ubuntu: sudo apt install ffmpeg
+#            Required by: edge/events/clip_manager.py (H.264 clip encoding)
