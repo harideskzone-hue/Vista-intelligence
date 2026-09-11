@@ -1,57 +1,113 @@
-# Python
+# ═══════════════════════════════════════════════════════
+#  Vista Intelligence — .gitignore
+# ═══════════════════════════════════════════════════════
+
+# ── Python ──────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
-# Logs & Runtime
+*.pyo
+*.pyd
+
+# ── Virtual Environments ────────────────────────────────
+.venv/
+.venv-vehicle/
+venv/
+env/
+ENV/
+
+# ── Logs & Runtime state ────────────────────────────────
 logs/
 *.log
-.venv/
-.env
-magic_click_setup.log
+live_scorer.log
+cameras.json
+data/camera_state.json
+data/.session_secret
 
-# Data (Standalone Repo)
-data/
-face_api/data/
+# ── Runtime Database & Evidence (generated at run-time) ─
+data/identities.sqlite
+data/db/
+data/events/
+data/boundary/
+data/persons/
+data/face_api_data/
+data/watchlist.faiss/
 captured_videos/
 captured_shots/
-
 temp_output/
-*.mp4
-*.jpg
-*.png
-!face_api/templates/*.png
-!face_api/static/**/*.png
+tmp/
+uploads/
+wanted_persons/
 
-# AI/Agent metadata
+# ── Benchmark datasets (huge archives — not code) ───────
+sets/
+
+# ── Chokepoint benchmark image dataset ──────────────────
+chokepoint-bbs/G1/
+chokepoint-bbs/G2/
+chokepoint-bbs/tracker_records/
+
+# ── Vehicle Intelligence — large binary/generated data ──
+Vehicle\ Intelligence/SIH26187/.venv-vehicle/
+Vehicle\ Intelligence/SIH26187/input/
+Vehicle\ Intelligence/SIH26187/scratch/
+Vehicle\ Intelligence/SIH26187/output/
+Vehicle\ Intelligence/SIH26187/runs/
+Vehicle\ Intelligence/SIH26187/data/fast_plate_ocr/images/
+Vehicle\ Intelligence/SIH26187/test_videos/
+Vehicle\ Intelligence/SIH26187/test_crop.png
+
+# ── Media files (videos/images except whitelisted) ──────
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+# Allow: source docs, UI assets, notebooks images
+!face_api/templates/
+!face_api/static/**
+!face_api/static/**/*.png
+!face_api/static/**/*.svg
+!Vehicle\ Intelligence/SIH26187/vehicle_ai/source/*.png
+!Vehicle\ Intelligence/SIH26187/vehicle_ai/source/*.gif
+!Vehicle\ Intelligence/SIH26187/anpr/source/images/
+
+# ── AI / IDE Metadata ───────────────────────────────────
 .agent/
 .gemini/
 .pyre/
 .pytype/
 .mypy_cache/
 .pytest_cache/
+.benchmarks/
+.pyre_configuration
+pyrightconfig.json
 
-# OS/Editor
+# ── OS / Editor ─────────────────────────────────────────
 .DS_Store
+**/.DS_Store
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Project Caches
-models/
-.insightface/
+# ── Notebook checkpoints ────────────────────────────────
+.ipynb_checkpoints/
 
-# Temporary
-tmp/
+# ── Incomplete downloads ─────────────────────────────────
+*.crdownload
+*.part
 
-# Large dataset / binary directories (too big for GitHub)
-sets/
-uploads/
-wanted_persons/
-test_videos/
-chokepoint-bbs/
-Vehicle Intelligence/
 
-# Runtime / scratch
-live_scorer.log
-cameras.json
+# ── Auth / secrets ───────────────────────────────────────
+face_api/data/auth.json
+data/.session_secret
+
+# ── Temp downloads ───────────────────────────────────────
+*.download
+face_engine/models/tmpv0ju8qy7.download
+
