@@ -13,9 +13,11 @@ Architecture:
          v
     VirtualCameraStream             <- same .read() interface as CameraStream
          |
-    _inject_to_scorer() -> live_scorer._STREAM_FRAMES[cam_id]
+    GET /api/camera/frame/{cam_id} <- live_scorer polls this HTTP endpoint
          |
-    MJPEG preview (port 5002)   CameraProcessor (face recog, boundary, recording)
+    RemoteCameraSource (in live_scorer process)
+         |
+    CameraProcessor (face recog, boundary, recording)
 """
 
 import os
@@ -51,11 +53,21 @@ def _load_secret() -> Optional[str]:
         pass
     return None
 
-def _check_token(token: Optional[str]) -> bool:
-    """Returns True if auth disabled (no secret file) or token matches."""
+def _check_token(token: Optional[str], auth_header: Optional[str] = None) -> bool:
+    """
+    Returns True if:
+      - No session secret is configured (open-access on local net)
+      - ?token= query param matches the secret
+      - Authorization: Bearer <token> header matches the secret
+    Prefers Authorization header over URL param to avoid secrets in logs.
+    """
     secret = _load_secret()
     if secret is None:
         return True
+    if auth_header:
+        parts = auth_header.split(None, 1)
+        if len(parts) == 2 and parts[0].lower() == "bearer":
+            return parts[1].strip() == secret
     return token == secret
 
 
@@ -112,6 +124,10 @@ class VirtualCameraStream:
                 span = self._fps_window[-1] - self._fps_window[0]
                 self.last_fps = (len(self._fps_window) - 1) / span if span > 0 else 0.0
 
+        # Also store raw JPEG bytes for cross-process HTTP frame endpoint
+        with _REMOTE_FRAME_LOCK:
+            _REMOTE_FRAME_IDS[self.cam_id] = (jpeg_bytes, now, self._frame_id)
+
     # CameraStream interface
     def read(self):
         with self._lock:
@@ -148,6 +164,10 @@ class VirtualCameraStream:
             "uptime_s":        round(time.time() - self.connect_time, 0),
         }
 
+
+# -- Frame ID tracking (monotonic counter per camera) -------------------------
+_REMOTE_FRAME_IDS: dict = {}   # cam_id -> int frame_id (increments each new push)
+_REMOTE_FRAME_LOCK = threading.Lock()
 
 # -- Global Registry ----------------------------------------------------------
 _REMOTE_STREAMS: Dict[str, VirtualCameraStream] = {}
@@ -186,12 +206,14 @@ async def camera_ws_endpoint(
     camera_id: str,
     token: Optional[str] = Query(default=None),
 ):
+    # Support Authorization: Bearer <token> header (preferred over URL param)
+    auth_header = websocket.headers.get("authorization")
     """
     WebSocket endpoint for camera_relay.py agents.
     Accepts binary JPEG frames from any remote device.
     Auth: ?token=SECRET  (skipped if no session secret configured)
     """
-    if not _check_token(token):
+    if not _check_token(token, auth_header):
         await websocket.close(code=4003, reason="Unauthorized")
         log.warning(f"[REMOTE] Rejected unauthorized relay for {camera_id}")
         return
@@ -215,7 +237,6 @@ async def camera_ws_endpoint(
 
             stream.push_jpeg(data)
             frames_this_session += 1
-            _inject_to_scorer(camera_id, data)
 
     except WebSocketDisconnect:
         log.info(f"[REMOTE] Relay disconnected: {camera_id} ({frames_this_session} frames)")
@@ -225,22 +246,6 @@ async def camera_ws_endpoint(
         log.info(f"[REMOTE] Session ended: {camera_id}")
 
 
-def _inject_to_scorer(cam_id: str, jpeg_bytes: bytes):
-    """
-    Inject JPEG bytes into live_scorer._STREAM_FRAMES so the MJPEG preview
-    server (port 5002) and recording pipeline automatically get the frames.
-    """
-    try:
-        import face_engine.live_scorer as scorer  # type: ignore
-        if hasattr(scorer, "_STREAM_FRAMES"):
-            scorer._STREAM_FRAMES[cam_id] = jpeg_bytes
-        if hasattr(scorer, "_STREAM_BUFFERS"):
-            buf = scorer._STREAM_BUFFERS.setdefault(cam_id, deque(maxlen=300))
-            buf.append((time.time(), jpeg_bytes))
-    except ImportError:
-        pass
-    except Exception as e:
-        log.debug(f"_inject_to_scorer error: {e}")
 
 
 # -- Status Endpoints ---------------------------------------------------------
@@ -268,3 +273,50 @@ async def remove_remote_camera(camera_id: str):
     """Disconnect and unregister a remote camera."""
     unregister_remote_stream(camera_id)
     return JSONResponse({"ok": True, "camera_id": camera_id})
+
+
+# -- Cross-Process HTTP Frame Endpoint ----------------------------------------
+# live_scorer (separate process) polls this to get frames from remote cameras.
+# Returns: JPEG bytes with X-Frame-Id and X-Frame-Timestamp response headers.
+
+from fastapi import Response as FastAPIResponse
+
+@router.get("/frame/{camera_id}")
+async def get_remote_frame(camera_id: str):
+    """
+    Returns the latest JPEG frame received from a remote camera relay.
+    Used by live_scorer.RemoteCameraSource to poll frames across the process boundary.
+
+    Response headers:
+      X-Frame-Id        monotonic frame counter (int)
+      X-Frame-Timestamp epoch timestamp of when frame was received
+      X-Camera-Status   LIVE / STALE / OFFLINE / WAITING
+    """
+    with _REMOTE_FRAME_LOCK:
+        entry = _REMOTE_FRAME_IDS.get(camera_id)
+
+    stream = get_remote_stream(camera_id)
+    status = stream.status if stream else "NOT_REGISTERED"
+
+    if entry is None:
+        return FastAPIResponse(
+            content=b"",
+            status_code=204,  # No Content — camera registered but no frames yet
+            headers={
+                "X-Frame-Id":        "0",
+                "X-Frame-Timestamp": "0",
+                "X-Camera-Status":   status,
+            }
+        )
+
+    jpeg_bytes, ts, frame_id = entry
+    return FastAPIResponse(
+        content=jpeg_bytes,
+        media_type="image/jpeg",
+        headers={
+            "X-Frame-Id":        str(frame_id),
+            "X-Frame-Timestamp": str(ts),
+            "X-Camera-Status":   status,
+        }
+    )
+
