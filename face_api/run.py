@@ -36,6 +36,7 @@ from app.api.routes import api  # type: ignore
 from app.api.event_routes import router as events_router  # type: ignore
 from app.api.boundary_routes import router as boundary_router  # type: ignore
 from app.api.vehicle_routes import vehicle_router  # type: ignore
+from app.api.remote_camera_routes import router as remote_camera_router  # type: ignore
 from app.config import HOST, PORT, DEBUG, BASE_DIR, USER_DATA_DIR  # type: ignore
 from app.auth import (  # type: ignore
     is_setup_complete, load_credentials, save_credentials,
@@ -131,6 +132,7 @@ def create_app() -> FastAPI:
     app.include_router(events_router)
     app.include_router(boundary_router)
     app.include_router(vehicle_router)
+    app.include_router(remote_camera_router)  # WebSocket remote camera ingestion
 
     # ── Static files ──────────────────────────────────────────────────────────
     app.mount("/static", StaticFiles(directory=f"{BASE_DIR}/app/static"), name="static")

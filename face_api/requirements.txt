@@ -35,3 +35,7 @@ tqdm>=4.66.0
 # macOS:  brew install ffmpeg
 # Ubuntu: sudo apt install ffmpeg
 # Used by: edge/events/clip_manager.py for H.264 browser-compatible clip encoding
+
+# -- Remote Camera WebSocket support ----------------------------------------
+websockets>=12.0              # AsyncIO WebSocket (server side — receives relay frames)
+websocket-client>=1.7.0       # Sync WebSocket (camera_relay.py agent)
