@@ -73,6 +73,7 @@ class MJPEGReader:
         self._stop_event = threading.Event()
         self._thread: Optional[threading.Thread] = None
         self._last_frame_time = 0.0
+        self._last_push_ts = 0.0    # monotonic time of last successful frame push
         self.error: Optional[str] = None
 
     def start(self) -> "MJPEGReader":
@@ -126,6 +127,7 @@ class MJPEGReader:
 
                             with self._lock:
                                 self._queue.append(jpeg_bytes)
+                                self._last_push_ts = time.monotonic()
 
             except Exception as e:
                 self.error = str(e)
@@ -140,9 +142,10 @@ class OpenCVReader:
     Works with RTSP, USB cameras (/dev/video0), and HTTP MJPEG.
     """
 
-    def __init__(self, source, fps_cap: float = 15.0):
+    def __init__(self, source, fps_cap: float = 15.0, quality: int = 75):
         self.source = source
         self.fps_cap = fps_cap
+        self.quality = quality
         self.frame_interval = 1.0 / fps_cap
         self._cap: Optional[cv2.VideoCapture] = None
         self._queue: deque = deque(maxlen=_FRAME_QUEUE_MAX)
@@ -193,7 +196,7 @@ class OpenCVReader:
                         continue
                     self._last_frame_time = now
 
-                    _, jpeg = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 75])
+                    _, jpeg = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, self.quality])
                     with self._lock:
                         self._queue.append(jpeg.tobytes())
 
@@ -257,7 +260,7 @@ class CameraRelay:
     # ── Camera reader factory ────────────────────────────────────────────────
     def _make_reader(self):
         if self.use_opencv:
-            return OpenCVReader(self.camera_url, fps_cap=self.fps).start()
+            return OpenCVReader(self.camera_url, fps_cap=self.fps, quality=self.quality).start()
         return MJPEGReader(self.camera_url, fps_cap=self.fps).start()
 
     # ── Stats printer ────────────────────────────────────────────────────────
@@ -321,8 +324,11 @@ class CameraRelay:
                         except Exception:
                             break
 
-                    # Check for camera stall
-                    if now - last_frame_received > _STALL_TIMEOUT:
+                    # Check for camera stall using reader's actual last push timestamp
+                    # (avoids false "alive" when get_frame() returns same stale bytes)
+                    reader_last_push = getattr(self._reader, '_last_push_ts', 0)
+                    stall_ref = reader_last_push if reader_last_push > 0 else last_frame_received
+                    if now - stall_ref > _STALL_TIMEOUT:
                         log.warning("Camera stall detected — reconnecting reader")
                         self._reader.stop()
                         self._reader = self._make_reader()

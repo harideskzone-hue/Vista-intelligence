@@ -351,6 +351,133 @@ class FaceDetectorThread:
             self._thread.join(timeout=1.0)
 
 
+
+# ── RemoteCameraSource ────────────────────────────────────────────────────────
+class RemoteCameraSource:
+    """
+    Camera stream that polls face_api's HTTP frame bridge endpoint.
+
+    This correctly crosses the process boundary:
+      Process 1 (face_api):    camera_relay.py → WebSocket → _REMOTE_FRAME_IDS
+                               GET /api/camera/frame/{cam_id}
+      Process 2 (live_scorer): RemoteCameraSource polls that endpoint
+
+    Interface matches CameraStream exactly:
+        .read()   → (ret: bool, frame: np.ndarray | None, frame_id: int)
+        .stopped  → bool
+        .start()  → self
+        .stop()   → None
+    """
+
+    POLL_INTERVAL   = 0.066   # ~15 fps polling
+    STALE_TIMEOUT   = 30.0    # seconds without new frame → STALE
+    OFFLINE_TIMEOUT = 60.0    # seconds without new frame → OFFLINE / stopped
+
+    def __init__(self, cam_id: str, face_api_base: str = "http://127.0.0.1:5001"):
+        self.cam_id         = cam_id
+        self._base_url      = f"{face_api_base}/api/camera/frame/{cam_id}"
+        self.stopped        = False
+
+        self._frame:    "np.ndarray | None" = None
+        self._frame_id: int   = 0
+        self._lock      = threading.Lock()
+        self._last_frame_id_seen: int = -1   # detect new frames vs stale
+        self._last_frame_time:    float = 0.0
+        self._thread: "threading.Thread | None" = None
+
+    def start(self) -> "RemoteCameraSource":
+        self._thread = threading.Thread(target=self._poll_loop, daemon=True)
+        self._thread.start()
+        return self
+
+    def stop(self) -> None:
+        self.stopped = True
+
+    def read(self):
+        """Returns (ret, frame, frame_id) — same interface as CameraStream."""
+        with self._lock:
+            if self._frame is None or self.status in ("OFFLINE",):
+                return False, None, self._frame_id
+            return True, self._frame.copy(), self._frame_id
+
+    @property
+    def status(self) -> str:
+        if self._last_frame_time == 0:
+            return "WAITING"
+        age = time.time() - self._last_frame_time
+        if age > self.OFFLINE_TIMEOUT:
+            return "OFFLINE"
+        if age > self.STALE_TIMEOUT:
+            return "STALE"
+        return "LIVE"
+
+    def _poll_loop(self):
+        import urllib.request
+        log_prefix = f"[REMOTE {self.cam_id}]"
+        logged_state = None
+
+        while not self.stopped:
+            try:
+                req = urllib.request.Request(self._base_url, method="GET")
+                # Load session token for auth (mirrors how live_scorer calls face_api)
+                try:
+                    _secret_path = os.path.join(
+                        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "data", ".session_secret"
+                    )
+                    if os.path.exists(_secret_path):
+                        token = open(_secret_path).read().strip()
+                        req.add_header("x-internal-token", token)
+                except Exception:
+                    pass
+
+                with urllib.request.urlopen(req, timeout=3) as resp:
+                    if resp.status == 204:
+                        # Camera registered in face_api but no frames yet
+                        if logged_state != "WAITING":
+                            print(f"{log_prefix} Waiting for relay to connect...")
+                            logged_state = "WAITING"
+                        time.sleep(self.POLL_INTERVAL)
+                        continue
+
+                    server_frame_id = int(resp.headers.get("X-Frame-Id", 0))
+
+                    # Only decode if this is a new frame (not the same one again)
+                    if server_frame_id > self._last_frame_id_seen:
+                        jpeg_bytes = resp.read()
+                        nparr = np.frombuffer(jpeg_bytes, np.uint8)
+                        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                        if frame is not None:
+                            with self._lock:
+                                self._frame    = frame
+                                self._frame_id += 1
+                                self._last_frame_id_seen = server_frame_id
+                                self._last_frame_time    = time.time()
+
+                            if logged_state != "LIVE":
+                                print(f"{log_prefix} ✓ Stream LIVE")
+                                logged_state = "LIVE"
+                    else:
+                        # Same frame as before — camera may be paused or slow
+                        resp.read()  # drain
+
+                    new_status = self.status
+                    if new_status != logged_state and new_status in ("STALE", "OFFLINE"):
+                        print(f"{log_prefix} Stream {new_status}")
+                        logged_state = new_status
+                        if new_status == "OFFLINE":
+                            self.stopped = True
+                            break
+
+            except Exception as e:
+                if logged_state != "ERROR":
+                    print(f"{log_prefix} Poll error: {e}")
+                    logged_state = "ERROR"
+                time.sleep(2.0)
+
+            time.sleep(self.POLL_INTERVAL)
+
+
 class CameraProcessor:
     def __init__(self, cam_id, src, face_det_model, enhancement_mode="AUTO", stream=None):
         self.cam_id = cam_id
@@ -422,6 +549,17 @@ class CameraProcessor:
     def process_frame(self) -> None:
         if self.stream.stopped:
             return
+
+        # Lifecycle guard: pause processing for STALE/OFFLINE remote cameras
+        # to avoid spinning the AI pipeline on a frozen last-frame
+        if isinstance(self.stream, RemoteCameraSource):
+            status = self.stream.status
+            if status == "OFFLINE":
+                self.stream.stop()
+                return
+            if status in ("STALE", "WAITING"):
+                time.sleep(0.1)
+                return
 
         ret, frame, frame_id = self.stream.read()
         if not ret or frame is None:
@@ -603,19 +741,16 @@ def _start_processor(cam_cfg: dict, face_det) -> "CameraProcessor | None":
     mode = cam_cfg.get('enhancement_mode', 'AUTO')
 
     # -- Remote camera via WebSocket relay ------------------------------------
-    if source_str.startswith(("ws://", "wss://", "ws://remote", "wss://remote")):
-        print(f"  [CAM] Remote WebSocket camera: {label} ({cam_id})")
-        try:
-            import sys, os
-            sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "face_api"))
-            from app.api.remote_camera_routes import register_remote_stream, VirtualCameraStream  # type: ignore
-            vstream = register_remote_stream(cam_id)
-            proc = CameraProcessor(cam_id, source_str, face_det, enhancement_mode=mode, stream=vstream)
-            print(f"  [CAM] ✓ Remote stream registered: {label} (waiting for relay connection)")
-            return proc
-        except Exception as e:
-            print(f"  [CAM] ✗ Failed to set up remote stream {label}: {e}")
-            return None
+    # Source "ws://remote" or "wss://..." means this camera's frames arrive via
+    # camera_relay.py -> face_api WebSocket -> HTTP frame bridge.
+    # We use RemoteCameraSource which polls http://localhost:5001/api/camera/frame/{cam_id}
+    # This correctly crosses the process boundary without shared memory.
+    if source_str.startswith(("ws://", "wss://")):
+        print(f"  [CAM] Remote camera (WebSocket relay): {label} ({cam_id})")
+        rstream = RemoteCameraSource(cam_id)
+        proc = CameraProcessor(cam_id, source_str, face_det, enhancement_mode=mode, stream=rstream)
+        print(f"  [CAM] ✓ Remote camera registered: {label} — waiting for relay to connect")
+        return proc
 
     # -- Local camera --------------------------------------------------------
     src = _parse_camera_source(source_str)
