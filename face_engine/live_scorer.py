@@ -352,10 +352,14 @@ class FaceDetectorThread:
 
 
 class CameraProcessor:
-    def __init__(self, cam_id, src, face_det_model, enhancement_mode="AUTO"):
+    def __init__(self, cam_id, src, face_det_model, enhancement_mode="AUTO", stream=None):
         self.cam_id = cam_id
         self.src = src
-        self.stream = CameraStream(src)
+        # Accept a pre-built stream (e.g. VirtualCameraStream for remote cameras)
+        if stream is not None:
+            self.stream = stream
+        else:
+            self.stream = CameraStream(src)
         if self.stream.stopped:
             return
         self.stream.start()
@@ -588,12 +592,35 @@ def _start_processor(cam_cfg: dict, face_det) -> "CameraProcessor | None":
     """
     Attempt to start a CameraProcessor for a config entry.
     Returns None (and logs) if the stream cannot be opened.
+
+    Special sources:
+      "ws://remote" or "wss://remote" -> uses VirtualCameraStream (remote relay)
+      numeric string, rtsp://, http:// -> uses CameraStream (local camera)
     """
-    src = _parse_camera_source(str(cam_cfg['source']))
+    source_str = str(cam_cfg['source'])
     label = cam_cfg.get('label', cam_cfg['id'])
+    cam_id = cam_cfg['id']
     mode = cam_cfg.get('enhancement_mode', 'AUTO')
+
+    # -- Remote camera via WebSocket relay ------------------------------------
+    if source_str.startswith(("ws://", "wss://", "ws://remote", "wss://remote")):
+        print(f"  [CAM] Remote WebSocket camera: {label} ({cam_id})")
+        try:
+            import sys, os
+            sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "face_api"))
+            from app.api.remote_camera_routes import register_remote_stream, VirtualCameraStream  # type: ignore
+            vstream = register_remote_stream(cam_id)
+            proc = CameraProcessor(cam_id, source_str, face_det, enhancement_mode=mode, stream=vstream)
+            print(f"  [CAM] ✓ Remote stream registered: {label} (waiting for relay connection)")
+            return proc
+        except Exception as e:
+            print(f"  [CAM] ✗ Failed to set up remote stream {label}: {e}")
+            return None
+
+    # -- Local camera --------------------------------------------------------
+    src = _parse_camera_source(source_str)
     print(f"  [CAM] Connecting → {label} ({src}) [Mode: {mode}] ...")
-    proc = CameraProcessor(cam_cfg['id'], src, face_det, enhancement_mode=mode)
+    proc = CameraProcessor(cam_id, src, face_det, enhancement_mode=mode)
     if proc.stream.stopped:
         print(f"  [CAM] ✗ Failed to open {label} ({src})")
         return None

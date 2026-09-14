@@ -237,6 +237,42 @@
                     </div>
                     <p id="cam-msg" class="text-xs mt-2 hidden"></p>
                 </div>
+                <!-- ── Remote Camera Status Panel ─────────────────────── -->
+                <div class="mt-6 border-t border-gray-100 dark:border-white/10 pt-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-[10px] font-bold text-text-secondary dark:text-white/60 uppercase tracking-widest flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[13px]">wifi_tethering</span>
+                            Remote Cameras
+                        </p>
+                        <button onclick="fetchRemoteCameras()" class="text-[9px] font-bold uppercase tracking-wider text-blue-500 hover:text-blue-600 transition-colors">Refresh</button>
+                    </div>
+                    <div id="remote-cam-list" class="space-y-2">
+                        <p class="text-[11px] text-text-tertiary italic">No remote cameras connected</p>
+                    </div>
+
+                    <!-- Relay Command Helper -->
+                    <details class="mt-4">
+                        <summary class="text-[10px] font-bold text-text-secondary dark:text-white/60 uppercase tracking-widest cursor-pointer hover:text-blue-500 transition-colors">
+                            How to connect a remote camera ▸
+                        </summary>
+                        <div class="mt-3 bg-gray-50 dark:bg-white/5 rounded-lg p-4 text-[11px]">
+                            <p class="font-semibold mb-2 text-text-primary dark:text-white">1. Install relay on the camera device:</p>
+                            <code class="block bg-black/80 text-green-400 rounded p-2 text-[10px] mb-3 whitespace-pre-wrap">pip install requests websocket-client opencv-python</code>
+                            <p class="font-semibold mb-2 text-text-primary dark:text-white">2. Run camera_relay.py near your camera:</p>
+                            <code id="relay-cmd-template" class="block bg-black/80 text-green-400 rounded p-2 text-[10px] whitespace-pre-wrap">python camera_relay.py \
+  --camera-url http://CAMERA_IP:8080/video \
+  --server-ws  ws://SERVER_IP:5001/api/camera/ws/cam_remote_1 \
+  --camera-id  cam_remote_1 \
+  --fps 15</code>
+                            <p class="mt-3 text-text-tertiary text-[10px]">
+                                Replace <strong>CAMERA_IP</strong> with your IP Webcam app IP,<br>
+                                <strong>SERVER_IP</strong> with this machine's IP or your tunnel URL (ngrok/cloudflared/VPS).<br>
+                                Transport is configurable: <span class="font-mono">ws://</span> for LAN, <span class="font-mono">wss://</span> for internet.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+
             </div>
         </section>
         
@@ -830,6 +866,43 @@
                 showCamMsg('✗ Test failed: Network error', true);
             }
         }
+
+        
+        // ── Remote Camera Status ────────────────────────────────────────────
+        async function fetchRemoteCameras() {
+            try {
+                const res = await fetch('/api/camera/remote/status');
+                const data = await res.json();
+                const container = document.getElementById('remote-cam-list');
+                if (!data.cameras || data.cameras.length === 0) {
+                    container.innerHTML = '<p class="text-[11px] text-text-tertiary italic">No remote cameras connected</p>';
+                    return;
+                }
+                container.innerHTML = data.cameras.map(cam => {
+                    const statusColor = cam.status === 'LIVE' ? 'text-green-500' : cam.status === 'STALE' ? 'text-yellow-500' : 'text-red-400';
+                    const statusDot   = cam.status === 'LIVE' ? 'bg-green-500 animate-pulse' : cam.status === 'STALE' ? 'bg-yellow-500' : 'bg-red-400';
+                    return `<div class="flex items-center justify-between bg-gray-50 dark:bg-white/5 rounded-lg px-3 py-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">🌐</span>
+                            <div>
+                                <p class="text-[11px] font-semibold text-text-primary dark:text-white">${cam.camera_id}</p>
+                                <p class="text-[9px] text-text-tertiary">${cam.fps} fps · ${cam.frames_received} frames · ${cam.last_seen_ago_s ? cam.last_seen_ago_s + 's ago' : 'waiting'}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full ${statusDot}"></span>
+                            <span class="text-[10px] font-bold ${statusColor}">${cam.status}</span>
+                        </div>
+                    </div>`;
+                }).join('');
+            } catch (e) {
+                console.error('fetchRemoteCameras error:', e);
+            }
+        }
+
+        // Poll remote cameras every 5s
+        setInterval(fetchRemoteCameras, 5000);
+        fetchRemoteCameras();
 
         async function addCamera() {
             const id = document.getElementById('cam-id').value.trim();
