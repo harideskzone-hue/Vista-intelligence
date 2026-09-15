@@ -187,7 +187,13 @@ def _preflight():
 class CameraStream:
     def __init__(self, src):
         self.src = src
-        self.stream = cv2.VideoCapture(src)
+        # For local USB/built-in cameras (integer index), explicitly use the
+        # AVFoundation backend on macOS to prevent the OBSENSOR (Orbbec depth
+        # camera) backend from intercepting the device and failing.
+        if isinstance(src, int):
+            self.stream = cv2.VideoCapture(src, cv2.CAP_AVFOUNDATION)
+        else:
+            self.stream = cv2.VideoCapture(src)
         if not self.stream.isOpened():
             print(f"Failed to open {src}.")
             self.stopped = True
