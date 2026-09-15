@@ -50,6 +50,19 @@ _STREAM_FRAMES = {}  # cam_id -> bytes
 _STREAM_BUFFERS = {} # cam_id -> deque of (timestamp, bytes)
 _stream_app = FastAPI()
 
+
+def _make_placeholder_jpeg(text: str = "Connecting...") -> bytes:
+    """Generate a minimal black JPEG with status text using OpenCV."""
+    import numpy as np  # type: ignore
+    img = np.zeros((360, 640, 3), dtype=np.uint8)
+    cv2.putText(img, text, (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (80, 80, 80), 2)
+    _, buf = cv2.imencode(".jpg", img, [cv2.IMWRITE_JPEG_QUALITY, 60])
+    return buf.tobytes()
+
+
+_PLACEHOLDER_JPEG = None  # lazy-initialised on first request
+
+
 @_stream_app.get("/video_buffer/{cam_id}")
 async def get_buffered_frame(cam_id: str, offset: float = 0.0):
     import time
@@ -72,11 +85,16 @@ async def get_buffered_frame(cam_id: str, offset: float = 0.0):
 @_stream_app.get("/video_feed/{cam_id}")
 async def video_feed(cam_id: str):
     def generate():
+        global _PLACEHOLDER_JPEG
+        if _PLACEHOLDER_JPEG is None:
+            _PLACEHOLDER_JPEG = _make_placeholder_jpeg("Connecting...")
         while True:
             frame = _STREAM_FRAMES.get(cam_id)
-            if frame is not None:
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            # Always emit a frame — placeholder if real frame not yet available.
+            # This prevents the browser <img> tag from stalling indefinitely.
+            out = frame if frame is not None else _PLACEHOLDER_JPEG
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + out + b'\r\n')
             time.sleep(0.04)  # ~25 fps
     return StreamingResponse(generate(), media_type="multipart/x-mixed-replace; boundary=frame")
 
