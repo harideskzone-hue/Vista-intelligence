@@ -52,9 +52,9 @@ def _check_rate_limit(key_id: str) -> bool:
 
 # ── Auth dependency -----------------------------------------------------------
 
-def _get_storage(request: Request):
-    from app.services.face_service import face_service  # type: ignore
-    return face_service._storage
+def _get_storage(request=None):
+    from app.core.storage import get_storage  # type: ignore
+    return get_storage()
 
 
 async def _authenticate(
