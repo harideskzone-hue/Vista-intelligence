@@ -73,14 +73,55 @@ async def create_key(request: Request, body: CreateKeyRequest):
 
 
 @router.delete("/keys/{key_id}")
-async def revoke_key(request: Request, key_id: str):
-    """Revoke (soft-delete) an API key. The key stops working immediately."""
+async def delete_or_revoke_key(request: Request, key_id: str):
+    """
+    DELETE /api/admin/keys/{key_id}
+
+    By default permanently deletes (clears) the API key and all its audit logs.
+    If ?mode=soft or ?mode=revoke is passed (or X-Delete-Mode: soft), it revokes the key instead.
+    """
+    storage = _get_storage(request)
+    mode = (
+        request.query_params.get("mode")
+        or request.headers.get("x-delete-mode", "hard")
+    ).lower()
+
+    if mode in ("soft", "revoke"):
+        # Soft revoke — stops service, record kept
+        success = storage.revoke_api_key(key_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="API key not found")
+        log.info(f"[API KEY] Revoked (service stopped): {key_id}")
+        return JSONResponse({"ok": True, "key_id": key_id, "status": "revoked"})
+    else:
+        # Permanent hard delete — removes key row and all api_request_logs
+        success = storage.delete_api_key(key_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="API key not found")
+        log.info(f"[API KEY] Hard-deleted (cleared): {key_id}")
+        return JSONResponse({"ok": True, "key_id": key_id, "status": "deleted"})
+
+
+@router.post("/keys/{key_id}/revoke")
+async def revoke_key_endpoint(request: Request, key_id: str):
+    """Explicit endpoint to stop API service (revoke key)."""
     storage = _get_storage(request)
     success = storage.revoke_api_key(key_id)
     if not success:
         raise HTTPException(status_code=404, detail="API key not found")
     log.info(f"[API KEY] Revoked: {key_id}")
     return JSONResponse({"ok": True, "key_id": key_id, "status": "revoked"})
+
+
+@router.post("/keys/{key_id}/enable")
+async def enable_key_endpoint(request: Request, key_id: str):
+    """Explicit endpoint to resume API service (enable key)."""
+    storage = _get_storage(request)
+    success = storage.enable_api_key(key_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="API key not found")
+    log.info(f"[API KEY] Enabled: {key_id}")
+    return JSONResponse({"ok": True, "key_id": key_id, "status": "active"})
 
 
 @router.patch("/keys/{key_id}")

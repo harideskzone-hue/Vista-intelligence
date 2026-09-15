@@ -137,7 +137,7 @@
                 <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Key Prefix</span>
                 <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Created</span>
                 <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Last Used</span>
-                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Actions</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Status / Actions</span>
             </div>
             <div id="keys-list">
                 <div class="space-y-1.5 py-1">
@@ -359,18 +359,19 @@ function renderKeys(keys){
     el.innerHTML=keys.map(k=>{
         const a=k.is_active;
         const status=a
-            ?`<span class="flex items-center gap-1 text-[9px] font-bold text-primary dark:text-teal-300 uppercase tracking-wider"><i class="pulse-dot w-1.5 h-1.5 rounded-full bg-primary dark:bg-teal-400 inline-block not-italic"></i>Active</span>`
-            :`<span class="text-[9px] font-bold text-red-500 uppercase tracking-wider">Revoked</span>`;
-        const actions=a
-            ?`<button onclick="revokeKey('${k.id}','${k.name}')" class="text-[10px] font-bold px-2 py-1 rounded border border-red-200 dark:border-red-500/30 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">Revoke</button>`
-            :`<button onclick="enableKey('${k.id}')" class="text-[10px] font-bold px-2 py-1 rounded border border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Enable</button>`;
+            ? `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-700/40 uppercase tracking-wider"><i class="pulse-dot w-1.5 h-1.5 rounded-full bg-teal-500 inline-block not-italic"></i>Active</span>`
+            : `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/40 uppercase tracking-wider"><i class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block not-italic"></i>Stopped</span>`;
+        const revokeBtn = a
+            ? `<button onclick="revokeKey('${k.id}','${k.name}')" title="Stop API service (Revoke key) — record is kept" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded border border-amber-200 dark:border-amber-500/30 text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[13px]">pause_circle</span>Revoke</button>`
+            : `<button onclick="enableKey('${k.id}','${k.name}')" title="Resume API service (Enable key)" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded border border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/20 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[13px]">play_circle</span>Enable</button>`;
+        const deleteBtn = `<button onclick="deleteKey('${k.id}','${k.name}')" title="Permanently delete API key (Clear key from database)" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[13px]">delete</span>Delete</button>`;
         return `<div class="grid grid-cols-[2fr_1fr_1.2fr_1fr_1fr_auto] gap-3 items-center px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/3 transition-colors border-b border-gray-50 dark:border-white/5 last:border-0">
             <span class="text-sm font-medium text-text-primary dark:text-white truncate">${k.name}</span>
             <span class="text-xs text-text-secondary dark:text-white/60 truncate">${k.state||'—'}</span>
-            <code class="text-xs text-primary dark:text-teal-300">${k.key_prefix}&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</code>
+            <code class="text-xs text-primary dark:text-teal-300 font-mono">${k.key_prefix}&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</code>
             <span class="text-xs text-text-tertiary">${fd(k.created_at)}</span>
             <span class="text-xs text-text-tertiary">${k.last_used?fd(k.last_used):'Never'}</span>
-            <div class="flex items-center gap-2">${status}<button onclick="viewLogs('${k.id}')" title="Audit log" class="p-1 rounded hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-text-tertiary text-[16px]">receipt_long</span></button>${actions}</div>
+            <div class="flex items-center justify-end gap-1.5 flex-wrap">${status}<button onclick="viewLogs('${k.id}')" title="View Audit Log" class="p-1 rounded text-text-tertiary hover:text-text-primary dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[16px]">receipt_long</span></button>${revokeBtn}${deleteBtn}</div>
         </div>`;
     }).join('');
 }
@@ -404,13 +405,56 @@ async function generateKey(){
     loadKeys();
 }
 async function revokeKey(id,name){
-    if(!confirm(`Revoke API key for "${name}"? It stops working immediately.`))return;
-    const d=await(await fetch(`/api/admin/keys/${id}`,{method:'DELETE'})).json();
-    d.ok?(showToast('Key revoked','success'),loadKeys()):showToast('Error revoking','error');
+    if(!confirm(`Revoke API key for "${name}"?
+
+This will STOP the service immediately. The State Government system using this key will no longer be able to submit wanted persons.`))return;
+    try {
+        const r = await fetch(`/api/admin/keys/${id}/revoke`, {method: 'POST'});
+        const d = await r.json();
+        if(d.ok) {
+            showToast('Service stopped — API key revoked', 'info');
+            loadKeys();
+        } else {
+            showToast(d.detail || 'Failed to revoke key', 'error');
+        }
+    } catch(e) {
+        showToast('Network error while revoking', 'error');
+    }
 }
-async function enableKey(id){
-    const d=await(await fetch(`/api/admin/keys/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({is_active:true})})).json();
-    d.ok?(showToast('Key re-enabled','success'),loadKeys()):showToast('Error','error');
+async function enableKey(id,name){
+    try {
+        const r = await fetch(`/api/admin/keys/${id}/enable`, {method: 'POST'});
+        const d = await r.json();
+        if(d.ok) {
+            showToast('Service resumed — API key active', 'success');
+            loadKeys();
+        } else {
+            showToast(d.detail || 'Failed to enable key', 'error');
+        }
+    } catch(e) {
+        showToast('Network error while enabling', 'error');
+    }
+}
+async function deleteKey(id,name){
+    // Hard delete — permanently removes key record and all audit logs
+    if(!confirm(`Permanently DELETE the API key for "${name}"?
+
+This will CLEAR the API key and erase all its audit logs from the database. This action cannot be undone.`))return;
+    try {
+        const r = await fetch(`/api/admin/keys/${id}?mode=hard`, {
+            method: 'DELETE',
+            headers: {'X-Delete-Mode': 'hard'}
+        });
+        const d = await r.json();
+        if(d.ok) {
+            showToast('API key permanently cleared/deleted', 'success');
+            loadKeys();
+        } else {
+            showToast(d.detail || 'Failed to delete key', 'error');
+        }
+    } catch(e) {
+        showToast('Network error while deleting', 'error');
+    }
 }
 async function viewLogs(id){
     const d=await(await fetch(`/api/admin/keys/${id}/logs?limit=20`)).json();
