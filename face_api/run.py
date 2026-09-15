@@ -37,6 +37,8 @@ from app.api.event_routes import router as events_router  # type: ignore
 from app.api.boundary_routes import router as boundary_router  # type: ignore
 from app.api.vehicle_routes import vehicle_router  # type: ignore
 from app.api.remote_camera_routes import router as remote_camera_router  # type: ignore
+from app.api.apikey_routes import router as apikey_router        # type: ignore
+from app.api.state_api_routes import router as state_api_router  # type: ignore
 from app.config import HOST, PORT, DEBUG, BASE_DIR, USER_DATA_DIR  # type: ignore
 from app.auth import (  # type: ignore
     is_setup_complete, load_credentials, save_credentials,
@@ -68,6 +70,9 @@ with open(_SECRET_FILE) as _f:
 PUBLIC_PATHS = {"/login", "/auth/login", "/auth/setup", "/api/health", "/api/debug/last_upload", "/favicon.ico"}
 
 def _is_public(path: str) -> bool:
+    # State Gov API uses X-API-Key auth — exempt from session cookie requirement
+    if path.startswith("/api/v1/"):
+        return True
     return path in PUBLIC_PATHS or path.startswith("/static/")
 
 NO_CACHE = {"Cache-Control": "no-store, no-cache, must-revalidate", "Pragma": "no-cache"}
@@ -133,6 +138,8 @@ def create_app() -> FastAPI:
     app.include_router(boundary_router)
     app.include_router(vehicle_router)
     app.include_router(remote_camera_router)  # WebSocket remote camera ingestion
+    app.include_router(apikey_router)      # Central Gov API key management
+    app.include_router(state_api_router)   # State Gov upload API
 
     # ── Static files ──────────────────────────────────────────────────────────
     app.mount("/static", StaticFiles(directory=f"{BASE_DIR}/app/static"), name="static")
@@ -163,6 +170,10 @@ def create_app() -> FastAPI:
     @app.get("/preview")
     async def serve_preview():
         return FileResponse(f"{BASE_DIR}/templates/preview.html", headers=NO_CACHE)
+
+    @app.get("/api-keys")
+    async def serve_api_keys():
+        return FileResponse(f"{BASE_DIR}/templates/api_keys.html", headers=NO_CACHE)
 
     @app.get("/wanted")
     async def serve_wanted():
