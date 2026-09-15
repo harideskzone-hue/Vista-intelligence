@@ -205,7 +205,17 @@ class CameraStream:
         # get the newest frame rather than reading stale buffered frames.
         self.stream.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
-        self.ret, self.frame = self.stream.read()
+        # Initial read — retry a few times with a short delay.
+        # Some USB cameras (especially when multiple are opened in quick succession)
+        # need a warm-up period before the first frame is available.
+        self.ret = False
+        self.frame = None
+        for _warmup in range(10):
+            self.ret, self.frame = self.stream.read()
+            if self.ret:
+                break
+            time.sleep(0.1)
+
         self.stopped = False
         self.frame_id = 0
         self._lock = threading.Lock()
