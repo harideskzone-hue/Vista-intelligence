@@ -20,10 +20,10 @@ log = logging.getLogger("apikey_admin")
 router = APIRouter(prefix="/api/admin", tags=["api_keys"])
 
 
-def _get_storage(request: Request):
-    """Retrieve the shared storage instance from app state."""
-    from app.services.face_service import face_service  # type: ignore
-    return face_service._storage
+def _get_storage(request=None):
+    """Retrieve the shared Storage singleton via get_storage()."""
+    from app.core.storage import get_storage  # type: ignore
+    return get_storage()
 
 
 # ── Request / Response models -------------------------------------------------
