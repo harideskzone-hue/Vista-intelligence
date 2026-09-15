@@ -20,7 +20,7 @@ _CAMERAS_JSON = os.environ.get(
     "CAMERAS_JSON_PATH",
     os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), "cameras.json")
 )
-MAX_CAMERAS = 4
+MAX_CAMERAS = 6
 _cam_lock = threading.Lock()
 
 # ── Remote Camera IPC State ────────────────────────────────────────────────────
@@ -539,28 +539,55 @@ def _write_cameras(cameras: list) -> None:
 
 def _validate_source(source: str) -> tuple[bool, str]:
     """
-    Quick validation of a camera source without keeping the stream open.
-    Tries to open the stream, reads one frame, then releases immediately.
-    Returns (ok, error_message).
+    Validate a camera source string.
+
+    - Integer index (wired/USB cameras): test open with AVFoundation on macOS
+      to bypass OBSENSOR backend interference.
+    - RTSP / HTTP / RTMP URLs (IP cameras): accept without live-connecting —
+      the live_scorer process is the one that actually opens network streams,
+      and IP cameras are often unreachable from the API process.
+    - WebSocket relay (ws:// / wss://): always accepted.
+    - File paths: accepted without opening.
     """
-    try:
-        import cv2  # type: ignore
-        src = int(source) if source.strip().lstrip('-').isdigit() else source.strip()
-        cap = cv2.VideoCapture(src)
-        opened = cap.isOpened()
-        if opened:
-            ret, _ = cap.read()
-            cap.release()
-            if not ret:
-                return False, f"Camera opened but could not read frame from '{source}'"
+    src = source.strip()
+
+    # WebSocket relay — live_scorer handles these
+    if src.startswith(("ws://", "wss://")):
+        return True, ""
+
+    # Network stream URLs — validate format only, don't live-test
+    if src.lower().startswith(("rtsp://", "rtmp://", "http://", "https://")):
+        import re
+        # Basic URL sanity check
+        if re.match(r'^(rtsp|rtmp|https?)://.+', src, re.I):
             return True, ""
-        else:
+        return False, f"Invalid URL format: '{src}'"
+
+    # File path — allow if it looks like a path
+    if "/" in src or "\\" in src:
+        return True, ""
+
+    # Integer index — local USB/built-in webcam
+    if src.lstrip('-').isdigit():
+        try:
+            import cv2  # type: ignore
+            idx = int(src)
+            # Use AVFoundation on macOS to bypass OBSENSOR backend interference
+            cap = cv2.VideoCapture(idx, cv2.CAP_AVFOUNDATION)
+            if not cap.isOpened():
+                cap.release()
+                cap = cv2.VideoCapture(idx)
+            opened = cap.isOpened()
             cap.release()
-            return False, f"Could not open camera source '{source}'"
-    except ImportError:
-        return False, "opencv-python (cv2) not installed on server"
-    except Exception as e:
-        return False, str(e)
+            if opened:
+                return True, ""
+            return False, f"Could not open local camera at index '{src}' — check it is connected and not in use"
+        except ImportError:
+            return True, ""   # cv2 not in API env, let live_scorer verify
+        except Exception as e:
+            return False, str(e)
+
+    return False, f"Unrecognised source format: '{src}'"
 
 
 import re
@@ -581,7 +608,7 @@ async def list_cameras():
 
 @api.post('/cameras')
 async def add_camera(entry: CameraEntry):
-    """Add a new camera. Validates source before saving. Max 4 cameras."""
+    """Add a new camera. Validates source before saving. Max 6 cameras (3 wired + 3 IP)."""
     cameras = _read_cameras()
     if len([c for c in cameras if c.get('enabled')]) >= MAX_CAMERAS:
         return JSONResponse({'success': False,
