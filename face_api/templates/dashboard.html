@@ -174,11 +174,11 @@
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 border-b border-gray-50 dark:border-white/30 pb-4">
                     <div>
                         <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">Camera Management</h2>
-                        <p class="text-text-tertiary text-xs mt-1">Add, configure, or remove camera sources. Changes apply automatically within 10 s.</p>
+                        <p class="text-text-tertiary text-xs mt-1">Add up to 6 cameras (3 wired USB + 3 IP/RTSP). Changes apply automatically within 10 s.</p>
                     </div>
                     <span id="cam-count-badge"
                         class="text-[9px] font-bold text-primary dark:text-white uppercase bg-blue-50 dark:bg-white/10 px-3 py-1 rounded">
-                        — cameras
+                        0 / 6 cameras
                     </span>
                 </div>
 
@@ -199,8 +199,8 @@
                                 <label class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">Camera Type</label>
                                 <select id="cam-type" onchange="toggleCamType()"
                                     class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white">
-                                    <option value="ip">IP Camera</option>
-                                    <option value="usb">Webcam</option>
+                                    <option value="ip">IP / RTSP Camera</option>
+                                    <option value="usb">Wired USB Camera</option>
                                 </select>
                             </div>
                         </div>
@@ -213,18 +213,22 @@
                             <label id="cam-source-label" class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">RTSP URL</label>
                             <input id="cam-source" type="text" placeholder="rtsp://admin:pass@192.168.1.100:554/stream1"
                                 class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white font-mono">
+                            <p id="cam-source-hint" class="text-[10px] text-text-tertiary mt-1 hidden">USB index: 0 = first camera, 1 = second camera (wired), 2 = third camera, etc.</p>
                         </div>
                         <script>
                             function toggleCamType() {
                                 const type = document.getElementById('cam-type').value;
                                 const srcLabel = document.getElementById('cam-source-label');
                                 const srcInput = document.getElementById('cam-source');
+                                const hint = document.getElementById('cam-source-hint');
                                 if (type === 'ip') {
-                                    srcLabel.innerText = 'RTSP URL';
+                                    srcLabel.innerText = 'RTSP / HTTP URL';
                                     srcInput.placeholder = 'rtsp://admin:pass@192.168.1.100:554/stream1';
+                                    hint.classList.add('hidden');
                                 } else {
-                                    srcLabel.innerText = 'Device ID';
-                                    srcInput.placeholder = '0 or 1';
+                                    srcLabel.innerText = 'USB Device Index';
+                                    srcInput.placeholder = '0  (first wired camera)   or   1, 2, 3…';
+                                    hint.classList.remove('hidden');
                                 }
                             }
                         </script>
@@ -763,10 +767,10 @@
         function renderCameras(cameras) {
             const list = document.getElementById('cam-list');
             const badge = document.getElementById('cam-count-badge');
-            badge.textContent = `${cameras.length} camera${cameras.length !== 1 ? 's' : ''}`;
+            badge.textContent = `${cameras.length} / 6 cameras`;
             
             if (cameras.length === 0) {
-                list.innerHTML = `<div class="text-xs text-text-tertiary italic py-2">No cameras configured. Add one below.</div>`;
+                list.innerHTML = `<div class="text-xs text-text-tertiary italic py-2">No cameras configured. Add up to 6 cameras (3 wired USB + 3 IP/RTSP) below.</div>`;
                 return;
             }
 
