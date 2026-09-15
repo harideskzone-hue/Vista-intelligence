@@ -20,7 +20,7 @@ _CAMERAS_JSON = os.environ.get(
     "CAMERAS_JSON_PATH",
     os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), "cameras.json")
 )
-MAX_CAMERAS = 6
+MAX_CAMERAS = 7
 _cam_lock = threading.Lock()
 
 # ── Remote Camera IPC State ────────────────────────────────────────────────────
