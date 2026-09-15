@@ -70,7 +70,56 @@ class Storage:
                     status TEXT
                 );
             """)
-            
+
+            # -- API Integration tables (State Government) --------------------
+            conn.executescript("""
+                CREATE TABLE IF NOT EXISTS api_keys (
+                    id          TEXT PRIMARY KEY,
+                    name        TEXT NOT NULL,
+                    key_hash    TEXT NOT NULL UNIQUE,
+                    key_prefix  TEXT NOT NULL,
+                    state       TEXT,
+                    created_at  TIMESTAMP NOT NULL,
+                    last_used   TIMESTAMP,
+                    is_active   INTEGER DEFAULT 1
+                );
+                CREATE TABLE IF NOT EXISTS api_request_logs (
+                    id            TEXT PRIMARY KEY,
+                    api_key_id    TEXT REFERENCES api_keys(id),
+                    endpoint      TEXT,
+                    method        TEXT,
+                    request_id    TEXT,
+                    status_code   INTEGER,
+                    timestamp     TIMESTAMP NOT NULL,
+                    source_ip     TEXT,
+                    error_message TEXT
+                );
+                CREATE TABLE IF NOT EXISTS idempotency_keys (
+                    idempotency_key TEXT PRIMARY KEY,
+                    api_key_id      TEXT,
+                    result_json     TEXT,
+                    created_at      TIMESTAMP NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_api_keys_hash ON api_keys(key_hash);
+                CREATE INDEX IF NOT EXISTS idx_request_logs_key ON api_request_logs(api_key_id);
+                CREATE INDEX IF NOT EXISTS idx_idempotency ON idempotency_keys(idempotency_key);
+            """)
+
+            # Migration: Add source provenance columns to persons table
+            cursor = conn.execute("PRAGMA table_info(persons)")
+            columns = [row[1] for row in cursor.fetchall()]
+            if "source_type" not in columns:
+                conn.execute("ALTER TABLE persons ADD COLUMN source_type TEXT DEFAULT 'MANUAL'")
+            if "source_state" not in columns:
+                conn.execute("ALTER TABLE persons ADD COLUMN source_state TEXT")
+            if "source_key_id" not in columns:
+                conn.execute("ALTER TABLE persons ADD COLUMN source_key_id TEXT")
+            if "crime" not in columns:
+                conn.execute("ALTER TABLE persons ADD COLUMN crime TEXT")
+            if "case_number" not in columns:
+                conn.execute("ALTER TABLE persons ADD COLUMN case_number TEXT")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_persons_source ON persons(source_type)")
+
             # Migration: Add name column if it doesn't exist
             cursor = conn.execute("PRAGMA table_info(persons)")
             columns = [row[1] for row in cursor.fetchall()]
@@ -460,6 +509,164 @@ class Storage:
         return True
 
 
+    # ── API Key Management ────────────────────────────────────────────────────
+
+    def create_api_key(self, name: str, state: str = None) -> tuple:
+        """
+        Generate a new API key, store only its SHA-256 hash.
+        Returns (full_key_string, record_dict).
+        The full key is returned ONCE and never retrievable again.
+        """
+        import secrets, hashlib, uuid, datetime
+        raw = "vsk_" + secrets.token_hex(24)          # vsk_<48 hex chars> = 52 chars total
+        key_hash   = hashlib.sha256(raw.encode()).hexdigest()
+        key_prefix = raw[:12]                          # "vsk_XXXXXXXX" — 12 chars for display
+        key_id     = str(uuid.uuid4())
+        now        = datetime.datetime.utcnow().isoformat()
+
+        with self._get_connection() as conn:
+            conn.execute("""
+                INSERT INTO api_keys (id, name, key_hash, key_prefix, state, created_at, is_active)
+                VALUES (?, ?, ?, ?, ?, ?, 1)
+            """, (key_id, name, key_hash, key_prefix, state, now))
+
+        record = {
+            "id": key_id, "name": name, "key_prefix": key_prefix,
+            "state": state, "created_at": now, "is_active": True,
+        }
+        return raw, record
+
+    def validate_api_key(self, raw_key: str) -> dict | None:
+        """
+        Validate an API key. Returns the key record if valid and active, else None.
+        Also updates last_used timestamp.
+        """
+        import hashlib, datetime
+        key_hash = hashlib.sha256(raw_key.encode()).hexdigest()
+        now      = datetime.datetime.utcnow().isoformat()
+        with self._get_connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM api_keys WHERE key_hash = ? AND is_active = 1", (key_hash,)
+            ).fetchone()
+            if row is None:
+                return None
+            conn.execute(
+                "UPDATE api_keys SET last_used = ? WHERE id = ?", (now, row["id"])
+            )
+            return dict(row)
+
+    def list_api_keys(self) -> list:
+        """List all API keys (never returns key_hash or full key)."""
+        with self._get_connection() as conn:
+            rows = conn.execute("""
+                SELECT id, name, key_prefix, state, created_at, last_used, is_active
+                FROM api_keys ORDER BY created_at DESC
+            """).fetchall()
+            return [dict(r) for r in rows]
+
+    def revoke_api_key(self, key_id: str) -> bool:
+        """Disable (soft-delete) an API key. Returns True if found."""
+        with self._get_connection() as conn:
+            result = conn.execute(
+                "UPDATE api_keys SET is_active = 0 WHERE id = ?", (key_id,)
+            )
+            return result.rowcount > 0
+
+    def enable_api_key(self, key_id: str) -> bool:
+        """Re-enable a previously revoked API key."""
+        with self._get_connection() as conn:
+            result = conn.execute(
+                "UPDATE api_keys SET is_active = 1 WHERE id = ?", (key_id,)
+            )
+            return result.rowcount > 0
+
+    def delete_api_key(self, key_id: str) -> bool:
+        """Hard delete an API key and its audit logs."""
+        with self._get_connection() as conn:
+            conn.execute("DELETE FROM api_request_logs WHERE api_key_id = ?", (key_id,))
+            result = conn.execute("DELETE FROM api_keys WHERE id = ?", (key_id,))
+            return result.rowcount > 0
+
+    # ── Audit Logging ─────────────────────────────────────────────────────────
+
+    def log_api_request(
+        self, api_key_id: str, endpoint: str, method: str,
+        status_code: int, source_ip: str = None,
+        request_id: str = None, error_message: str = None
+    ) -> str:
+        """Insert one row into api_request_logs. Returns log entry id."""
+        import uuid, datetime
+        log_id = str(uuid.uuid4())
+        now    = datetime.datetime.utcnow().isoformat()
+        with self._get_connection() as conn:
+            conn.execute("""
+                INSERT INTO api_request_logs
+                    (id, api_key_id, endpoint, method, request_id, status_code, timestamp, source_ip, error_message)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (log_id, api_key_id, endpoint, method, request_id, status_code, now, source_ip, error_message))
+        return log_id
+
+    def get_api_key_logs(self, api_key_id: str, limit: int = 50) -> list:
+        """Retrieve recent audit log entries for a given API key."""
+        with self._get_connection() as conn:
+            rows = conn.execute("""
+                SELECT * FROM api_request_logs
+                WHERE api_key_id = ? ORDER BY timestamp DESC LIMIT ?
+            """, (api_key_id, limit)).fetchall()
+            return [dict(r) for r in rows]
+
+    # ── Idempotency ───────────────────────────────────────────────────────────
+
+    def check_idempotency(self, idempotency_key: str) -> dict | None:
+        """Return the stored result JSON if this key was already processed."""
+        import json
+        with self._get_connection() as conn:
+            row = conn.execute(
+                "SELECT result_json FROM idempotency_keys WHERE idempotency_key = ?",
+                (idempotency_key,)
+            ).fetchone()
+            if row:
+                return json.loads(row["result_json"])
+            return None
+
+    def store_idempotency(self, idempotency_key: str, api_key_id: str, result: dict):
+        """Store result for an idempotency key (24-hour window)."""
+        import json, datetime
+        now = datetime.datetime.utcnow().isoformat()
+        with self._get_connection() as conn:
+            conn.execute(
+                "INSERT OR IGNORE INTO idempotency_keys (idempotency_key, api_key_id, result_json, created_at) VALUES (?,?,?,?)",
+                (idempotency_key, api_key_id, json.dumps(result), now)
+            )
+
+    # ── Person with source provenance ─────────────────────────────────────────
+
+    def update_person_source(
+        self, person_id: str, source_type: str, source_state: str = None,
+        source_key_id: str = None, crime: str = None, case_number: str = None
+    ):
+        """Tag a person record with its origin (STATE_API / MANUAL)."""
+        import datetime
+        now = datetime.datetime.utcnow().isoformat()
+        with self._get_connection() as conn:
+            conn.execute("""
+                UPDATE persons
+                SET source_type=?, source_state=?, source_key_id=?, crime=?, case_number=?, updated_at=?
+                WHERE id=?
+            """, (source_type, source_state, source_key_id, crime, case_number, now, person_id))
+
+    def get_recent_api_uploads(self, limit: int = 10) -> list:
+        """Last N persons uploaded via STATE_API."""
+        with self._get_connection() as conn:
+            rows = conn.execute("""
+                SELECT id, name, classification, source_type, source_state, crime,
+                       case_number, created_at, updated_at
+                FROM persons WHERE source_type = 'STATE_API'
+                ORDER BY created_at DESC LIMIT ?
+            """, (limit,)).fetchall()
+            return [dict(r) for r in rows]
+
+
 _storage: Storage | None = None
 
 
@@ -469,4 +676,3 @@ def get_storage() -> Storage:
     if _storage is None:
         _storage = Storage()
     return _storage
-
