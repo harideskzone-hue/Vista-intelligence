@@ -205,8 +205,10 @@
             fetch('/api/health')
                 .then(r => r.json())
                 .then(data => {
-                    document.getElementById('stat-persons').textContent = data.person_count ?? '—';
-                    document.getElementById('stat-images').textContent = data.vector_count ?? '—';
+                    const statPersons = document.getElementById('stat-persons');
+                    const statImages = document.getElementById('stat-images');
+                    if (statPersons) statPersons.textContent = data.person_count ?? '—';
+                    if (statImages) statImages.textContent = data.vector_count ?? '—';
                     
                     if (data.storage_used_bytes !== undefined) {
                         const s = formatBytes(data.storage_used_bytes);
@@ -285,7 +287,7 @@
                     const section = document.getElementById('recent-shots-section');
                     
                     if (!data.events || data.events.length === 0) {
-                        section.classList.add('hidden');
+                        if (section) section.classList.add('hidden');
                         return;
                     }
                     
@@ -297,8 +299,9 @@
                         newMatches.reverse().forEach(match => showRecognitionToast(match));
                     }
                     
-                    section.classList.remove('hidden');
-                    tbody.innerHTML = data.events.map(ev => {
+                    if (section) section.classList.remove('hidden');
+                    if (tbody) {
+                        tbody.innerHTML = data.events.map(ev => {
                         let date = new Date(ev.timestamp * 1000);
                         let timeStr = date.toLocaleTimeString();
                         
@@ -324,7 +327,8 @@
                                 <td class="py-3 whitespace-nowrap">${imgHtml}</td>
                             </tr>
                         `;
-                    }).join('');
+                        }).join('');
+                    }
                 })
                 .catch(() => {});
         }
@@ -351,10 +355,12 @@
             const pipeInd = document.getElementById('pipeline-status-indicator');
             
             if (active) {
-                btn.textContent = "Stop Camera";
-                btn.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600');
-                btn.classList.remove('bg-primary', 'dark:bg-white', 'dark:text-primary');
-                ind.innerHTML = `
+                if (btn) {
+                    btn.textContent = "Stop Camera";
+                    btn.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600');
+                    btn.classList.remove('bg-primary', 'dark:bg-white', 'dark:text-primary');
+                }
+                if (ind) ind.innerHTML = `
                     <span class="relative flex h-2.5 w-2.5">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-20"></span>
                         <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></span>
@@ -362,10 +368,12 @@
                     <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Camera Running</span>
                 `;
             } else {
-                btn.textContent = "Start Camera";
-                btn.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600');
-                btn.classList.add('bg-primary', 'dark:bg-white', 'dark:text-primary');
-                ind.innerHTML = `
+                if (btn) {
+                    btn.textContent = "Start Camera";
+                    btn.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600');
+                    btn.classList.add('bg-primary', 'dark:bg-white', 'dark:text-primary');
+                }
+                if (ind) ind.innerHTML = `
                     <span class="relative flex h-2.5 w-2.5">
                         <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-400"></span>
                     </span>
@@ -450,7 +458,7 @@
                                 </div>
                                 <div class="w-full aspect-video bg-black rounded-xl overflow-hidden relative shadow-inner cursor-pointer" onclick="expandCamera('${cam.id}', '${cam.label || cam.id}')">
                                     <img src="/api/stream/${cam.id}" class="w-full h-full object-contain" 
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23666\' stroke-width=\'1\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M2 12h20M12 2v20M8 2l8 20M16 2L8 22\'/%3E%3C/svg%3E'; this.onerror=null; this.parentElement.classList.add('flex','items-center','justify-center');">
+                                         onerror="const el=this; setTimeout(() => { el.src = '/api/stream/${cam.id}?t=' + Date.now(); }, 2500);">
                                 </div>
                             </div>
                         `).join('');

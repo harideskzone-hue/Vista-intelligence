@@ -1,0 +1,38 @@
+{
+  "Legacy CPU": {
+    "Person Detection (mAP, Precision, Recall)": "NOT MEASURED - No parsed bounding box ground-truth available for test_video",
+    "Face Recognition (Top-1, False-match)": "NOT MEASURED - No identity ground-truth available for test_video",
+    "ANPR (Character, Exact Plate)": "NOT MEASURED - No LPR ground-truth available in face pipeline",
+    "Boundary Intelligence (Crossings, Touches)": "NOT MEASURED - No boundary test cases available for test_video",
+    "Tracking (ID Switches, Continuity)": "NOT MEASURED - No track ID ground truth available",
+    "Camera ID / Result Association": "PASS - Verified through batch map preservation in live_scorer.py",
+    "Event and Alert Correctness": "NOT MEASURED - No event truth available"
+  },
+  "MPS Batch=1": {
+    "Person Detection (mAP, Precision, Recall)": "NOT MEASURED - No parsed bounding box ground-truth available for test_video",
+    "Face Recognition (Top-1, False-match)": "NOT MEASURED - No identity ground-truth available for test_video",
+    "ANPR (Character, Exact Plate)": "NOT MEASURED - No LPR ground-truth available in face pipeline",
+    "Boundary Intelligence (Crossings, Touches)": "NOT MEASURED - No boundary test cases available for test_video",
+    "Tracking (ID Switches, Continuity)": "NOT MEASURED - No track ID ground truth available",
+    "Camera ID / Result Association": "PASS - Verified through batch map preservation in live_scorer.py",
+    "Event and Alert Correctness": "NOT MEASURED - No event truth available"
+  },
+  "MPS Batch=1 + Intelligent Scheduling": {
+    "Person Detection (mAP, Precision, Recall)": "NOT MEASURED - No parsed bounding box ground-truth available for test_video",
+    "Face Recognition (Top-1, False-match)": "NOT MEASURED - No identity ground-truth available for test_video",
+    "ANPR (Character, Exact Plate)": "NOT MEASURED - No LPR ground-truth available in face pipeline",
+    "Boundary Intelligence (Crossings, Touches)": "NOT MEASURED - No boundary test cases available for test_video",
+    "Tracking (ID Switches, Continuity)": "NOT MEASURED - No track ID ground truth available",
+    "Camera ID / Result Association": "PASS - Verified through batch map preservation in live_scorer.py",
+    "Event and Alert Correctness": "NOT MEASURED - No event truth available"
+  },
+  "MPS Batch=1 + Intelligent Scheduling + Lazy Encoding": {
+    "Person Detection (mAP, Precision, Recall)": "NOT MEASURED - No parsed bounding box ground-truth available for test_video",
+    "Face Recognition (Top-1, False-match)": "NOT MEASURED - No identity ground-truth available for test_video",
+    "ANPR (Character, Exact Plate)": "NOT MEASURED - No LPR ground-truth available in face pipeline",
+    "Boundary Intelligence (Crossings, Touches)": "NOT MEASURED - No boundary test cases available for test_video",
+    "Tracking (ID Switches, Continuity)": "NOT MEASURED - No track ID ground truth available",
+    "Camera ID / Result Association": "PASS - Verified through batch map preservation in live_scorer.py",
+    "Event and Alert Correctness": "NOT MEASURED - No event truth available"
+  }
+}

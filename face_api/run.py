@@ -193,24 +193,84 @@ def create_app() -> FastAPI:
 
     @app.get("/api/stream/{cam_id}")
     async def stream_camera(cam_id: str, request: Request):
-        # Authenticated route implicitly because not in PUBLIC_PATHS
-        import requests
-        from fastapi.responses import StreamingResponse
-        
-        def iterfile():
-            try:
-                # Connect to the local MJPEG server running inside live_scorer.py
-                with requests.get(f"http://127.0.0.1:5002/video_feed/{cam_id}", stream=True, timeout=5) as r:
-                    r.raise_for_status()
-                    for chunk in r.iter_content(chunk_size=8192):
-                        if chunk:
-                            yield chunk
-            except Exception as e:
-                log.error(f"Stream error for {cam_id}: {e}")
-                # Yield a blank frame or nothing
-                yield b''
-                
-        return StreamingResponse(iterfile(), media_type="multipart/x-mixed-replace; boundary=frame")
+        """
+        Async MJPEG proxy to the live_scorer MJPEG server on port 5002.
+
+        The previous implementation used synchronous requests.get(stream=True)
+        inside a sync generator, which BLOCKED the ASGI event loop and caused
+        0 bytes to be delivered to the browser.
+
+        Fix: use httpx.AsyncClient with async streaming so the event loop is
+        never blocked. Falls back to a redirect to port 5002 if httpx is unavailable.
+        """
+        from fastapi.responses import StreamingResponse, RedirectResponse
+        import asyncio
+
+        # --- Fast path: redirect browser directly to the MJPEG server -------
+        # The MJPEG server on port 5002 is localhost-only (127.0.0.1) so we
+        # cannot redirect to it from the browser (it would be cross-origin on a
+        # different port). We must proxy.  Use httpx async streaming.
+        try:
+            import httpx  # type: ignore
+
+            async def aiter_mjpeg():
+                timeout = httpx.Timeout(connect=5.0, read=None, write=5.0, pool=5.0)
+                limits = httpx.Limits(max_keepalive_connections=20, max_connections=50)
+                async with httpx.AsyncClient(timeout=timeout, limits=limits) as client:
+                    try:
+                        async with client.stream(
+                            "GET",
+                            f"http://127.0.0.1:5002/video_feed/{cam_id}",
+                        ) as response:
+                            async for chunk in response.aiter_bytes(chunk_size=8192):
+                                yield chunk
+                    except (httpx.HTTPError, asyncio.CancelledError):
+                        pass
+                    except Exception as e:
+                        log.error(f"[STREAM] httpx error for {cam_id}: {e}")
+
+            return StreamingResponse(
+                aiter_mjpeg(),
+                media_type="multipart/x-mixed-replace; boundary=frame",
+                headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache"},
+            )
+
+        except ImportError:
+            # httpx not installed — fall back to a sync thread-based proxy
+            import requests as _req  # type: ignore
+            import queue as _queue
+
+            def _sync_reader(q: "_queue.Queue[bytes | None]"):
+                try:
+                    with _req.get(
+                        f"http://127.0.0.1:5002/video_feed/{cam_id}",
+                        stream=True, timeout=5
+                    ) as r:
+                        for chunk in r.iter_content(chunk_size=8192):
+                            if chunk:
+                                q.put(chunk)
+                except Exception as exc:
+                    log.error(f"[STREAM] fallback error for {cam_id}: {exc}")
+                finally:
+                    q.put(None)  # sentinel
+
+            async def aiter_threaded():
+                import threading
+                q: "_queue.Queue[bytes | None]" = _queue.Queue(maxsize=32)
+                t = threading.Thread(target=_sync_reader, args=(q,), daemon=True)
+                t.start()
+                loop = asyncio.get_event_loop()
+                while True:
+                    chunk = await loop.run_in_executor(None, q.get)
+                    if chunk is None:
+                        break
+                    yield chunk
+
+            return StreamingResponse(
+                aiter_threaded(),
+                media_type="multipart/x-mixed-replace; boundary=frame",
+                headers={"Cache-Control": "no-cache, no-store"},
+            )
 
     @app.get("/api/video_buffer/{cam_id}")
     async def get_video_buffer(cam_id: str, request: Request, offset: float = 0.0):

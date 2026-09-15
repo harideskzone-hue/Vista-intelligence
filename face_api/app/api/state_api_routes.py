@@ -168,7 +168,8 @@ async def upload_wanted_person(
 
     # 4. Enroll the person via existing face pipeline
     try:
-        from app.services.face_service import face_service  # type: ignore
+        from app.services.face_service import FaceService
+        face_service = FaceService()
         result = face_service.enroll_person_bulk(
             name=name.strip(),
             role="WANTED",
@@ -242,8 +243,7 @@ async def get_upload_status(
     key_record = await _authenticate(request, x_api_key)
     storage    = _get_storage(request)
 
-    from app.services.face_service import face_service  # type: ignore
-    person = face_service._storage.get_person(person_id)
+    person = storage.get_person(person_id)
 
     if person is None:
         raise HTTPException(status_code=404, detail="Person not found")

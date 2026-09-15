@@ -420,7 +420,7 @@ class BoundaryManager:
                 x2=line["x2"],
                 y2=line["y2"],
                 restricted_side=restricted_side,
-                touch_tolerance=touch_tolerance
+                
             )
 
         captured_frames: List[Tuple[float, np.ndarray]] = []
@@ -605,7 +605,7 @@ class BoundaryManager:
                 x2=line["x2"],
                 y2=line["y2"],
                 restricted_side=restricted_side,
-                touch_tolerance=touch_tolerance
+                
             )
             
         if not os.path.exists(video_path):

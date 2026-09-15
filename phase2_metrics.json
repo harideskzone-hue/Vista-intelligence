@@ -1,0 +1,182 @@
+[
+  {
+    "num_cameras": 1,
+    "mode": "legacy",
+    "batch": 1,
+    "avg_cpu_percent": 167.68260869565214,
+    "avg_memory_mb": 623.8091032608696,
+    "avg_output_fps_per_camera": 17.8,
+    "total_frames_processed": 267
+  },
+  {
+    "num_cameras": 3,
+    "mode": "legacy",
+    "batch": 1,
+    "avg_cpu_percent": 265.21190476190475,
+    "avg_memory_mb": 764.2135416666666,
+    "avg_output_fps_per_camera": 16.533333333333335,
+    "total_frames_processed": 744
+  },
+  {
+    "num_cameras": 6,
+    "mode": "legacy",
+    "batch": 1,
+    "avg_cpu_percent": 387.06428571428575,
+    "avg_memory_mb": 1156.1713169642858,
+    "avg_output_fps_per_camera": 12.18888888888889,
+    "total_frames_processed": 1097
+  },
+  {
+    "num_cameras": 10,
+    "mode": "legacy",
+    "batch": 1,
+    "avg_cpu_percent": 347.60400000000004,
+    "avg_memory_mb": 1522.35,
+    "avg_output_fps_per_camera": 7.8,
+    "total_frames_processed": 1170
+  },
+  {
+    "num_cameras": 12,
+    "mode": "legacy",
+    "batch": 1,
+    "avg_cpu_percent": 454.37368421052633,
+    "avg_memory_mb": 1468.2286184210527,
+    "avg_output_fps_per_camera": 7.161111111111111,
+    "total_frames_processed": 1289
+  },
+  {
+    "num_cameras": 1,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 69.53399999999999,
+    "avg_memory_mb": 651.711875,
+    "avg_output_fps_per_camera": 19.733333333333334,
+    "total_frames_processed": 296
+  },
+  {
+    "num_cameras": 3,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 208.409090909091,
+    "avg_memory_mb": 871.58203125,
+    "avg_output_fps_per_camera": 18.133333333333333,
+    "total_frames_processed": 816
+  },
+  {
+    "num_cameras": 6,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 363.7516129032259,
+    "avg_memory_mb": 1334.601310483871,
+    "avg_output_fps_per_camera": 13.655555555555557,
+    "total_frames_processed": 1229
+  },
+  {
+    "num_cameras": 10,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 381.09523809523813,
+    "avg_memory_mb": 1540.140625,
+    "avg_output_fps_per_camera": 8.526666666666667,
+    "total_frames_processed": 1279
+  },
+  {
+    "num_cameras": 12,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 400.13333333333344,
+    "avg_memory_mb": 1666.556423611111,
+    "avg_output_fps_per_camera": 7.205555555555556,
+    "total_frames_processed": 1297
+  },
+  {
+    "num_cameras": 1,
+    "mode": "mps_batch",
+    "batch": 2,
+    "avg_cpu_percent": 70.66938775510205,
+    "avg_memory_mb": 847.3469387755102,
+    "avg_output_fps_per_camera": 19.533333333333335,
+    "total_frames_processed": 293
+  },
+  {
+    "num_cameras": 3,
+    "mode": "mps_batch",
+    "batch": 2,
+    "avg_cpu_percent": 204.23953488372095,
+    "avg_memory_mb": 1232.4553052325582,
+    "avg_output_fps_per_camera": 17.555555555555554,
+    "total_frames_processed": 790
+  },
+  {
+    "num_cameras": 6,
+    "mode": "mps_batch",
+    "batch": 2,
+    "avg_cpu_percent": 343.4516129032258,
+    "avg_memory_mb": 1298.0519153225807,
+    "avg_output_fps_per_camera": 12.922222222222222,
+    "total_frames_processed": 1163
+  },
+  {
+    "num_cameras": 10,
+    "mode": "mps_batch",
+    "batch": 2,
+    "avg_cpu_percent": 386.36,
+    "avg_memory_mb": 1461.2984375,
+    "avg_output_fps_per_camera": 8.353333333333333,
+    "total_frames_processed": 1253
+  },
+  {
+    "num_cameras": 12,
+    "mode": "mps_batch",
+    "batch": 2,
+    "avg_cpu_percent": 374.8894736842105,
+    "avg_memory_mb": 1757.435855263158,
+    "avg_output_fps_per_camera": 7.022222222222222,
+    "total_frames_processed": 1264
+  },
+  {
+    "num_cameras": 1,
+    "mode": "mps_batch",
+    "batch": 4,
+    "avg_cpu_percent": 69.36599999999999,
+    "avg_memory_mb": 863.65125,
+    "avg_output_fps_per_camera": 19.466666666666665,
+    "total_frames_processed": 292
+  },
+  {
+    "num_cameras": 3,
+    "mode": "mps_batch",
+    "batch": 4,
+    "avg_cpu_percent": 195.1931818181819,
+    "avg_memory_mb": 1265.6189630681818,
+    "avg_output_fps_per_camera": 18.266666666666666,
+    "total_frames_processed": 822
+  },
+  {
+    "num_cameras": 6,
+    "mode": "mps_batch",
+    "batch": 4,
+    "avg_cpu_percent": 369.9,
+    "avg_memory_mb": 1124.7645089285713,
+    "avg_output_fps_per_camera": 12.666666666666666,
+    "total_frames_processed": 1140
+  },
+  {
+    "num_cameras": 10,
+    "mode": "mps_batch",
+    "batch": 4,
+    "avg_cpu_percent": 366.695,
+    "avg_memory_mb": 1305.69765625,
+    "avg_output_fps_per_camera": 7.773333333333333,
+    "total_frames_processed": 1166
+  },
+  {
+    "num_cameras": 12,
+    "mode": "mps_batch",
+    "batch": 4,
+    "avg_cpu_percent": 384.39375000000007,
+    "avg_memory_mb": 1403.9873046875,
+    "avg_output_fps_per_camera": 6.138888888888889,
+    "total_frames_processed": 1105
+  }
+]

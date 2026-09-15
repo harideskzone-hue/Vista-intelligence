@@ -1,0 +1,45 @@
+{
+  "environment": {
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.10.11",
+    "processor": "arm",
+    "mps_available": true
+  },
+  "benchmarks": [
+    {
+      "num_cameras": 1,
+      "avg_cpu_percent": 131.25625,
+      "avg_memory_mb": 339.515625,
+      "avg_output_fps_per_camera": 10.333333333333334,
+      "total_frames_processed": 155
+    },
+    {
+      "num_cameras": 3,
+      "avg_cpu_percent": 185.36,
+      "avg_memory_mb": 506.4609375,
+      "avg_output_fps_per_camera": 6.533333333333334,
+      "total_frames_processed": 294
+    },
+    {
+      "num_cameras": 6,
+      "avg_cpu_percent": 239.5666666666667,
+      "avg_memory_mb": 688.4322916666666,
+      "avg_output_fps_per_camera": 3.9333333333333336,
+      "total_frames_processed": 354
+    },
+    {
+      "num_cameras": 10,
+      "avg_cpu_percent": 563.45,
+      "avg_memory_mb": 1568.4174107142858,
+      "avg_output_fps_per_camera": 8.866666666666667,
+      "total_frames_processed": 1330
+    },
+    {
+      "num_cameras": 12,
+      "avg_cpu_percent": 549.9727272727273,
+      "avg_memory_mb": 1635.6761363636363,
+      "avg_output_fps_per_camera": 6.933333333333334,
+      "total_frames_processed": 1248
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+[
+  {
+    "timestamp": 1789487781.5933871,
+    "elapsed_min": 0.5,
+    "cpu_percent": 0.0,
+    "ram_mb": 1427.8,
+    "avg_fps_per_camera": 8.17,
+    "p95_latency": 0.076,
+    "reconnects": 24
+  },
+  {
+    "timestamp": 1789487811.616032,
+    "elapsed_min": 1.0,
+    "cpu_percent": 518.6,
+    "ram_mb": 1485.9,
+    "avg_fps_per_camera": 7.32,
+    "p95_latency": 0.114,
+    "reconnects": 36
+  },
+  {
+    "timestamp": 1789487841.650857,
+    "elapsed_min": 1.5,
+    "cpu_percent": 542.7,
+    "ram_mb": 1383.4,
+    "avg_fps_per_camera": 7.21,
+    "p95_latency": 0.098,
+    "reconnects": 48
+  },
+  {
+    "timestamp": 1789487871.9958558,
+    "elapsed_min": 2.01,
+    "cpu_percent": 502.9,
+    "ram_mb": 1043.7,
+    "avg_fps_per_camera": 6.81,
+    "p95_latency": 0.152,
+    "reconnects": 72
+  },
+  {
+    "timestamp": 1789487902.020583,
+    "elapsed_min": 2.51,
+    "cpu_percent": 494.6,
+    "ram_mb": 1268.1,
+    "avg_fps_per_camera": 6.45,
+    "p95_latency": 0.161,
+    "reconnects": 84
+  },
+  {
+    "timestamp": 1789487932.086422,
+    "elapsed_min": 3.01,
+    "cpu_percent": 565.4,
+    "ram_mb": 1517.3,
+    "avg_fps_per_camera": 6.51,
+    "p95_latency": 0.101,
+    "reconnects": 108
+  },
+  {
+    "timestamp": 1789487962.2046678,
+    "elapsed_min": 3.51,
+    "cpu_percent": 598.6,
+    "ram_mb": 1396.7,
+    "avg_fps_per_camera": 6.69,
+    "p95_latency": 0.073,
+    "reconnects": 120
+  },
+  {
+    "timestamp": 1789487992.209837,
+    "elapsed_min": 4.01,
+    "cpu_percent": 540.6,
+    "ram_mb": 1428.2,
+    "avg_fps_per_camera": 6.63,
+    "p95_latency": 0.121,
+    "reconnects": 144
+  },
+  {
+    "timestamp": 1789488022.290603,
+    "elapsed_min": 4.51,
+    "cpu_percent": 523.3,
+    "ram_mb": 1285.9,
+    "avg_fps_per_camera": 6.53,
+    "p95_latency": 0.145,
+    "reconnects": 156
+  },
+  {
+    "timestamp": 1789488052.3647628,
+    "elapsed_min": 5.01,
+    "cpu_percent": 578.8,
+    "ram_mb": 1463.8,
+    "avg_fps_per_camera": 6.56,
+    "p95_latency": 0.094,
+    "reconnects": 180
+  },
+  {
+    "timestamp": 1789488082.490467,
+    "elapsed_min": 5.52,
+    "cpu_percent": 565.7,
+    "ram_mb": 1534.8,
+    "avg_fps_per_camera": 6.56,
+    "p95_latency": 0.1,
+    "reconnects": 192
+  },
+  {
+    "timestamp": 1789488112.520255,
+    "elapsed_min": 6.02,
+    "cpu_percent": 633.4,
+    "ram_mb": 1580.6,
+    "avg_fps_per_camera": 6.66,
+    "p95_latency": 0.068,
+    "reconnects": 216
+  },
+  {
+    "timestamp": 1789488142.564297,
+    "elapsed_min": 6.52,
+    "cpu_percent": 604.5,
+    "ram_mb": 1462.8,
+    "avg_fps_per_camera": 6.72,
+    "p95_latency": 0.074,
+    "reconnects": 228
+  },
+  {
+    "timestamp": 1789488172.6261399,
+    "elapsed_min": 7.02,
+    "cpu_percent": 608.8,
+    "ram_mb": 1623.2,
+    "avg_fps_per_camera": 6.78,
+    "p95_latency": 0.074,
+    "reconnects": 252
+  },
+  {
+    "timestamp": 1789488202.647987,
+    "elapsed_min": 7.52,
+    "cpu_percent": 602.2,
+    "ram_mb": 1461.3,
+    "avg_fps_per_camera": 6.82,
+    "p95_latency": 0.077,
+    "reconnects": 264
+  },
+  {
+    "timestamp": 1789488232.693653,
+    "elapsed_min": 8.02,
+    "cpu_percent": 587.5,
+    "ram_mb": 1391.2,
+    "avg_fps_per_camera": 6.85,
+    "p95_latency": 0.079,
+    "reconnects": 288
+  },
+  {
+    "timestamp": 1789488262.748616,
+    "elapsed_min": 8.52,
+    "cpu_percent": 585.4,
+    "ram_mb": 1367.8,
+    "avg_fps_per_camera": 6.87,
+    "p95_latency": 0.079,
+    "reconnects": 300
+  },
+  {
+    "timestamp": 1789488292.904226,
+    "elapsed_min": 9.02,
+    "cpu_percent": 597.8,
+    "ram_mb": 1494.1,
+    "avg_fps_per_camera": 6.86,
+    "p95_latency": 0.085,
+    "reconnects": 323
+  },
+  {
+    "timestamp": 1789488322.9807029,
+    "elapsed_min": 9.52,
+    "cpu_percent": 615.5,
+    "ram_mb": 1388.0,
+    "avg_fps_per_camera": 6.86,
+    "p95_latency": 0.084,
+    "reconnects": 336
+  },
+  {
+    "timestamp": 1789488353.0120919,
+    "elapsed_min": 10.03,
+    "cpu_percent": 604.1,
+    "ram_mb": 1449.3,
+    "avg_fps_per_camera": 6.82,
+    "p95_latency": 0.093,
+    "reconnects": 349
+  },
+  {
+    "timestamp": 1789488383.120523,
+    "elapsed_min": 10.53,
+    "cpu_percent": 616.3,
+    "ram_mb": 1458.7,
+    "avg_fps_per_camera": 6.8,
+    "p95_latency": 0.089,
+    "reconnects": 372
+  },
+  {
+    "timestamp": 1789488413.187327,
+    "elapsed_min": 11.03,
+    "cpu_percent": 612.1,
+    "ram_mb": 1453.4,
+    "avg_fps_per_camera": 6.77,
+    "p95_latency": 0.093,
+    "reconnects": 384
+  },
+  {
+    "timestamp": 1789488443.215987,
+    "elapsed_min": 11.53,
+    "cpu_percent": 617.3,
+    "ram_mb": 1417.6,
+    "avg_fps_per_camera": 6.74,
+    "p95_latency": 0.096,
+    "reconnects": 408
+  },
+  {
+    "timestamp": 1789488473.249998,
+    "elapsed_min": 12.03,
+    "cpu_percent": 622.4,
+    "ram_mb": 1455.1,
+    "avg_fps_per_camera": 6.71,
+    "p95_latency": 0.096,
+    "reconnects": 420
+  },
+  {
+    "timestamp": 1789488503.306557,
+    "elapsed_min": 12.53,
+    "cpu_percent": 624.1,
+    "ram_mb": 1450.9,
+    "avg_fps_per_camera": 6.67,
+    "p95_latency": 0.096,
+    "reconnects": 444
+  },
+  {
+    "timestamp": 1789488533.493322,
+    "elapsed_min": 13.03,
+    "cpu_percent": 533.3,
+    "ram_mb": 1198.7,
+    "avg_fps_per_camera": 6.58,
+    "p95_latency": 0.223,
+    "reconnects": 456
+  },
+  {
+    "timestamp": 1789488563.596822,
+    "elapsed_min": 13.53,
+    "cpu_percent": 604.0,
+    "ram_mb": 1483.8,
+    "avg_fps_per_camera": 6.53,
+    "p95_latency": 0.117,
+    "reconnects": 480
+  },
+  {
+    "timestamp": 1789488593.7051709,
+    "elapsed_min": 14.04,
+    "cpu_percent": 625.1,
+    "ram_mb": 1459.8,
+    "avg_fps_per_camera": 6.49,
+    "p95_latency": 0.103,
+    "reconnects": 492
+  },
+  {
+    "timestamp": 1789488623.776822,
+    "elapsed_min": 14.54,
+    "cpu_percent": 631.0,
+    "ram_mb": 1461.9,
+    "avg_fps_per_camera": 6.46,
+    "p95_latency": 0.104,
+    "reconnects": 507
+  },
+  {
+    "timestamp": 1789488653.8188858,
+    "elapsed_min": 15.04,
+    "cpu_percent": 616.4,
+    "ram_mb": 1436.8,
+    "avg_fps_per_camera": 6.42,
+    "p95_latency": 0.117,
+    "reconnects": 528
+  },
+  {
+    "timestamp": 1789488683.87665,
+    "elapsed_min": 15.54,
+    "cpu_percent": 609.3,
+    "ram_mb": 1348.2,
+    "avg_fps_per_camera": 6.37,
+    "p95_latency": 0.124,
+    "reconnects": 540
+  },
+  {
+    "timestamp": 1789488713.9004722,
+    "elapsed_min": 16.04,
+    "cpu_percent": 624.2,
+    "ram_mb": 1346.8,
+    "avg_fps_per_camera": 6.34,
+    "p95_latency": 0.114,
+    "reconnects": 564
+  },
+  {
+    "timestamp": 1789488743.906392,
+    "elapsed_min": 16.54,
+    "cpu_percent": 627.1,
+    "ram_mb": 1414.2,
+    "avg_fps_per_camera": 6.3,
+    "p95_latency": 0.11,
+    "reconnects": 576
+  },
+  {
+    "timestamp": 1789488774.048539,
+    "elapsed_min": 17.04,
+    "cpu_percent": 627.5,
+    "ram_mb": 1450.2,
+    "avg_fps_per_camera": 6.27,
+    "p95_latency": 0.115,
+    "reconnects": 600
+  },
+  {
+    "timestamp": 1789488804.053741,
+    "elapsed_min": 17.54,
+    "cpu_percent": 632.4,
+    "ram_mb": 1360.5,
+    "avg_fps_per_camera": 6.24,
+    "p95_latency": 0.106,
+    "reconnects": 612
+  },
+  {
+    "timestamp": 1789488834.074293,
+    "elapsed_min": 18.04,
+    "cpu_percent": 632.0,
+    "ram_mb": 1531.0,
+    "avg_fps_per_camera": 6.22,
+    "p95_latency": 0.108,
+    "reconnects": 636
+  },
+  {
+    "timestamp": 1789488864.185014,
+    "elapsed_min": 18.54,
+    "cpu_percent": 622.6,
+    "ram_mb": 1399.2,
+    "avg_fps_per_camera": 6.19,
+    "p95_latency": 0.116,
+    "reconnects": 648
+  },
+  {
+    "timestamp": 1789488894.3312378,
+    "elapsed_min": 19.05,
+    "cpu_percent": 607.2,
+    "ram_mb": 1482.2,
+    "avg_fps_per_camera": 6.15,
+    "p95_latency": 0.136,
+    "reconnects": 664
+  },
+  {
+    "timestamp": 1789488924.391607,
+    "elapsed_min": 19.55,
+    "cpu_percent": 626.8,
+    "ram_mb": 1399.7,
+    "avg_fps_per_camera": 6.12,
+    "p95_latency": 0.111,
+    "reconnects": 684
+  },
+  {
+    "timestamp": 1789488954.552901,
+    "elapsed_min": 20.05,
+    "cpu_percent": 629.3,
+    "ram_mb": 1394.6,
+    "avg_fps_per_camera": 6.1,
+    "p95_latency": 0.11,
+    "reconnects": 696
+  },
+  {
+    "timestamp": 1789488984.596618,
+    "elapsed_min": 20.55,
+    "cpu_percent": 628.3,
+    "ram_mb": 1396.8,
+    "avg_fps_per_camera": 6.07,
+    "p95_latency": 0.112,
+    "reconnects": 720
+  },
+  {
+    "timestamp": 1789489015.039988,
+    "elapsed_min": 21.06,
+    "cpu_percent": 595.1,
+    "ram_mb": 1025.8,
+    "avg_fps_per_camera": 6.04,
+    "p95_latency": 0.155,
+    "reconnects": 732
+  },
+  {
+    "timestamp": 1789489045.1462421,
+    "elapsed_min": 21.56,
+    "cpu_percent": 582.8,
+    "ram_mb": 1322.8,
+    "avg_fps_per_camera": 5.99,
+    "p95_latency": 0.161,
+    "reconnects": 756
+  },
+  {
+    "timestamp": 1789489075.293401,
+    "elapsed_min": 22.06,
+    "cpu_percent": 598.7,
+    "ram_mb": 1372.6,
+    "avg_fps_per_camera": 5.96,
+    "p95_latency": 0.146,
+    "reconnects": 768
+  },
+  {
+    "timestamp": 1789489105.3473501,
+    "elapsed_min": 22.56,
+    "cpu_percent": 630.6,
+    "ram_mb": 1535.9,
+    "avg_fps_per_camera": 5.94,
+    "p95_latency": 0.118,
+    "reconnects": 792
+  },
+  {
+    "timestamp": 1789489135.530723,
+    "elapsed_min": 23.07,
+    "cpu_percent": 623.3,
+    "ram_mb": 1508.0,
+    "avg_fps_per_camera": 5.92,
+    "p95_latency": 0.126,
+    "reconnects": 804
+  },
+  {
+    "timestamp": 1789489165.644133,
+    "elapsed_min": 23.57,
+    "cpu_percent": 638.4,
+    "ram_mb": 1528.6,
+    "avg_fps_per_camera": 5.9,
+    "p95_latency": 0.11,
+    "reconnects": 821
+  },
+  {
+    "timestamp": 1789489196.4380171,
+    "elapsed_min": 24.08,
+    "cpu_percent": 604.9,
+    "ram_mb": 1031.2,
+    "avg_fps_per_camera": 5.88,
+    "p95_latency": 0.123,
+    "reconnects": 840
+  },
+  {
+    "timestamp": 1789489226.5109692,
+    "elapsed_min": 24.58,
+    "cpu_percent": 489.3,
+    "ram_mb": 1358.5,
+    "avg_fps_per_camera": 5.81,
+    "p95_latency": 0.323,
+    "reconnects": 852
+  },
+  {
+    "timestamp": 1789489256.527084,
+    "elapsed_min": 25.08,
+    "cpu_percent": 603.4,
+    "ram_mb": 1510.1,
+    "avg_fps_per_camera": 5.79,
+    "p95_latency": 0.156,
+    "reconnects": 876
+  },
+  {
+    "timestamp": 1789489286.6561332,
+    "elapsed_min": 25.59,
+    "cpu_percent": 648.3,
+    "ram_mb": 1477.1,
+    "avg_fps_per_camera": 5.78,
+    "p95_latency": 0.114,
+    "reconnects": 888
+  },
+  {
+    "timestamp": 1789489316.794229,
+    "elapsed_min": 26.09,
+    "cpu_percent": 632.6,
+    "ram_mb": 1637.9,
+    "avg_fps_per_camera": 5.76,
+    "p95_latency": 0.129,
+    "reconnects": 912
+  },
+  {
+    "timestamp": 1789489346.860796,
+    "elapsed_min": 26.59,
+    "cpu_percent": 656.8,
+    "ram_mb": 1383.2,
+    "avg_fps_per_camera": 5.76,
+    "p95_latency": 0.106,
+    "reconnects": 924
+  },
+  {
+    "timestamp": 1789489376.98286,
+    "elapsed_min": 27.09,
+    "cpu_percent": 659.3,
+    "ram_mb": 1606.5,
+    "avg_fps_per_camera": 5.75,
+    "p95_latency": 0.098,
+    "reconnects": 948
+  },
+  {
+    "timestamp": 1789489407.232824,
+    "elapsed_min": 27.6,
+    "cpu_percent": 609.0,
+    "ram_mb": 1083.6,
+    "avg_fps_per_camera": 5.74,
+    "p95_latency": 0.122,
+    "reconnects": 960
+  },
+  {
+    "timestamp": 1789489437.393486,
+    "elapsed_min": 28.1,
+    "cpu_percent": 602.3,
+    "ram_mb": 1608.7,
+    "avg_fps_per_camera": 5.72,
+    "p95_latency": 0.14,
+    "reconnects": 984
+  },
+  {
+    "timestamp": 1789489467.62205,
+    "elapsed_min": 28.6,
+    "cpu_percent": 625.0,
+    "ram_mb": 1097.3,
+    "avg_fps_per_camera": 5.72,
+    "p95_latency": 0.104,
+    "reconnects": 996
+  },
+  {
+    "timestamp": 1789489497.704844,
+    "elapsed_min": 29.1,
+    "cpu_percent": 605.6,
+    "ram_mb": 1518.2,
+    "avg_fps_per_camera": 5.71,
+    "p95_latency": 0.13,
+    "reconnects": 1012
+  },
+  {
+    "timestamp": 1789489527.740561,
+    "elapsed_min": 29.6,
+    "cpu_percent": 616.0,
+    "ram_mb": 1515.0,
+    "avg_fps_per_camera": 5.7,
+    "p95_latency": 0.114,
+    "reconnects": 1032
+  },
+  {
+    "timestamp": 1789489557.85146,
+    "elapsed_min": 30.11,
+    "cpu_percent": 631.7,
+    "ram_mb": 1442.6,
+    "avg_fps_per_camera": 5.7,
+    "p95_latency": 0.101,
+    "reconnects": 1044
+  },
+  {
+    "timestamp": 1789489587.872232,
+    "elapsed_min": 30.61,
+    "cpu_percent": 628.7,
+    "ram_mb": 1495.9,
+    "avg_fps_per_camera": 5.69,
+    "p95_latency": 0.104,
+    "reconnects": 1068
+  },
+  {
+    "timestamp": 1789489618.196327,
+    "elapsed_min": 31.11,
+    "cpu_percent": 618.1,
+    "ram_mb": 1198.5,
+    "avg_fps_per_camera": 5.69,
+    "p95_latency": 0.118,
+    "reconnects": 1080
+  },
+  {
+    "timestamp": 1789489648.267966,
+    "elapsed_min": 31.61,
+    "cpu_percent": 577.1,
+    "ram_mb": 1521.2,
+    "avg_fps_per_camera": 5.67,
+    "p95_latency": 0.174,
+    "reconnects": 1104
+  },
+  {
+    "timestamp": 1789489678.347188,
+    "elapsed_min": 32.11,
+    "cpu_percent": 664.4,
+    "ram_mb": 1494.4,
+    "avg_fps_per_camera": 5.68,
+    "p95_latency": 0.092,
+    "reconnects": 1116
+  },
+  {
+    "timestamp": 1789489708.487851,
+    "elapsed_min": 32.62,
+    "cpu_percent": 669.8,
+    "ram_mb": 1542.0,
+    "avg_fps_per_camera": 5.68,
+    "p95_latency": 0.093,
+    "reconnects": 1140
+  },
+  {
+    "timestamp": 1789489738.575551,
+    "elapsed_min": 33.12,
+    "cpu_percent": 673.4,
+    "ram_mb": 1526.4,
+    "avg_fps_per_camera": 5.69,
+    "p95_latency": 0.09,
+    "reconnects": 1152
+  },
+  {
+    "timestamp": 1789489768.616181,
+    "elapsed_min": 33.62,
+    "cpu_percent": 671.3,
+    "ram_mb": 1596.6,
+    "avg_fps_per_camera": 5.69,
+    "p95_latency": 0.09,
+    "reconnects": 1176
+  },
+  {
+    "timestamp": 1789489798.7004511,
+    "elapsed_min": 34.12,
+    "cpu_percent": 673.6,
+    "ram_mb": 1552.9,
+    "avg_fps_per_camera": 5.7,
+    "p95_latency": 0.087,
+    "reconnects": 1188
+  },
+  {
+    "timestamp": 1789489828.7556071,
+    "elapsed_min": 34.62,
+    "cpu_percent": 667.6,
+    "ram_mb": 1540.0,
+    "avg_fps_per_camera": 5.71,
+    "p95_latency": 0.09,
+    "reconnects": 1212
+  }
+]

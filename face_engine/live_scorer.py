@@ -4,6 +4,13 @@ import cv2  # type: ignore
 import time
 import subprocess
 import threading
+import os
+
+LAZY_ENCODING = os.environ.get('LAZY_ENCODING', 'false').lower() == 'true'
+OPTIMIZE_SCHEDULING = os.environ.get('OPTIMIZE_SCHEDULING', 'false').lower() == 'true'
+INFERENCE_MODE = os.environ.get('INFERENCE_MODE', 'legacy')
+INFERENCE_BATCH_SIZE = int(os.environ.get('INFERENCE_BATCH_SIZE', '4'))
+
 import queue
 import datetime
 import uuid
@@ -80,6 +87,9 @@ async def get_buffered_frame(cam_id: str, offset: float = 0.0):
             best_frame = frame_bytes
         else:
             break
+    if isinstance(best_frame, np.ndarray):
+        _, buf_enc = cv2.imencode(".jpg", best_frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+        best_frame = buf_enc.tobytes()
     return Response(content=best_frame, media_type="image/jpeg")
 
 @_stream_app.get("/video_feed/{cam_id}")
@@ -90,9 +100,13 @@ async def video_feed(cam_id: str):
             _PLACEHOLDER_JPEG = _make_placeholder_jpeg("Connecting...")
         while True:
             frame = _STREAM_FRAMES.get(cam_id)
-            # Always emit a frame — placeholder if real frame not yet available.
-            # This prevents the browser <img> tag from stalling indefinitely.
-            out = frame if frame is not None else _PLACEHOLDER_JPEG
+            out = _PLACEHOLDER_JPEG
+            if frame is not None:
+                if isinstance(frame, np.ndarray): # Lazy encoding
+                    _, buf = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 60])
+                    out = buf.tobytes()
+                else:
+                    out = frame
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + out + b'\r\n')
             time.sleep(0.04)  # ~25 fps
@@ -210,29 +224,39 @@ class CameraStream:
         # camera) backend from intercepting the device and failing.
         if isinstance(src, int):
             self.stream = cv2.VideoCapture(src, cv2.CAP_AVFOUNDATION)
+            # Use 640x480 for local USB cameras so 3+ concurrent USB cameras fit within macOS USB bandwidth.
+            # (640x360 is not supported by macOS AVFoundation and fails to read frames)
+            self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+            self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         else:
             self.stream = cv2.VideoCapture(src)
+            self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+            self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
         if not self.stream.isOpened():
             print(f"Failed to open {src}.")
             self.stopped = True
             return
 
-        self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-        self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
         # Keep OpenCV's internal buffer as small as possible so we always
         # get the newest frame rather than reading stale buffered frames.
         self.stream.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
         # Initial read — retry a few times with a short delay.
-        # Some USB cameras (especially when multiple are opened in quick succession)
-        # need a warm-up period before the first frame is available.
+        # Some USB cameras need a brief warm-up period before the first frame is available.
         self.ret = False
         self.frame = None
-        for _warmup in range(10):
+        for _warmup in range(15):
             self.ret, self.frame = self.stream.read()
-            if self.ret:
+            if self.ret and self.frame is not None:
                 break
             time.sleep(0.1)
+
+        if not self.ret:
+            print(f"Failed to read initial frame from {src}.")
+            self.stream.release()
+            self.stopped = True
+            return
 
         self.stopped = False
         self.frame_id = 0
@@ -279,7 +303,124 @@ class CameraStream:
             self._thread.join(timeout=2.0)  # type: ignore
 
 
+
+class CentralInferenceWorker:
+    def __init__(self, model_path, batch_size=4, use_mps=True):
+        self.batch_size = batch_size
+        self.use_mps = use_mps
+        
+        import torch
+        from ultralytics import YOLO
+        
+        # Load model explicitly with correct device
+        self.device = 'mps' if (self.use_mps and torch.backends.mps.is_available()) else 'cpu'
+        print(f"[CentralInferenceWorker] Initializing YOLO on {self.device} with batch size {self.batch_size}")
+        self.model = YOLO(model_path)
+        
+        self.frames_lock = threading.Lock()
+        self.latest_frames = {} # cam_id -> frame
+        self.results = {}       # cam_id -> raw bounding boxes
+        
+        # Tracking states
+        self.tracks = {}
+        self.next_track_ids = {}
+        
+        self._stopped = False
+        self._thread = threading.Thread(target=self._run, daemon=True)
+        self._thread.start()
+        
+    def submit(self, cam_id, frame):
+        with self.frames_lock:
+            self.latest_frames[cam_id] = frame
+            if cam_id not in self.tracks:
+                self.tracks[cam_id] = {}
+                self.next_track_ids[cam_id] = 1
+                self.results[cam_id] = []
+                
+    def get_result(self, cam_id):
+        # Tracking logic ported here to preserve state per camera
+        boxes = self.results.get(cam_id, [])
+        tracks = self.tracks.get(cam_id, {})
+        next_id = self.next_track_ids.get(cam_id, 1)
+        
+        new_tracks = {}
+        matched = set()
+        
+        def _iou(boxA, boxB):
+            xA = max(boxA[0], boxB[0])
+            yA = max(boxA[1], boxB[1])
+            xB = min(boxA[2], boxB[2])
+            yB = min(boxA[3], boxB[3])
+            interArea = max(0, xB - xA) * max(0, yB - yA)
+            boxAArea = (boxA[2] - boxA[0]) * (boxA[3] - boxA[1])
+            boxBArea = (boxB[2] - boxB[0]) * (boxB[3] - boxB[1])
+            return interArea / float(boxAArea + boxBArea - interArea) if (boxAArea + boxBArea - interArea) > 0 else 0
+            
+        for tid, last_box in tracks.items():
+            best_iou = 0
+            best_idx = -1
+            for idx, det in enumerate(boxes):
+                if idx in matched: continue
+                iou = _iou(last_box, det)
+                if iou > best_iou:
+                    best_iou, best_idx = iou, idx
+            if best_iou > 0.3:
+                new_tracks[tid] = boxes[best_idx]
+                matched.add(best_idx)
+                
+        for idx, det in enumerate(boxes):
+            if idx not in matched:
+                new_tracks[next_id] = det
+                next_id += 1
+                
+        self.tracks[cam_id] = new_tracks
+        self.next_track_ids[cam_id] = next_id
+        
+        return [{'track_id': str(tid), 'box': b} for tid, b in new_tracks.items()]
+        
+    def _run(self):
+        while not self._stopped:
+            import time
+            batch = []
+            cam_ids = []
+            
+            with self.frames_lock:
+                for cid, frame in list(self.latest_frames.items()):
+                    if frame is not None:
+                        batch.append(frame)
+                        cam_ids.append(cid)
+                        self.latest_frames[cid] = None # Clear after taking
+                    if len(batch) >= self.batch_size:
+                        break
+                        
+            if not batch:
+                time.sleep(0.01)
+                continue
+                
+            try:
+                # YOLO batch inference
+                # device string 'mps' works in Ultralytics directly
+                out = self.model(batch, verbose=False, conf=0.5, device=self.device)
+                
+                for i, res in enumerate(out):
+                    cid = cam_ids[i]
+                    boxes = []
+                    if len(res.boxes) > 0:
+                        for box in res.boxes:
+                            x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
+                            boxes.append((x1, y1, x2, y2))
+                    self.results[cid] = boxes
+                    
+            except Exception as e:
+                print(f"[CentralInferenceWorker] Batch inference error: {e}")
+                
+    def stop(self):
+        self._stopped = True
+
+_global_central_worker = None
+
 # ── Non-blocking Face inference thread ───────────────────────────────────────
+
 class FaceDetectorThread:
     """
     Runs face detection and basic IoU tracking in a dedicated thread.
@@ -525,8 +666,16 @@ class CameraProcessor:
             return
         self.stream.start()
 
-        self.face_thread = FaceDetectorThread(face_det_model, conf=0.5)
-        self.face_thread.start()
+        self.use_legacy = (INFERENCE_MODE == "legacy")
+        if self.use_legacy:
+            self.face_thread = FaceDetectorThread(face_det_model, conf=0.5)
+            self.face_thread.start()
+        else:
+            global _global_central_worker
+            if _global_central_worker is None:
+                model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "yolo26n-face.pt")
+                _global_central_worker = CentralInferenceWorker(model_path, batch_size=INFERENCE_BATCH_SIZE)
+            self.face_thread = None
         
         self.enhancement_mode = enhancement_mode
         self._enhancer = AdaptiveEnhancer()
@@ -609,8 +758,24 @@ class CameraProcessor:
         # Adaptive Enhancement (Processing Branch)
         enhanced_frame = self._enhancer.enhance(frame, self.enhancement_mode)
         
-        # We always prefer latest frame for inference
-        self.face_thread.submit(enhanced_frame)
+        # Phase 3: Intelligent Scheduling
+        # Throttle YOLO inference to max 10 FPS if enabled, else run on every frame
+        now_ts = time.time()
+        do_inference = True
+        
+        if OPTIMIZE_SCHEDULING:
+            if not hasattr(self, 'last_yolo_time'):
+                self.last_yolo_time = 0
+            if now_ts - self.last_yolo_time < 0.1: # 10 FPS limit
+                do_inference = False
+            else:
+                self.last_yolo_time = now_ts
+
+        if do_inference:
+            if self.use_legacy:
+                self.face_thread.submit(enhanced_frame)
+            else:
+                _global_central_worker.submit(self.cam_id, enhanced_frame)
 
         # FPS tracking
         now = time.time()
@@ -619,7 +784,7 @@ class CameraProcessor:
             recent = list(self.frame_times)
             self.display_fps = max(1.0, min(60.0, 9.0 / (recent[-1] - recent[0])))
 
-        faces = self.face_thread.result
+        faces = self.face_thread.result if self.use_legacy else _global_central_worker.get_result(self.cam_id)
 
         # HUD Overlay
         viz = frame.copy()
@@ -681,6 +846,7 @@ class CameraProcessor:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 200, 255), 1, cv2.LINE_AA)
 
         self.viz_frame = viz
+        self.has_new_viz = True
         
         # Handle Recording
         if self.recording_enabled and _storage:
@@ -700,7 +866,8 @@ class CameraProcessor:
 
     def stop(self):
         self._close_segment()
-        self.face_thread.stop()
+        if hasattr(self, 'face_thread') and self.face_thread:
+            self.face_thread.stop()
         self.stream.stop()
 
 # ── Remote Camera IPC State ────────────────────────────────────────────────────
@@ -907,16 +1074,47 @@ def main():
                     processors.pop(cid, None)
                     retry_times[cid] = time.time() + _CAM_RETRY_DELAYS[0]
 
-            # ── Process frames ───────────────────────────────────────────────
-            for proc in processors.values():
+            # ── Process frames (Threaded for parallel multi-cam) ─────────
+            def _process_one(proc):
                 proc.process_frame()
-                if proc.viz_frame is not None:
-                    _, buffer = cv2.imencode('.jpg', proc.viz_frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
-                    frame_bytes = buffer.tobytes()
-                    _STREAM_FRAMES[proc.cam_id] = frame_bytes
-                    if proc.cam_id not in _STREAM_BUFFERS:
-                        _STREAM_BUFFERS[proc.cam_id] = deque(maxlen=900)
-                    _STREAM_BUFFERS[proc.cam_id].append((time.time(), frame_bytes))
+                if getattr(proc, 'has_new_viz', False) and proc.viz_frame is not None:
+                    proc.has_new_viz = False
+                    if LAZY_ENCODING:
+                        return proc.cam_id, proc.viz_frame
+                    else:
+                        _, buffer = cv2.imencode('.jpg', proc.viz_frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+                        return proc.cam_id, buffer.tobytes()
+                return None, None
+
+            # Async encoder pool for event buffers to prevent memory bloat
+            import concurrent.futures
+            if not hasattr(_sync_processors, 'enc_executor'):
+                _sync_processors.enc_executor = concurrent.futures.ThreadPoolExecutor(max_workers=4)
+
+            if not hasattr(_sync_processors, 'executor'):
+                _sync_processors.executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
+                
+            results = _sync_processors.executor.map(_process_one, processors.values())
+            
+            def _async_encode_and_buffer(cid, frm, ts):
+                if isinstance(frm, np.ndarray):
+                    # Downscale for memory saving in buffer
+                    h, w = frm.shape[:2]
+                    if w > 1280:
+                        frm = cv2.resize(frm, (1280, int(1280 * h / w)))
+                    _, buf = cv2.imencode('.jpg', frm, [cv2.IMWRITE_JPEG_QUALITY, 70])
+                    frm = buf.tobytes()
+                if cid not in _STREAM_BUFFERS:
+                    _STREAM_BUFFERS[cid] = deque(maxlen=450) # 450 frames = ~15s at 30fps
+                _STREAM_BUFFERS[cid].append((ts, frm))
+
+            for cam_id, frame_data in results:
+                if cam_id and frame_data is not None:
+                    # Update live stream immediately (raw numpy array if LAZY, else bytes)
+                    _STREAM_FRAMES[cam_id] = frame_data
+                    
+                    # Offload the buffer encoding asynchronously
+                    _sync_processors.enc_executor.submit(_async_encode_and_buffer, cam_id, frame_data, time.time())
             
             # Keep CPU from spinning too fast if no frames
             time.sleep(0.01)

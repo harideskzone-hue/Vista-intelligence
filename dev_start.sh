@@ -75,8 +75,10 @@ cleanup() {
         fi
     done
 
-    # Kill any stale processes on our port
-    lsof -ti ":$API_PORT" 2>/dev/null | xargs kill 2>/dev/null || true
+    # Kill any stale processes on our ports and any live_scorer
+    lsof -ti ":$API_PORT" 2>/dev/null | xargs kill -9 2>/dev/null || true
+    lsof -ti ":5002" 2>/dev/null | xargs kill -9 2>/dev/null || true
+    pkill -9 -f live_scorer.py 2>/dev/null || true
 
     # Remove lock file
     rm -f "$LOCK_FILE"

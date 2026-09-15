@@ -1,0 +1,102 @@
+[
+  {
+    "num_cameras": 1,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 58.01632653061226,
+    "avg_memory_mb": 763.2710459183673,
+    "avg_output_fps_per_camera": 19.0,
+    "total_frames_processed": 285,
+    "config_name": "Phase 3A (Scheduling Only)"
+  },
+  {
+    "num_cameras": 3,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 180.18888888888887,
+    "avg_memory_mb": 1035.5677083333333,
+    "avg_output_fps_per_camera": 18.244444444444444,
+    "total_frames_processed": 821,
+    "config_name": "Phase 3A (Scheduling Only)"
+  },
+  {
+    "num_cameras": 6,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 358.39090909090913,
+    "avg_memory_mb": 1351.4810606060605,
+    "avg_output_fps_per_camera": 14.266666666666666,
+    "total_frames_processed": 1284,
+    "config_name": "Phase 3A (Scheduling Only)"
+  },
+  {
+    "num_cameras": 10,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 408.8727272727272,
+    "avg_memory_mb": 1510.3742897727273,
+    "avg_output_fps_per_camera": 9.540000000000001,
+    "total_frames_processed": 1431,
+    "config_name": "Phase 3A (Scheduling Only)"
+  },
+  {
+    "num_cameras": 12,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 383.365,
+    "avg_memory_mb": 1687.83203125,
+    "avg_output_fps_per_camera": 7.683333333333334,
+    "total_frames_processed": 1383,
+    "config_name": "Phase 3A (Scheduling Only)"
+  },
+  {
+    "num_cameras": 1,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 57.73061224489796,
+    "avg_memory_mb": 840.8450255102041,
+    "avg_output_fps_per_camera": 19.133333333333333,
+    "total_frames_processed": 287,
+    "config_name": "Phase 4 (Scheduling + Lazy Encode)"
+  },
+  {
+    "num_cameras": 3,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 181.89777777777778,
+    "avg_memory_mb": 1083.3670138888888,
+    "avg_output_fps_per_camera": 18.466666666666665,
+    "total_frames_processed": 831,
+    "config_name": "Phase 4 (Scheduling + Lazy Encode)"
+  },
+  {
+    "num_cameras": 6,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 347.3757575757575,
+    "avg_memory_mb": 1402.1714015151515,
+    "avg_output_fps_per_camera": 13.977777777777776,
+    "total_frames_processed": 1258,
+    "config_name": "Phase 4 (Scheduling + Lazy Encode)"
+  },
+  {
+    "num_cameras": 10,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 375.76666666666665,
+    "avg_memory_mb": 1558.7284226190477,
+    "avg_output_fps_per_camera": 8.68,
+    "total_frames_processed": 1302,
+    "config_name": "Phase 4 (Scheduling + Lazy Encode)"
+  },
+  {
+    "num_cameras": 12,
+    "mode": "mps_batch",
+    "batch": 1,
+    "avg_cpu_percent": 378.7789473684211,
+    "avg_memory_mb": 1657.8963815789473,
+    "avg_output_fps_per_camera": 7.294444444444444,
+    "total_frames_processed": 1313,
+    "config_name": "Phase 4 (Scheduling + Lazy Encode)"
+  }
+]
