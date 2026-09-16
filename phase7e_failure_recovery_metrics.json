@@ -1,0 +1,25 @@
+{
+  "RTSP publisher disconnect": "PASS",
+  "Multiple camera failures": "PASS",
+  "RTSP reconnect": "PASS",
+  "RTSP publisher stall": "FAIL",
+  "Reconnect loop": "PASS",
+  "Camera isolation": "PASS",
+  "Stream EOF": "PASS",
+  "Dashboard client disconnect": "PASS",
+  "Dashboard overload": "PASS",
+  "High-rate input / AI stress": "PASS",
+  "Invalid URL": "BLOCKED",
+  "Memory/reconnect endurance (mps_batch)": "PASS",
+  "Memory_Trajectory_mps_batch": [
+    "Baseline: 952.1 MB",
+    "After reconnect: 680.8 MB",
+    "Final: 586.1 MB"
+  ],
+  "Memory/reconnect endurance (legacy)": "PASS",
+  "Memory_Trajectory_legacy": [
+    "Baseline: 1065.1 MB",
+    "After reconnect: 833.5 MB",
+    "Final: 830.3 MB"
+  ]
+}

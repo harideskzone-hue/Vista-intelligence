@@ -337,12 +337,27 @@ class CameraStream:
         """Drain OpenCV's internal network buffer with grab() in a tight loop.
         We only decode (retrieve) when the main thread actually wants a frame.
         This keeps the buffer empty so read() always returns the freshest frame."""
+        import time
+        consecutive_failures = 0
+        last_success_time = time.time()
+        max_consecutive_failures = 300  # ~1.5 seconds if grab returns instantly
+        max_stale_time = 15.0  # seconds until we assume the stream is completely dead
+        
         while not self.stopped:
             # grab() signals the camera / advances the buffer pointer (cheap)
             grabbed = self.stream.grab()
             if not grabbed:
+                consecutive_failures += 1
+                elapsed = time.time() - last_success_time
+                if consecutive_failures > max_consecutive_failures or elapsed > max_stale_time:
+                    print(f"  [CAM] Stream {self.src} disconnected (grab failed {consecutive_failures} times over {elapsed:.1f}s)")
+                    self.stopped = True
+                    break
                 time.sleep(0.005)
                 continue
+            
+            consecutive_failures = 0
+            last_success_time = time.time()
             # Decode the grabbed frame and expose it to the main thread
             ret, frame = self.stream.retrieve()
             if ret:
