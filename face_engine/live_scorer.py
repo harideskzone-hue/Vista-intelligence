@@ -53,9 +53,71 @@ def _parse_camera_source(val: str):
 
 
 # ── MJPEG Stream Server ───────────────────────────────────────────────────────
-_STREAM_FRAMES = {}  # cam_id -> bytes
+_STREAM_FRAMES = {}  # cam_id -> (frame_version, bytes)
+_STREAM_VERSIONS = {} # cam_id -> int
 _STREAM_BUFFERS = {} # cam_id -> deque of (timestamp, bytes)
 _stream_app = FastAPI()
+
+import threading
+import time
+import cv2
+
+DASHBOARD_OPTIMIZATIONS_ENABLED = True
+
+class SharedJPEGEncoder:
+    def __init__(self):
+        self._lock = threading.Lock()
+        self.last_encoded_version = -1
+        self.cached_jpeg = None
+        self.last_encoded_time = 0.0
+        self.jpeg_encodes = 0
+        self.unique_frames = 0
+        self.clients_served = 0
+        self.stale_skips = 0
+
+    def get_jpeg(self, frame_version: int, frame) -> bytes:
+        import time
+        with self._lock:
+            self.clients_served += 1
+            if self.last_encoded_version == frame_version and self.cached_jpeg is not None:
+                return self.cached_jpeg
+            
+            now = time.monotonic()
+            
+            if DASHBOARD_OPTIMIZATIONS_ENABLED:
+                if self.cached_jpeg is not None and (now - self.last_encoded_time) < 0.2:
+                    if self.last_encoded_version != -1 and frame_version > self.last_encoded_version:
+                        self.stale_skips += (frame_version - self.last_encoded_version)
+                    # Need to sync the version so we don't count skips twice for the same version
+                    self.last_encoded_version = frame_version
+                    return self.cached_jpeg
+            
+            # Not cached, or rate limit allows encoding a new one
+            encode_frame = frame
+            if DASHBOARD_OPTIMIZATIONS_ENABLED:
+                import cv2
+                encode_frame = cv2.resize(frame, (320, 240))
+            
+            _, buf = cv2.imencode('.jpg', encode_frame, [cv2.IMWRITE_JPEG_QUALITY, 60])
+            self.cached_jpeg = buf.tobytes()
+            self.last_encoded_time = now
+            
+            if self.last_encoded_version != -1 and frame_version > self.last_encoded_version + 1:
+                pass
+                
+            self.last_encoded_version = frame_version
+            self.jpeg_encodes += 1
+            self.unique_frames += 1
+            return self.cached_jpeg
+
+_SHARED_ENCODERS = {}
+_ENCODERS_LOCK = threading.Lock()
+
+def get_shared_encoder(cam_id: str) -> SharedJPEGEncoder:
+    with _ENCODERS_LOCK:
+        if cam_id not in _SHARED_ENCODERS:
+            _SHARED_ENCODERS[cam_id] = SharedJPEGEncoder()
+        return _SHARED_ENCODERS[cam_id]
 
 
 def _make_placeholder_jpeg(text: str = "Connecting...") -> bytes:
@@ -94,19 +156,22 @@ async def get_buffered_frame(cam_id: str, offset: float = 0.0):
 
 @_stream_app.get("/video_feed/{cam_id}")
 async def video_feed(cam_id: str):
+    encoder = get_shared_encoder(cam_id)
     def generate():
         global _PLACEHOLDER_JPEG
         if _PLACEHOLDER_JPEG is None:
             _PLACEHOLDER_JPEG = _make_placeholder_jpeg("Connecting...")
         while True:
-            frame = _STREAM_FRAMES.get(cam_id)
+            entry = _STREAM_FRAMES.get(cam_id)
             out = _PLACEHOLDER_JPEG
-            if frame is not None:
+            if entry is not None and isinstance(entry, tuple) and len(entry) == 2:
+                frame_version, frame = entry
                 if isinstance(frame, np.ndarray): # Lazy encoding
-                    _, buf = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 60])
-                    out = buf.tobytes()
+                    out = encoder.get_jpeg(frame_version, frame)
                 else:
                     out = frame
+            elif entry is not None:
+                out = entry
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + out + b'\r\n')
             time.sleep(0.04)  # ~25 fps
@@ -1111,7 +1176,9 @@ def main():
             for cam_id, frame_data in results:
                 if cam_id and frame_data is not None:
                     # Update live stream immediately (raw numpy array if LAZY, else bytes)
-                    _STREAM_FRAMES[cam_id] = frame_data
+                    ver = _STREAM_VERSIONS.get(cam_id, 0) + 1
+                    _STREAM_VERSIONS[cam_id] = ver
+                    _STREAM_FRAMES[cam_id] = (ver, frame_data)
                     
                     # Offload the buffer encoding asynchronously
                     _sync_processors.enc_executor.submit(_async_encode_and_buffer, cam_id, frame_data, time.time())
