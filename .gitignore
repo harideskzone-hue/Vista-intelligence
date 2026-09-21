@@ -111,3 +111,5 @@ data/.session_secret
 *.download
 face_engine/models/tmpv0ju8qy7.download
 
+
+data/external/

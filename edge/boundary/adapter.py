@@ -64,6 +64,11 @@ class BoundaryTrackingAdapter:
         self._model_path = None
         self._frame_count = 0
         self._cached_observations: List[TrackObservation] = []
+        
+        # Dynamic profile state
+        self._last_inference_ts: Optional[float] = None
+        self._calibration_intervals: List[float] = []
+        self._profile_locked: bool = False
 
         self._init_detector(model_path)
 
@@ -92,6 +97,9 @@ class BoundaryTrackingAdapter:
         """Resets multi-object tracking state between video sequences."""
         self._frame_count = 0
         self._cached_observations.clear()
+        self._last_inference_ts = None
+        self._calibration_intervals.clear()
+        self._profile_locked = False
         if self.model is not None and hasattr(self.model, "predictor") and self.model.predictor is not None:
             if hasattr(self.model.predictor, "trackers"):
                 self.model.predictor.trackers = []
@@ -136,6 +144,30 @@ class BoundaryTrackingAdapter:
                 imgsz=self.imgsz,
                 verbose=False
             )
+            
+            # --- DYNAMIC PROFILE SELECTION ---
+            if not self._profile_locked and self.model is not None:
+                if self._last_inference_ts is not None:
+                    delta = timestamp - self._last_inference_ts
+                    if delta > 0:
+                        self._calibration_intervals.append(delta)
+                self._last_inference_ts = timestamp
+                
+                if len(self._calibration_intervals) >= 3:
+                    import statistics
+                    median_delta = statistics.median(self._calibration_intervals)
+                    effective_fps = 1.0 / median_delta if median_delta > 0 else 30.0
+                    
+                    if effective_fps <= 2.0:
+                        log.info(f"Calibration complete: Effective FPS {effective_fps:.2f} <= 2.0. Locking SPARSE tracker profile.")
+                        if hasattr(self.model, "predictor") and self.model.predictor and hasattr(self.model.predictor, "trackers") and self.model.predictor.trackers:
+                            tracker = self.model.predictor.trackers[0]
+                            tracker.args.match_thresh = 0.9
+                            tracker.max_frames_lost = 10
+                    else:
+                        log.info(f"Calibration complete: Effective FPS {effective_fps:.2f} > 2.0. Locking NATIVE tracker profile.")
+                        
+                    self._profile_locked = True
 
             observations: List[TrackObservation] = []
             if results and len(results) > 0 and results[0].boxes is not None:

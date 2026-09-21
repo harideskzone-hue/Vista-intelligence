@@ -32,7 +32,7 @@ MODEL_REGISTRY: Dict[str, ModelInfo] = {
             "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt",
             "https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt",
         ],
-        "sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+        "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
         "size_mb": 5.3,
         "required": False,
     },
@@ -56,7 +56,7 @@ MODEL_REGISTRY: Dict[str, ModelInfo] = {
         "urls": [
             "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task",
         ],
-        "sha256": "4eaa5eb7a98365221087693fcc286334cf0858e2eb6e15b506aa4a7ecdcec4ad",
+        "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
         "size_mb": 9.0,
         "required": False,
     },

@@ -172,6 +172,8 @@ class FaceService:
                     with open(full_path, 'wb') as img_file:
                         img_file.write(img_data)
                     
+                del result['valid_images']
+                del result['valid_embeddings']
                 return result
             except EnrollmentError as e:
                 return {'success': False, 'error': str(e)}

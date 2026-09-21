@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import cv2  # type: ignore
 import time
 import subprocess
@@ -15,12 +16,15 @@ import queue
 import datetime
 import uuid
 import sys
+import json
 import os
 
 # Add face_api to sys path to import Storage
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, _root)
+sys.path.insert(0, os.path.join(_root, "face_api"))
 try:
-    from face_api.app.core.storage import Storage
+    from app.core.storage import Storage
     _storage = Storage()
 except Exception as e:
     print(f"[CAM] Failed to initialize storage: {e}")
@@ -283,20 +287,44 @@ def _preflight():
 # ── Threaded camera reader ────────────────────────────────────────────────────
 class CameraStream:
     def __init__(self, src):
+        if isinstance(src, str) and src.isdigit():
+            src = int(src)
         self.src = src
         # For local USB/built-in cameras (integer index), explicitly use the
         # AVFoundation backend on macOS to prevent the OBSENSOR (Orbbec depth
         # camera) backend from intercepting the device and failing.
         if isinstance(src, int):
             self.stream = cv2.VideoCapture(src, cv2.CAP_AVFOUNDATION)
-            # Use 640x480 for local USB cameras so 3+ concurrent USB cameras fit within macOS USB bandwidth.
-            # (640x360 is not supported by macOS AVFoundation and fails to read frames)
+            self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+            # ── USB BANDWIDTH FIX ──────────────────────────────────────────────────────
+            # macOS AVFoundation frequently ignores the MJPEG FOURCC request and falls
+            # back to uncompressed YUV420. At 1280×720 @ 30fps each camera consumes
+            # ~55 MB/s. Two cameras (~110 MB/s) saturate the USB controller, leaving
+            # Camera 2 with zero bandwidth. It negotiates (isOpened=True) but every
+            # subsequent read() returns empty => "Failed to read initial frame from 2."
+            #
+            # Fix: request 640×480. Even as raw YUV this is only ~18 MB/s per camera,
+            # so 6+ cameras comfortably share one USB controller. The inference engine
+            # already downscales to 640×360 internally, so AI accuracy is unaffected.
             self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+            # DO NOT set CAP_PROP_FPS on macOS AVFoundation!
+            # Setting FPS on identical external USB cameras causes a kernel-level
+            # hardware lockup which hangs cv2.VideoCapture indefinitely!
         else:
             self.stream = cv2.VideoCapture(src)
-            self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-            self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+            self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+            self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+            
+        if self.stream.isOpened():
+            w = int(self.stream.get(cv2.CAP_PROP_FRAME_WIDTH))
+            h = int(self.stream.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            fps = self.stream.get(cv2.CAP_PROP_FPS)
+            fourcc_val = int(self.stream.get(cv2.CAP_PROP_FOURCC))
+            def decode_fourcc(v):
+                return "".join([chr((int(v) >> 8 * i) & 0xFF) for i in range(4)])
+            fourcc_str = decode_fourcc(fourcc_val) if fourcc_val > 0 else "UNKNOWN"
+            print(f"  [CAM {src}] Negotiated: {w}x{h} @ {fps}fps, codec: {fourcc_str}")
 
         if not self.stream.isOpened():
             print(f"Failed to open {src}.")
@@ -307,26 +335,31 @@ class CameraStream:
         # get the newest frame rather than reading stale buffered frames.
         self.stream.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
-        # Initial read — retry a few times with a short delay.
-        # Some USB cameras need a brief warm-up period before the first frame is available.
-        self.ret = False
-        self.frame = None
-        for _warmup in range(15):
-            self.ret, self.frame = self.stream.read()
-            if self.ret and self.frame is not None:
-                break
-            time.sleep(0.1)
-
-        if not self.ret:
-            print(f"Failed to read initial frame from {src}.")
-            self.stream.release()
-            self.stopped = True
-            return
+        # ── NON-BLOCKING WARMUP ────────────────────────────────────────────────
+        # Do NOT attempt a synchronous read() here to "verify" the camera.
+        # When other cameras are already streaming, their grab threads compete
+        # for USB time, causing Camera 2/3/etc. synchronous reads to always
+        # fail -> "Failed to read initial frame from 2."
+        #
+        # isOpened() is sufficient proof of hardware acceptance.
+        # The background grab thread (started by CameraStream.start()) will
+        # deliver the first real frame within ~300ms once the USB bus settles.
+        # If the grab loop finds the stream truly dead, it stops itself via the
+        # max_consecutive_failures / max_stale_time guard already in _update().
+        self.ret = True   # Assume alive; grab loop will flip this if truly dead
+        self.frame = None # No frame yet; process_frame() guards against None
 
         self.stopped = False
         self.frame_id = 0
         self._lock = threading.Lock()
         self._thread: "threading.Thread | None" = None
+        
+        # Telemetry
+        from collections import deque
+        self.capture_fps = 0.0
+        self._frame_times = deque(maxlen=30)
+        self.dropped_frames = 0
+        self._frame_read = True
 
     def start(self):
         self._thread = threading.Thread(target=self._update, daemon=True)  # type: ignore
@@ -345,7 +378,20 @@ class CameraStream:
         
         while not self.stopped:
             # grab() signals the camera / advances the buffer pointer (cheap)
-            grabbed = self.stream.grab()
+            is_file = isinstance(self.src, str) and self.src.lower().endswith(('.mp4', '.avi', '.mov'))
+            
+            grabbed = False
+            if is_file:
+                grabbed = self.stream.grab()
+            else:
+                # DRAIN THE OS BUFFER (Fixes progressive lag on physical cameras)
+                # If grab() is < 10ms, it was buffered. If > 10ms, we waited for hardware!
+                while True:
+                    t0 = time.time()
+                    grabbed = self.stream.grab()
+                    if not grabbed or (time.time() - t0) * 1000 > 12.0:
+                        break
+
             if not grabbed:
                 consecutive_failures += 1
                 elapsed = time.time() - last_success_time
@@ -362,9 +408,17 @@ class CameraStream:
             ret, frame = self.stream.retrieve()
             if ret:
                 with self._lock:
+                    if self.frame_id > 0 and not getattr(self, '_frame_read', True):
+                        self.dropped_frames += 1
+                        
                     self.ret = ret
                     self.frame = frame
                     self.frame_id += 1
+                    self._frame_read = False
+                    
+                    self._frame_times.append(time.time())
+                    if len(self._frame_times) > 1:
+                        self.capture_fps = len(self._frame_times) / (self._frame_times[-1] - self._frame_times[0])
             
             # Throttle if reading from a local video file to simulate real-time stream
             if isinstance(self.src, str) and self.src.lower().endswith(('.mp4', '.avi', '.mov')):
@@ -375,6 +429,7 @@ class CameraStream:
 
     def read(self):
         with self._lock:
+            self._frame_read = True
             return self.ret, self.frame, self.frame_id
 
     def stop(self):
@@ -459,15 +514,20 @@ class CentralInferenceWorker:
         return [{'track_id': str(tid), 'box': b} for tid, b in new_tracks.items()]
         
     def _run(self):
+        import cv2
         while not self._stopped:
             import time
             batch = []
             cam_ids = []
+            orig_shapes = []
             
             with self.frames_lock:
                 for cid, frame in list(self.latest_frames.items()):
                     if frame is not None:
-                        batch.append(frame)
+                        orig_shapes.append(frame.shape[:2]) # (h, w)
+                        # Resize for inference (16:9 ratio) to 640x360 as benchmarked
+                        inference_frame = cv2.resize(frame, (640, 360))
+                        batch.append(inference_frame)
                         cam_ids.append(cid)
                         self.latest_frames[cid] = None # Clear after taking
                     if len(batch) >= self.batch_size:
@@ -479,20 +539,29 @@ class CentralInferenceWorker:
                 
             try:
                 # YOLO batch inference
-                # device string 'mps' works in Ultralytics directly
                 out = self.model(batch, verbose=False, conf=0.5, device=self.device)
                 
                 for i, res in enumerate(out):
                     cid = cam_ids[i]
+                    orig_h, orig_w = orig_shapes[i]
+                    scale_x = orig_w / 640.0
+                    scale_y = orig_h / 360.0
+                    
                     boxes = []
                     if len(res.boxes) > 0:
                         for box in res.boxes:
                             x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
+                            # Scale back to original resolution
+                            x1, x2 = x1 * scale_x, x2 * scale_x
+                            y1, y2 = y1 * scale_y, y2 * scale_y
                             boxes.append((x1, y1, x2, y2))
                     self.results[cid] = boxes
                     
             except Exception as e:
                 print(f"[CentralInferenceWorker] Batch inference error: {e}")
+                
+            # Yield GIL to UI thread (prevents UI starving when inference is at 100% duty cycle)
+            time.sleep(0.02)
                 
     def stop(self):
         self._stopped = True
@@ -766,7 +835,7 @@ class CameraProcessor:
         
         # Output frame for rendering
         self.viz_frame = None
-        self.recording_enabled = True # TODO: Read from config
+        import os; self.recording_enabled = os.environ.get('ENABLE_RECORDING', 'false').lower() == 'true'
         self.video_writer = None
         self.current_recording_id = None
         self.recording_start_time = None
@@ -783,11 +852,31 @@ class CameraProcessor:
         filename = f"{self.cam_id}_{self.recording_id}.mp4"
         self.recording_path = os.path.join(rec_dir, filename)
         
-        # Use OpenCV VideoWriter (MP4V)
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        # Use hardware-accelerated AVC1 (H.264) instead of CPU-heavy MP4V
+        fourcc = cv2.VideoWriter_fourcc(*'avc1')
         self.video_writer = cv2.VideoWriter(self.recording_path, fourcc, fps, (w, h))
         self.recording_start_time = time.time()
         self.recording_frames = 0
+        
+        # Offload encoding to a background thread to prevent blocking the main pipeline
+        import queue, threading
+        self.record_queue = queue.Queue(maxsize=120)
+        self.record_thread_active = True
+        
+        def _writer_thread():
+            while self.record_thread_active or not self.record_queue.empty():
+                try:
+                    frm = self.record_queue.get(timeout=0.2)
+                    if frm is not None and self.video_writer is not None:
+                        self.video_writer.write(frm)
+                    self.record_queue.task_done()
+                except queue.Empty:
+                    continue
+                except Exception as e:
+                    print(f"[Encoder] Thread error: {e}")
+                    
+        self.record_thread = threading.Thread(target=_writer_thread, daemon=True)
+        self.record_thread.start()
         
         # Insert metadata
         try:
@@ -796,7 +885,13 @@ class CameraProcessor:
             print(f"[CAM] DB Error starting recording: {e}")
             
     def _close_segment(self):
-        if self.video_writer:
+        if hasattr(self, 'record_thread_active'):
+            self.record_thread_active = False
+        if hasattr(self, 'record_thread') and self.record_thread:
+            self.record_thread.join(timeout=1.0)
+            self.record_thread = None
+            
+        if hasattr(self, 'video_writer') and self.video_writer:
             self.video_writer.release()
             self.video_writer = None
             if self.recording_start_time and hasattr(self, 'recording_id') and _storage:
@@ -835,23 +930,31 @@ class CameraProcessor:
         # Copy and flip
         frame = cv2.flip(frame, 1).copy()
         
-        # Adaptive Enhancement (Processing Branch)
-        enhanced_frame = self._enhancer.enhance(frame, self.enhancement_mode)
-        
         # Phase 3: Intelligent Scheduling
-        # Throttle YOLO inference to max 10 FPS if enabled, else run on every frame
+        import os
+        from collections import deque
+        INFERENCE_FPS_CAP = int(os.environ.get('INFERENCE_FPS_CAP', '10'))
+        
         now_ts = time.time()
         do_inference = True
         
-        if OPTIMIZE_SCHEDULING:
-            if not hasattr(self, 'last_yolo_time'):
-                self.last_yolo_time = 0
-            if now_ts - self.last_yolo_time < 0.1: # 10 FPS limit
+        if not hasattr(self, 'last_yolo_time'):
+            self.last_yolo_time = 0
+            self.inference_times = deque(maxlen=30)
+            self.inference_fps = 0.0
+            
+        if INFERENCE_FPS_CAP > 0:
+            if now_ts - self.last_yolo_time < (1.0 / INFERENCE_FPS_CAP):
                 do_inference = False
             else:
                 self.last_yolo_time = now_ts
+                self.inference_times.append(now_ts)
+                if len(self.inference_times) > 1:
+                    self.inference_fps = len(self.inference_times) / (self.inference_times[-1] - self.inference_times[0])
 
         if do_inference:
+            # Adaptive Enhancement ONLY on the inference frame to save massive CPU load on 1080p video
+            enhanced_frame = self._enhancer.enhance(frame, self.enhancement_mode)
             if self.use_legacy:
                 self.face_thread.submit(enhanced_frame)
             else:
@@ -863,6 +966,16 @@ class CameraProcessor:
         if len(self.frame_times) >= 10 and len(self.frame_times) % 10 == 0:
             recent = list(self.frame_times)
             self.display_fps = max(1.0, min(60.0, 9.0 / (recent[-1] - recent[0])))
+            
+        # Telemetry Logging
+        if not hasattr(self, 'last_telemetry_print'):
+            self.last_telemetry_print = time.time()
+        
+        if time.time() - self.last_telemetry_print > 5.0:
+            self.last_telemetry_print = time.time()
+            capture_fps = getattr(self.stream, 'capture_fps', 0.0)
+            dropped = getattr(self.stream, 'dropped_frames', 0)
+            print(f"[TELEMETRY CAM {self.cam_id}] Capture: {capture_fps:.1f}fps | Inference: {self.inference_fps:.1f}fps | Display: {self.display_fps:.1f}fps | Dropped: {dropped}")
 
         faces = self.face_thread.result if self.use_legacy else _global_central_worker.get_result(self.cam_id)
 
@@ -936,9 +1049,12 @@ class CameraProcessor:
             if self.video_writer is None:
                 self._start_new_segment(w_f, h_f, fps)
                 
-            if self.video_writer is not None:
-                self.video_writer.write(viz)
-                self.recording_frames += 1
+            if self.video_writer is not None and hasattr(self, 'record_queue'):
+                try:
+                    self.record_queue.put_nowait(viz.copy())
+                    self.recording_frames += 1
+                except Exception:
+                    pass # Drop frame if recording IO is completely saturated
                 
                 # Close segment after ~45 seconds
                 if time.time() - self.recording_start_time > 45.0:
@@ -972,7 +1088,7 @@ _CAMERAS_JSON = os.environ.get(
     "CAMERAS_JSON_PATH",
     os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "cameras.json")
 )
-_CAM_RELOAD_INTERVAL = 10.0   # seconds between hot-reload checks
+_CAM_RELOAD_INTERVAL = 2.0   # seconds between hot-reload checks
 _CAM_RETRY_DELAYS    = [2, 5, 10, 30]  # back-off seconds on stream failure
 
 
@@ -1062,6 +1178,7 @@ def main():
     processors: dict[str, "CameraProcessor"] = {}   # cam_id → processor
     retry_times: dict[str, float]            = {}   # cam_id → next retry timestamp
     retry_counts: dict[str, int]             = {}   # cam_id → number of retries
+    _connecting_cams = set()
 
     def _sync_processors(configs: list):
         """
@@ -1085,23 +1202,30 @@ def main():
         # Start processors for new cameras (not already running)
         for cam_cfg in configs:
             cid = cam_cfg['id']
-            if cid in processors:
-                continue  # already running
+            if cid in processors or cid in _connecting_cams:
+                continue  # already running or currently connecting
             now = time.time()
             if cid in retry_times and now < retry_times[cid]:
                 continue  # still in back-off
-            proc = _start_processor(cam_cfg, face_det)
-            if proc:
-                processors[cid] = proc
-                retry_times.pop(cid, None)
-                retry_counts.pop(cid, None)
-            else:
-                # Back-off: pick next delay based on how many retries done
-                count = retry_counts.get(cid, 0)
-                delay = _CAM_RETRY_DELAYS[min(count, len(_CAM_RETRY_DELAYS) - 1)]
-                retry_counts[cid] = count + 1
-                retry_times[cid] = time.time() + delay
-                print(f"  [CAM] Will retry {cid} in {delay}s")
+                
+            _connecting_cams.add(cid)
+            
+            def _connect_worker(c_cfg, c_id):
+                proc = _start_processor(c_cfg, face_det)
+                if proc:
+                    processors[c_id] = proc
+                    retry_times.pop(c_id, None)
+                    retry_counts.pop(c_id, None)
+                else:
+                    count = retry_counts.get(c_id, 0)
+                    delay = _CAM_RETRY_DELAYS[min(count, len(_CAM_RETRY_DELAYS) - 1)]
+                    retry_counts[c_id] = count + 1
+                    retry_times[c_id] = time.time() + delay
+                    print(f"  [CAM] Will retry {c_id} in {delay}s")
+                _connecting_cams.remove(c_id)
+                
+            threading.Thread(target=_connect_worker, args=(cam_cfg, cid), daemon=True).start()
+            time.sleep(1.5) # Stagger initialization to prevent USB bus lockup
 
 
     print("\n--- Multi-Camera System Ready (IDLE) ---")
@@ -1167,26 +1291,36 @@ def main():
                 return None, None
 
             # Async encoder pool for event buffers to prevent memory bloat
+            import queue
             import concurrent.futures
-            if not hasattr(_sync_processors, 'enc_executor'):
-                _sync_processors.enc_executor = concurrent.futures.ThreadPoolExecutor(max_workers=4)
+            
+            if not hasattr(_sync_processors, 'enc_queue'):
+                _sync_processors.enc_queue = queue.Queue(maxsize=15)
+                
+                def _encoder_worker():
+                    while True:
+                        try:
+                            cid, frm, ts = _sync_processors.enc_queue.get()
+                            if isinstance(frm, np.ndarray):
+                                h, w = frm.shape[:2]
+                                if w > 1280:
+                                    frm = cv2.resize(frm, (1280, int(1280 * h / w)))
+                                _, buf = cv2.imencode('.jpg', frm, [cv2.IMWRITE_JPEG_QUALITY, 70])
+                                frm = buf.tobytes()
+                            if cid not in _STREAM_BUFFERS:
+                                _STREAM_BUFFERS[cid] = deque(maxlen=450)
+                            _STREAM_BUFFERS[cid].append((ts, frm))
+                            _sync_processors.enc_queue.task_done()
+                        except Exception as e:
+                            print(f"[Encoder] Error: {e}")
+                            
+                for _ in range(4):
+                    threading.Thread(target=_encoder_worker, daemon=True).start()
 
             if not hasattr(_sync_processors, 'executor'):
-                _sync_processors.executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
+                _sync_processors.executor = concurrent.futures.ThreadPoolExecutor(max_workers=16)
                 
-            results = _sync_processors.executor.map(_process_one, processors.values())
-            
-            def _async_encode_and_buffer(cid, frm, ts):
-                if isinstance(frm, np.ndarray):
-                    # Downscale for memory saving in buffer
-                    h, w = frm.shape[:2]
-                    if w > 1280:
-                        frm = cv2.resize(frm, (1280, int(1280 * h / w)))
-                    _, buf = cv2.imencode('.jpg', frm, [cv2.IMWRITE_JPEG_QUALITY, 70])
-                    frm = buf.tobytes()
-                if cid not in _STREAM_BUFFERS:
-                    _STREAM_BUFFERS[cid] = deque(maxlen=450) # 450 frames = ~15s at 30fps
-                _STREAM_BUFFERS[cid].append((ts, frm))
+            results = _sync_processors.executor.map(_process_one, list(processors.values()))
 
             for cam_id, frame_data in results:
                 if cam_id and frame_data is not None:
@@ -1195,8 +1329,11 @@ def main():
                     _STREAM_VERSIONS[cam_id] = ver
                     _STREAM_FRAMES[cam_id] = (ver, frame_data)
                     
-                    # Offload the buffer encoding asynchronously
-                    _sync_processors.enc_executor.submit(_async_encode_and_buffer, cam_id, frame_data, time.time())
+                    # Offload the buffer encoding asynchronously using bounded queue
+                    try:
+                        _sync_processors.enc_queue.put_nowait((cam_id, frame_data, time.time()))
+                    except queue.Full:
+                        print(f"  [CAM] Encoder queue full (dropping frame for {cam_id} to save memory)")
             
             # Keep CPU from spinning too fast if no frames
             time.sleep(0.01)

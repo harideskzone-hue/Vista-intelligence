@@ -632,6 +632,33 @@
                         newMatches.reverse().forEach(match => showRecognitionToast(match));
                     }
                     
+                    // Populate unified-alerts-tbody
+                    const alertsTbody = document.getElementById('unified-alerts-tbody');
+                    if (alertsTbody) {
+                        const alertEvents = data.events.filter(ev => ev.match_status === 'MATCH' && (ev.temporal_state === 'CONFIRMED' || ev.temporal_state === 'LOCKED'));
+                        if (alertEvents.length === 0) {
+                            alertsTbody.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-text-tertiary">No alerts found</td></tr>`;
+                        } else {
+                            alertsTbody.innerHTML = alertEvents.map(ev => {
+                                let date = new Date(ev.timestamp * 1000);
+                                let timeStr = date.toLocaleTimeString();
+                                let confStr = ev.embedding_distance != null ? ((1.0 - ev.embedding_distance) * 100).toFixed(1) + '%' : '—';
+                                let name = ev.matched_identity_name || ev.matched_identity_id || 'Unknown Person';
+                                
+                                return `
+                                    <tr>
+                                        <td class="py-3 pr-4 whitespace-nowrap text-text-secondary">${timeStr}</td>
+                                        <td class="py-3 pr-4 whitespace-nowrap text-text-primary font-mono text-xs">${ev.camera_id}</td>
+                                        <td class="py-3 pr-4 whitespace-nowrap text-red-500 font-bold">WANTED PERSON MATCH</td>
+                                        <td class="py-3 pr-4 whitespace-nowrap font-mono text-xs">${confStr}</td>
+                                        <td class="py-3 pr-4 whitespace-nowrap font-medium">${name} identified</td>
+                                        <td class="py-3 whitespace-nowrap text-xs text-blue-500"><a href="#">View Logs</a></td>
+                                    </tr>
+                                `;
+                            }).join('');
+                        }
+                    }
+                    
                     if (section) section.classList.remove('hidden');
                     if (tbody) {
                         tbody.innerHTML = data.events.map(ev => {
