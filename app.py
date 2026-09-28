@@ -2,7 +2,6 @@ import os
 import subprocess
 import threading
 import sys
-import time
 import gradio as gr
 from fastapi import FastAPI
 
@@ -33,17 +32,11 @@ def _dummy_gpu():
     return "GPU Ready"
 
 with gr.Blocks() as demo:
-    gr.Markdown("# VISTA AI - System Running\nThe FastAPI server is handling requests.")
+    gr.Markdown("# VISTA AI - System Running\nThe FastAPI server is handling requests in the background.")
     btn = gr.Button("Wake GPU")
     out = gr.Textbox()
     btn.click(_dummy_gpu, inputs=[], outputs=[out])
 
 # Mount Gradio into FastAPI
-app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio_dummy")
+app = gr.mount_gradio_app(fastapi_app, demo, path="/")
 
-# 5. Start Uvicorn
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 7860))
-    print(f"Starting Uvicorn server on port {port}...")
-    uvicorn.run(app, host="0.0.0.0", port=port)
