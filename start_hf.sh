@@ -11,7 +11,7 @@ mkdir -p /app/logs
 
 # Start the FastAPI Backend
 echo "Starting FastAPI Backend..."
-python3 /app/face_api/run.py &
+cd /app/face_api && python3 run.py &
 API_PID=$!
 
 # Wait for API to be healthy
