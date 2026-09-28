@@ -189,8 +189,9 @@ def _preflight():
     Validate all critical dependencies before starting the pipeline.
     Returns True if all required checks pass.
     """
-    _ENGINE_DIR = os.path.dirname(os.path.abspath(__file__))
-    _MODELS_DIR = os.path.join(_ENGINE_DIR, "models")
+    # Make sure we import model_manager so it can locate the right directory
+    from model_manager import MODELS_DIR
+    _MODELS_DIR = MODELS_DIR
 
     checks = []
 
@@ -240,7 +241,8 @@ def _preflight():
     api_detail = "NOT RESPONDING"
     try:
         import urllib.request
-        with urllib.request.urlopen("http://localhost:5001/api/health", timeout=3) as resp:
+        API_PORT = int(os.environ.get("PORT", 5001))
+        with urllib.request.urlopen(f"http://localhost:{API_PORT}/api/health", timeout=3) as resp:
             if resp.status == 200:
                 import json as _json
                 data = _json.loads(resp.read())
@@ -697,7 +699,7 @@ class RemoteCameraSource:
     STALE_TIMEOUT   = 30.0    # seconds without new frame → STALE
     OFFLINE_TIMEOUT = 60.0    # seconds without new frame → OFFLINE / stopped
 
-    def __init__(self, cam_id: str, face_api_base: str = "http://127.0.0.1:5001"):
+    def __init__(self, cam_id: str, face_api_base: str = f"http://127.0.0.1:{os.environ.get('PORT', 5001)}"):
         self.cam_id         = cam_id
         self._base_url      = f"{face_api_base}/api/camera/frame/{cam_id}"
         self.stopped        = False
@@ -822,7 +824,7 @@ class CameraProcessor:
         else:
             global _global_central_worker
             if _global_central_worker is None:
-                model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "yolo26n-face.pt")
+                model_path = os.path.join(os.environ.get('SIH26187_MODELS', os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")), "yolo26n-face.pt")
                 _global_central_worker = CentralInferenceWorker(model_path, batch_size=INFERENCE_BATCH_SIZE)
             self.face_thread = None
         
@@ -1010,7 +1012,8 @@ class CameraProcessor:
                 }
                 try:
                     headers={"x-internal-token": open("/Users/hariharans/Documents/SIH26187/data/.session_secret").read().strip()} if __import__("os").path.exists("/Users/hariharans/Documents/SIH26187/data/.session_secret") else {}
-                    res = requests.post("http://localhost:5001/api/recognize_live", files=files, data=data, headers=headers, timeout=2.0)
+                    API_PORT = int(os.environ.get("PORT", 5001))
+                    res = requests.post(f"http://localhost:{API_PORT}/api/recognize_live", files=files, data=data, headers=headers, timeout=2.0)
                     if res.status_code == 200:
                         rj = res.json()
                         status = rj.get('match_status')
@@ -1066,7 +1069,7 @@ class CameraProcessor:
             self.face_thread.stop()
         self.stream.stop()
 
-# ── Remote Camera IPC State ────────────────────────────────────────────────────
+# ── Remote Camera IPC State ────────────────────────────────────────────────    
 _CAMERA_STATE_FILE = os.environ.get(
     "CAMERAS_STATE_PATH",
     os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "camera_state.json")
@@ -1140,7 +1143,7 @@ def _start_processor(cam_cfg: dict, face_det) -> "CameraProcessor | None":
     # -- Remote camera via WebSocket relay ------------------------------------
     # Source "ws://remote" or "wss://..." means this camera's frames arrive via
     # camera_relay.py -> face_api WebSocket -> HTTP frame bridge.
-    # We use RemoteCameraSource which polls http://localhost:5001/api/camera/frame/{cam_id}
+    # We use RemoteCameraSource which polls http://localhost:{os.environ.get('PORT', 5001)}/api/camera/frame/{cam_id}
     # This correctly crosses the process boundary without shared memory.
     if source_str.startswith(("ws://", "wss://")):
         print(f"  [CAM] Remote camera (WebSocket relay): {label} ({cam_id})")
@@ -1166,7 +1169,7 @@ def main():
 
     print("Loading YOLO models (this may take a few seconds)...")
     try:
-        face_det = YOLO(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "yolo26n-face.pt"))
+        face_det = YOLO(os.path.join(os.environ.get('SIH26187_MODELS', os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")), "yolo26n-face.pt"))
         print("  ✓ Face model loaded")
     except Exception as e:
         face_det = None
@@ -1229,7 +1232,7 @@ def main():
 
 
     print("\n--- Multi-Camera System Ready (IDLE) ---")
-    print("Awaiting Start signal from Dashboard http://localhost:5001/")
+    print(f"Awaiting Start signal from Dashboard http://localhost:{os.environ.get('PORT', 5001)}/")
 
     last_reload = 0.0
     system_active = False

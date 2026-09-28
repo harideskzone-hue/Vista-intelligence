@@ -42,5 +42,5 @@ EMBEDDING_DIM = 512  # InsightFace embedding dimension
 
 # Server settings
 HOST = '0.0.0.0'
-PORT = 5001
+PORT = int(os.environ.get("PORT", 7860))
 DEBUG = True

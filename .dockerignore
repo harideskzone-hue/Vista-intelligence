@@ -1,0 +1,11 @@
+.venv
+__pycache__
+.git
+build
+VISTA AI.app
+VISTA_AI.app
+VISTA AI.zip
+*.dmg
+data
+*.pyc
+logs
