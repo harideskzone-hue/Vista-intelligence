@@ -54,3 +54,4 @@ ultralytics
 insightface
 onnxruntime
 faiss-cpu
+huggingface_hub<0.26.0
