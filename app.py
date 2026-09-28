@@ -2,11 +2,9 @@ import os
 import subprocess
 import threading
 import sys
-import gradio as gr
-from fastapi import FastAPI
 
-# 1. Setup Environment Variables for Hugging Face
-os.environ["PORT"] = "7860"
+# 1. Setup Environment Variables
+os.environ["PORT"] = os.environ.get("PORT", "10000")
 os.environ["SIH26187_DATA"] = os.path.abspath("data")
 os.environ["SIH26187_VEHICLE_INT"] = os.path.abspath("Vehicle Intelligence/SIH26187")
 os.makedirs(os.environ["SIH26187_DATA"], exist_ok=True)
@@ -20,23 +18,12 @@ def start_live_scorer():
 
 threading.Thread(target=start_live_scorer, daemon=True).start()
 
-# 3. Import FastAPI app
+# 3. Export FastAPI app for Uvicorn
 sys.path.insert(0, os.path.abspath("face_api"))
-from face_api.run import app as fastapi_app
+from face_api.run import app
 
-# 4. Create dummy ZeroGPU Gradio block to satisfy Hugging Face Space supervisor
-import spaces
-
-@spaces.GPU
-def _dummy_gpu():
-    return "GPU Ready"
-
-with gr.Blocks() as demo:
-    gr.Markdown("# VISTA AI - System Running\nThe FastAPI server is handling requests in the background.")
-    btn = gr.Button("Wake GPU")
-    out = gr.Textbox()
-    btn.click(_dummy_gpu, inputs=[], outputs=[out])
-
-# Mount Gradio into FastAPI
-app = gr.mount_gradio_app(fastapi_app, demo, path="/")
-
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 10000))
+    print(f"Starting Uvicorn server on port {port}...")
+    uvicorn.run(app, host="0.0.0.0", port=port)
