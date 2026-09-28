@@ -1,0 +1,42 @@
+{
+  "tests_performed": [
+    "9A-1",
+    "9A-2",
+    "9A-4",
+    "9A-5"
+  ],
+  "tests_blocked": [
+    "9A-3 (Requires 3 physical cameras)"
+  ],
+  "measurements": {
+    "cam_1_baseline": {
+      "camera_id": "cam_1",
+      "status": "LIVE",
+      "frames_received": 54,
+      "bytes_received": 1223799,
+      "fps": 14.6,
+      "last_seen_ago_s": 0.1,
+      "uptime_s": 4.0
+    },
+    "cam_2_concurrent": {
+      "camera_id": "cam_2",
+      "status": "LIVE",
+      "frames_received": 54,
+      "bytes_received": 2255278,
+      "fps": 14.5,
+      "last_seen_ago_s": 0.0,
+      "uptime_s": 4.0
+    },
+    "cam_3_concurrent": {
+      "camera_id": "cam_3",
+      "status": "LIVE",
+      "frames_received": 54,
+      "bytes_received": 2286080,
+      "fps": 14.5,
+      "last_seen_ago_s": 0.1,
+      "uptime_s": 4.0
+    }
+  },
+  "failures_injected": 1,
+  "recoveries_verified": 1
+}

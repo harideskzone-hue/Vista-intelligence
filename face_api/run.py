@@ -27,6 +27,7 @@ import uvicorn  # type: ignore
 from fastapi import FastAPI, Request, Form  # type: ignore
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore
 from fastapi.staticfiles import StaticFiles  # type: ignore
+from fastapi.templating import Jinja2Templates
 from fastapi.responses import (  # type: ignore
     FileResponse, JSONResponse, RedirectResponse, HTMLResponse, Response
 )
@@ -82,6 +83,7 @@ NO_CACHE = {"Cache-Control": "no-store, no-cache, must-revalidate", "Pragma": "n
 
 def create_app() -> FastAPI:
     get_correlation_engine()
+    templates = Jinja2Templates(directory=f"{BASE_DIR}/templates")
     app = FastAPI(
         title="SIH26187 — Face Database",
         version="2.1.0",
@@ -160,36 +162,36 @@ def create_app() -> FastAPI:
         return HTMLResponse(tmpl, headers=NO_CACHE)
 
     @app.get("/")
-    async def serve_dashboard():
-        return FileResponse(f"{BASE_DIR}/templates/dashboard.html", headers=NO_CACHE)
+    async def serve_dashboard(request: Request):
+        return templates.TemplateResponse(request=request, name="dashboard.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/camera")
-    async def serve_camera():
-        return FileResponse(f"{BASE_DIR}/templates/camera.html", headers=NO_CACHE)
+    async def serve_camera(request: Request):
+        return templates.TemplateResponse(request=request, name="camera.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/preview")
-    async def serve_preview():
-        return FileResponse(f"{BASE_DIR}/templates/preview.html", headers=NO_CACHE)
+    async def serve_preview(request: Request):
+        return templates.TemplateResponse(request=request, name="preview.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/api-keys")
-    async def serve_api_keys():
-        return FileResponse(f"{BASE_DIR}/templates/api_keys.html", headers=NO_CACHE)
+    async def serve_api_keys(request: Request):
+        return templates.TemplateResponse(request=request, name="api_keys.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/wanted")
-    async def serve_wanted():
-        return FileResponse(f"{BASE_DIR}/templates/wanted.html", headers=NO_CACHE)
+    async def serve_wanted(request: Request):
+        return templates.TemplateResponse(request=request, name="wanted.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/database")
-    async def serve_database():
-        return FileResponse(f"{BASE_DIR}/templates/database.html", headers=NO_CACHE)
+    async def serve_database(request: Request):
+        return templates.TemplateResponse(request=request, name="database.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/boundary")
-    async def serve_boundary():
-        return FileResponse(f"{BASE_DIR}/templates/boundary.html", headers=NO_CACHE)
+    async def serve_boundary(request: Request):
+        return templates.TemplateResponse(request=request, name="boundary.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/vehicle")
-    async def serve_vehicle():
-        return FileResponse(f"{BASE_DIR}/templates/vehicle.html", headers=NO_CACHE)
+    async def serve_vehicle(request: Request):
+        return templates.TemplateResponse(request=request, name="vehicle.html", context={"request": request}, headers=NO_CACHE)
 
     @app.get("/api/stream/{cam_id}")
     async def stream_camera(cam_id: str, request: Request):

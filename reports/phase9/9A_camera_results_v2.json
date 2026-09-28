@@ -1,0 +1,55 @@
+{
+  "tests_performed": [
+    "9A-1",
+    "9A-2",
+    "9A-4",
+    "9A-5"
+  ],
+  "tests_blocked": [
+    "9A-3 (Requires 3 physical cameras, found 1)",
+    "9A-6 (3 cameras + repeated failures: Blocked pending physical hardware)",
+    "9A-7 (3 sustained endurance: Blocked pending physical hardware)"
+  ],
+  "measurements": {
+    "cam_1_baseline": {
+      "camera_id": "cam_1",
+      "status": "LIVE",
+      "frames_received": 59,
+      "bytes_received": 1465597,
+      "fps": 14.4,
+      "last_seen_ago_s": 0.0,
+      "uptime_s": 4.0,
+      "source_type": "Physical (Webcam)",
+      "time_to_first_frame_s": 1.452
+    },
+    "cam_2_concurrent": {
+      "camera_id": "cam_2",
+      "status": "LIVE",
+      "frames_received": 54,
+      "bytes_received": 2273759,
+      "fps": 14.6,
+      "last_seen_ago_s": 0.0,
+      "uptime_s": 4.0,
+      "source_type": "Virtual (File)"
+    },
+    "cam_2_failure": {
+      "time_to_stale_detected_s": 0.0
+    },
+    "cam_2_recovery": {
+      "recovery_time_s": 1.358
+    }
+  },
+  "resource_usage": {
+    "2_cameras": {
+      "cpu_percent": 29.5,
+      "ram_mb": 131.421875
+    }
+  },
+  "frame_verification": {
+    "cam_1": {
+      "dimensions": "1280x720",
+      "channels": 3,
+      "frame_id": 59
+    }
+  }
+}

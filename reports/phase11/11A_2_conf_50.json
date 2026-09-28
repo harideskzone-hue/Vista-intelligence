@@ -1,0 +1,74 @@
+{
+  "experiment_id": "11A_2_conf_50",
+  "git_commit": "734b5195435ee876970f26eb391922c70607278a",
+  "model_hash": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "hardware": {
+    "device": "mps",
+    "os": "Darwin",
+    "compute_provider": "Apple MPS"
+  },
+  "dataset": {
+    "name": "MOT17",
+    "source": "MOTChallenge",
+    "sequences": [
+      "MOT17-02-DPM",
+      "MOT17-02-FRCNN",
+      "MOT17-02-SDP",
+      "MOT17-04-DPM",
+      "MOT17-04-FRCNN",
+      "MOT17-04-SDP",
+      "MOT17-05-DPM",
+      "MOT17-05-FRCNN",
+      "MOT17-05-SDP",
+      "MOT17-09-DPM",
+      "MOT17-09-FRCNN",
+      "MOT17-09-SDP",
+      "MOT17-10-DPM",
+      "MOT17-10-FRCNN",
+      "MOT17-10-SDP",
+      "MOT17-11-DPM",
+      "MOT17-11-FRCNN",
+      "MOT17-11-SDP",
+      "MOT17-13-DPM",
+      "MOT17-13-FRCNN",
+      "MOT17-13-SDP"
+    ],
+    "annotation_source": "gt.txt",
+    "target_class": "pedestrian",
+    "visibility_policy": "same as Phase 8B",
+    "sampling_protocol": "same as Phase 8B (stride=fps)",
+    "dataset_hash": "2e3ecb488da8886d3200d402b2b08890c6d2879923839444e9b74fa43a551440"
+  },
+  "evaluation": {
+    "protocol_version": "11A-1.0",
+    "sampling_fps": 1.0,
+    "thresholds": {
+      "conf": 0.5,
+      "imgsz": 640,
+      "iou": 0.5
+    }
+  },
+  "metrics": {
+    "accuracy": {
+      "TP": 3591,
+      "FP": 321,
+      "FN": 8679,
+      "precision": 0.9179447852760736,
+      "recall": 0.29266503667481664,
+      "f1": 0.4438264738598443
+    },
+    "latency": {
+      "p50_ms": 20.36595344543457,
+      "p95_ms": 27.188014984130856
+    },
+    "throughput": {
+      "fps": 34.89963603615528
+    }
+  },
+  "resource_usage": {
+    "cpu_avg": 62.04745762711865,
+    "cpu_max": 71.1,
+    "ram_avg_mb": 311.61784957627117,
+    "ram_max_mb": 370.1875
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "experiment_id": "11B_2_batch_4",
+  "git_commit": "734b5195435ee876970f26eb391922c70607278a",
+  "model_hash": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "config": {
+    "conf": 0.4,
+    "imgsz": 640,
+    "batch": 4,
+    "fps": "baseline",
+    "tracker": "bytetrack"
+  },
+  "metrics": {
+    "raw_detection": {
+      "TP": 2547,
+      "FP": 329,
+      "FN": 9232,
+      "precision": 0.8856050069541029,
+      "recall": 0.21623227778249426
+    },
+    "tracking": {
+      "TP": 1706,
+      "FP": 331,
+      "FN": 9157,
+      "precision": 0.8375061364752087,
+      "recall": 0.15704685630120593,
+      "mota": 0.11673316919942267,
+      "idf1": 0.18055932663589466,
+      "mostly_tracked": 126,
+      "mostly_lost": 976,
+      "num_switches": 916,
+      "num_fragmentations": 388,
+      "idsw_per_1k": 77.76551489939723
+    },
+    "performance": {
+      "latency_p50_ms": 31.6314697265625,
+      "frame_age_max_ms": 1920.3519821166992,
+      "dropped_frames": 31
+    },
+    "resource_usage": {
+      "cpu_avg": 71.32242647058823,
+      "cpu_max": 115.2,
+      "ram_avg_mb": 451.2046760110294,
+      "ram_max_mb": 693.796875
+    }
+  }
+}

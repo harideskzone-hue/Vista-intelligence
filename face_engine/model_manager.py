@@ -24,7 +24,7 @@ class ModelInfo(TypedDict):
     required: bool
 
 # ── Model Registry ──────────────────────────────────────────────────────────────
-MODELS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
+MODELS_DIR = os.environ.get("SIH26187_MODELS", os.path.join(os.path.dirname(os.path.abspath(__file__)), "models"))
 
 MODEL_REGISTRY: Dict[str, ModelInfo] = {
     "yolo26n.pt": {

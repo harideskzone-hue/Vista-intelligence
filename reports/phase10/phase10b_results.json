@@ -1,0 +1,167 @@
+{
+  "B1": {
+    "mt0.8_tb30": {
+      "mota": 0.03903095558546432,
+      "idf1": 0.06177606177606178,
+      "num_false_positives": 0.0,
+      "num_misses": 2127.0,
+      "num_switches": 15.0,
+      "num_objects": 2229.0,
+      "num_predictions": 102.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 159.0,
+      "det_recall": 0.04576043068640646,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 6.7294751009421265
+    },
+    "mt0.7_tb30": {
+      "mota": 0.03903095558546432,
+      "idf1": 0.06177606177606178,
+      "num_false_positives": 0.0,
+      "num_misses": 2127.0,
+      "num_switches": 15.0,
+      "num_objects": 2229.0,
+      "num_predictions": 102.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 159.0,
+      "det_recall": 0.04576043068640646,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 6.7294751009421265
+    },
+    "mt0.6_tb30": {
+      "mota": 0.03903095558546432,
+      "idf1": 0.06177606177606178,
+      "num_false_positives": 0.0,
+      "num_misses": 2127.0,
+      "num_switches": 15.0,
+      "num_objects": 2229.0,
+      "num_predictions": 102.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 159.0,
+      "det_recall": 0.04576043068640646,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 6.7294751009421265
+    },
+    "mt0.8_tb60": {
+      "mota": 0.03903095558546432,
+      "idf1": 0.06177606177606178,
+      "num_false_positives": 0.0,
+      "num_misses": 2127.0,
+      "num_switches": 15.0,
+      "num_objects": 2229.0,
+      "num_predictions": 102.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 159.0,
+      "det_recall": 0.04576043068640646,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 6.7294751009421265
+    },
+    "mt0.7_tb60": {
+      "mota": 0.03903095558546432,
+      "idf1": 0.06177606177606178,
+      "num_false_positives": 0.0,
+      "num_misses": 2127.0,
+      "num_switches": 15.0,
+      "num_objects": 2229.0,
+      "num_predictions": 102.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 159.0,
+      "det_recall": 0.04576043068640646,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 6.7294751009421265
+    },
+    "mt0.6_tb60": {
+      "mota": 0.03903095558546432,
+      "idf1": 0.06177606177606178,
+      "num_false_positives": 0.0,
+      "num_misses": 2127.0,
+      "num_switches": 15.0,
+      "num_objects": 2229.0,
+      "num_predictions": 102.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 159.0,
+      "det_recall": 0.04576043068640646,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 6.7294751009421265
+    }
+  },
+  "B2": {
+    "imgsz_640": {
+      "mota": 0.03903095558546432,
+      "idf1": 0.06177606177606178,
+      "num_false_positives": 0.0,
+      "num_misses": 2127.0,
+      "num_switches": 15.0,
+      "num_objects": 2229.0,
+      "num_predictions": 102.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 159.0,
+      "det_recall": 0.04576043068640646,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 6.7294751009421265,
+      "latency_ms": 51.70921484629313,
+      "fps": 19.338912860551524,
+      "cpu_percent": 34.2,
+      "ram_mb": 346.96875
+    },
+    "imgsz_480": {
+      "mota": 0.037685060565275874,
+      "idf1": 0.059431524547803614,
+      "num_false_positives": 0.0,
+      "num_misses": 2136.0,
+      "num_switches": 9.0,
+      "num_objects": 2229.0,
+      "num_predictions": 93.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 162.0,
+      "det_recall": 0.04172274562584118,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 4.037685060565276,
+      "latency_ms": 39.27135136392382,
+      "fps": 25.463855081866082,
+      "cpu_percent": 26.7,
+      "ram_mb": 389.421875
+    },
+    "imgsz_320": {
+      "mota": 0.008075370121130576,
+      "idf1": 0.010680907877169559,
+      "num_false_positives": 0.0,
+      "num_misses": 2211.0,
+      "num_switches": 0.0,
+      "num_objects": 2229.0,
+      "num_predictions": 18.0,
+      "mostly_tracked": 0.0,
+      "mostly_lost": 171.0,
+      "det_recall": 0.008075370121130552,
+      "det_precision": 1.0,
+      "idsw_per_1k_gt": 0.0,
+      "latency_ms": 27.060227261649235,
+      "fps": 36.95460464285299,
+      "cpu_percent": 23.2,
+      "ram_mb": 422.671875
+    }
+  },
+  "B3": {
+    "batch_1": {
+      "images_per_sec": 72.97233724207523,
+      "batch_latency_ms": 13.70382308959961,
+      "per_frame_latency_ms": 13.70382308959961,
+      "cpu_percent": 20.0,
+      "ram_mb": 474.375
+    },
+    "batch_2": {
+      "images_per_sec": 85.84532791909757,
+      "batch_latency_ms": 23.297715187072754,
+      "per_frame_latency_ms": 11.648857593536377,
+      "cpu_percent": 18.7,
+      "ram_mb": 483.125
+    },
+    "batch_4": {
+      "images_per_sec": 93.1258912399955,
+      "batch_latency_ms": 42.952609062194824,
+      "per_frame_latency_ms": 10.738152265548706,
+      "cpu_percent": 34.5,
+      "ram_mb": 356.046875
+    }
+  }
+}

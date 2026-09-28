@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-09-16T17:16:34.896303",
+  "status": "BLOCKED",
+  "blocker_reason": "Dataset directory not found: data/face_eval_dataset",
+  "configuration": {
+    "framework": "insightface==0.7.3",
+    "model": "buffalo_sc",
+    "detection": "det_500m.onnx",
+    "recognition": "w600k_mbf.onnx",
+    "provider": "CPUExecutionProvider",
+    "vector_db": "faiss.IndexFlatIP",
+    "source_of_truth": "SQLite"
+  }
+}

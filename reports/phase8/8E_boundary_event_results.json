@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-09-16T17:50:14.745948",
+  "status": "BLOCKED",
+  "blocker_reason": "Dataset directory not found: data/controlled/boundary_events",
+  "configuration": {
+    "crossing_engine": {
+      "cooldown_seconds": 2.0,
+      "stale_timeout": 10.0,
+      "anchor": "bottom_center",
+      "direction_tags": [
+        "INTRUDING",
+        "RETREATING",
+        "ZONE_INTRUDED",
+        "ZONE_EXITED"
+      ]
+    },
+    "anomaly_engine": {
+      "loitering_time": 5.0,
+      "loitering_radius": 60.0,
+      "zone_lingering_time": 6.0,
+      "running_speed_thresh": 180.0,
+      "crawling_ratio_thresh": 0.85,
+      "erratic_angle_thresh": 80.0,
+      "group_min_size": 3,
+      "alert_cooldown_sec": 10.0,
+      "stale_timeout": 12.0
+    },
+    "cadence_evaluation_required": true,
+    "execution_provider": "ONNX CPUExecutionProvider / PyTorch MPS (if available)"
+  }
+}

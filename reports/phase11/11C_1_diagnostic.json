@@ -1,0 +1,569 @@
+{
+  "total_samples": 25,
+  "failure_distribution": {
+    "1. no vehicle detected in image": 19,
+    "2. target vehicle missed (no overlap)": 0,
+    "3. vehicle detected but insufficient GT-plate/vehicle overlap": 0,
+    "4. incorrect vehicle association/class": 0,
+    "5. vehicle crop/geometry issue": 0,
+    "6. other/unknown": 0,
+    "N/A (Success at gate)": 6
+  },
+  "diagnostics": [
+    {
+      "image_id": "image_0028.jpg",
+      "gt_plate_bbox": [
+        998.08,
+        1787.13,
+        1064.25,
+        1834.32
+      ],
+      "gt_plate_text": "KL34A465",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0028.jpg",
+      "gt_plate_bbox": [
+        742.9,
+        1699.15,
+        773.41,
+        1753.01
+      ],
+      "gt_plate_text": "KL34A465",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0028.jpg",
+      "gt_plate_bbox": [
+        561.12,
+        1632.93,
+        614.16,
+        1655.21
+      ],
+      "gt_plate_text": "KL34F",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0028.jpg",
+      "gt_plate_bbox": [
+        1755.62,
+        1682.02,
+        1876.67,
+        1726.27
+      ],
+      "gt_plate_text": "KL35F4337",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0028.jpg",
+      "gt_plate_bbox": [
+        1944.28,
+        2289.08,
+        2356.6,
+        2507.0
+      ],
+      "gt_plate_text": "KL35H5834",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0028.jpg",
+      "gt_plate_bbox": [
+        143.3,
+        1784.47,
+        219.27,
+        1832.83
+      ],
+      "gt_plate_text": "KL03S6894",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0029.jpg",
+      "gt_plate_bbox": [
+        234.5,
+        1359.54,
+        506.53,
+        1487.8
+      ],
+      "gt_plate_text": "UP84AE9889",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0030.jpg",
+      "gt_plate_bbox": [
+        1116.03,
+        1979.08,
+        1214.18,
+        2011.6
+      ],
+      "gt_plate_text": "GJ01DY6855",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0031.jpg",
+      "gt_plate_bbox": [
+        2437.4,
+        2474.58,
+        2744.63,
+        2576.34
+      ],
+      "gt_plate_text": "KL498262",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0032.jpg",
+      "gt_plate_bbox": [
+        847.65,
+        771.5,
+        1525.69,
+        977.86
+      ],
+      "gt_plate_text": "WB42AX7446",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0033.jpg",
+      "gt_plate_bbox": [
+        904.26,
+        1149.07,
+        1326.5,
+        1246.31
+      ],
+      "gt_plate_text": "MP07L7524",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0034.jpg",
+      "gt_plate_bbox": [
+        604.23,
+        1360.35,
+        2697.34,
+        1934.74
+      ],
+      "gt_plate_text": "MP04PA0434",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0035.jpg",
+      "gt_plate_bbox": [
+        1487.12,
+        1144.3,
+        1647.2,
+        1228.98
+      ],
+      "gt_plate_text": "RJ11GB1829",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0036.jpg",
+      "gt_plate_bbox": [
+        869.98,
+        1547.6,
+        1376.1,
+        1684.9
+      ],
+      "gt_plate_text": "KL41L7001",
+      "any_vehicle_detected": true,
+      "detected_vehicle_bbox": [
+        337,
+        514,
+        1752,
+        1857
+      ],
+      "vehicle_confidence": "unknown",
+      "vehicle_class": "unknown",
+      "gt_plate_vehicle_overlap": 1.0,
+      "vehicle_gate_failure_reason": "N/A (Success at gate)",
+      "plate_localization_result": true,
+      "crop_acceptance_result": true,
+      "ocr_result": "KL41L7001",
+      "format_validation_result": true,
+      "final_exact_match": true
+    },
+    {
+      "image_id": "image_0037.jpg",
+      "gt_plate_bbox": [
+        1184.92,
+        1753.32,
+        2084.1,
+        2301.6
+      ],
+      "gt_plate_text": "TN58D5353",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0038.jpg",
+      "gt_plate_bbox": [
+        1365.3,
+        1767.08,
+        1822.1,
+        2018.8
+      ],
+      "gt_plate_text": "KL07BX7197",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0039.jpg",
+      "gt_plate_bbox": [
+        422.65,
+        823.01,
+        2505.43,
+        1905.5
+      ],
+      "gt_plate_text": "UP84AE6664",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0040.jpg",
+      "gt_plate_bbox": [
+        1186.33,
+        1359.07,
+        1734.4,
+        1766.62
+      ],
+      "gt_plate_text": "KL10AG7249",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0041.jpg",
+      "gt_plate_bbox": [
+        938.59,
+        874.96,
+        1247.9,
+        1079.3
+      ],
+      "gt_plate_text": "TN58AP5280",
+      "any_vehicle_detected": true,
+      "detected_vehicle_bbox": [
+        410,
+        8,
+        1860,
+        1420
+      ],
+      "vehicle_confidence": "unknown",
+      "vehicle_class": "unknown",
+      "gt_plate_vehicle_overlap": 1.0,
+      "vehicle_gate_failure_reason": "N/A (Success at gate)",
+      "plate_localization_result": true,
+      "crop_acceptance_result": true,
+      "ocr_result": "TN58AP5280",
+      "format_validation_result": true,
+      "final_exact_match": true
+    },
+    {
+      "image_id": "image_0042.jpg",
+      "gt_plate_bbox": [
+        1102.5,
+        1558.6,
+        1464.8,
+        1665.6
+      ],
+      "gt_plate_text": "DL3CD1210",
+      "any_vehicle_detected": true,
+      "detected_vehicle_bbox": [
+        491,
+        253,
+        1925,
+        1641
+      ],
+      "vehicle_confidence": "unknown",
+      "vehicle_class": "unknown",
+      "gt_plate_vehicle_overlap": 0.770093457943926,
+      "vehicle_gate_failure_reason": "N/A (Success at gate)",
+      "plate_localization_result": true,
+      "crop_acceptance_result": true,
+      "ocr_result": "DI3CD1210",
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0043.jpg",
+      "gt_plate_bbox": [
+        508.11,
+        989.6,
+        1776.1,
+        1342.6
+      ],
+      "gt_plate_text": "RJ11GB8850",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0044.jpg",
+      "gt_plate_bbox": [
+        1099.21,
+        2402.19,
+        1499.9,
+        2584.8
+      ],
+      "gt_plate_text": "MP13GA9462",
+      "any_vehicle_detected": false,
+      "detected_vehicle_bbox": null,
+      "vehicle_confidence": null,
+      "vehicle_class": null,
+      "gt_plate_vehicle_overlap": 0.0,
+      "vehicle_gate_failure_reason": "1. no vehicle detected in image",
+      "plate_localization_result": false,
+      "crop_acceptance_result": false,
+      "ocr_result": null,
+      "format_validation_result": false,
+      "final_exact_match": false
+    },
+    {
+      "image_id": "image_0045.jpg",
+      "gt_plate_bbox": [
+        1585.0,
+        2035.96,
+        1842.81,
+        2110.7
+      ],
+      "gt_plate_text": "KA09C2763",
+      "any_vehicle_detected": true,
+      "detected_vehicle_bbox": [
+        516,
+        685,
+        1920,
+        2150
+      ],
+      "vehicle_confidence": "unknown",
+      "vehicle_class": "unknown",
+      "gt_plate_vehicle_overlap": 1.0,
+      "vehicle_gate_failure_reason": "N/A (Success at gate)",
+      "plate_localization_result": true,
+      "crop_acceptance_result": true,
+      "ocr_result": "KA09C2763",
+      "format_validation_result": true,
+      "final_exact_match": true
+    },
+    {
+      "image_id": "image_0046.jpg",
+      "gt_plate_bbox": [
+        1562.75,
+        2045.93,
+        1902.78,
+        2231.91
+      ],
+      "gt_plate_text": "MH18AA1002",
+      "any_vehicle_detected": true,
+      "detected_vehicle_bbox": [
+        391,
+        315,
+        2466,
+        2338
+      ],
+      "vehicle_confidence": "unknown",
+      "vehicle_class": "unknown",
+      "gt_plate_vehicle_overlap": 1.0,
+      "vehicle_gate_failure_reason": "N/A (Success at gate)",
+      "plate_localization_result": true,
+      "crop_acceptance_result": true,
+      "ocr_result": "MH18AA1002",
+      "format_validation_result": true,
+      "final_exact_match": true
+    },
+    {
+      "image_id": "image_0047.jpg",
+      "gt_plate_bbox": [
+        2094.1,
+        1823.53,
+        2477.01,
+        1962.8
+      ],
+      "gt_plate_text": "KA01AJ7533",
+      "any_vehicle_detected": true,
+      "detected_vehicle_bbox": [
+        255,
+        129,
+        2760,
+        2545
+      ],
+      "vehicle_confidence": "unknown",
+      "vehicle_class": "unknown",
+      "gt_plate_vehicle_overlap": 1.0,
+      "vehicle_gate_failure_reason": "N/A (Success at gate)",
+      "plate_localization_result": true,
+      "crop_acceptance_result": true,
+      "ocr_result": "KA01AJ7533",
+      "format_validation_result": true,
+      "final_exact_match": true
+    }
+  ]
+}

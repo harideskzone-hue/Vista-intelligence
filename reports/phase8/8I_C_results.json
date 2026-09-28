@@ -1,0 +1,186 @@
+{
+  "DYNAMIC": {
+    "rates": {
+      "Native": {
+        "raw": {
+          "mota": -0.026750491998895676,
+          "idf1": 0.004636837703881482,
+          "num_false_positives": 3338.0,
+          "num_misses": 80849.0,
+          "num_switches": 31114.0,
+          "num_objects": 112297.0,
+          "num_predictions": 34786.0,
+          "mostly_tracked": 87.0,
+          "mostly_lost": 288.0,
+          "tp": 31448.0,
+          "det_recall": 0.28004309999376653,
+          "det_precision": 0.9040418559190478,
+          "fp_rate": 0.029724747767081935,
+          "fn_rate": 0.7199569000062335,
+          "idsw_per_1k_gt": 277.0688442255804
+        },
+        "trk": {
+          "mota": 0.23824323000614445,
+          "idf1": 0.33352833889672734,
+          "num_false_positives": 2921.0,
+          "num_misses": 82220.0,
+          "num_switches": 402.0,
+          "num_objects": 112297.0,
+          "num_predictions": 32998.0,
+          "mostly_tracked": 65.0,
+          "mostly_lost": 307.0,
+          "tp": 30077.0,
+          "det_recall": 0.2678344034123797,
+          "det_precision": 0.9114794836050669,
+          "fp_rate": 0.026011380535544137,
+          "fn_rate": 0.7321655965876204,
+          "idsw_per_1k_gt": 3.5797928706911137
+        }
+      },
+      "5": {
+        "raw": {
+          "mota": -0.01977871340448445,
+          "idf1": 0.023923093857782345,
+          "num_false_positives": 721.0,
+          "num_misses": 14319.0,
+          "num_switches": 5790.0,
+          "num_objects": 20426.0,
+          "num_predictions": 6828.0,
+          "mostly_tracked": 82.0,
+          "mostly_lost": 274.0,
+          "tp": 6107.0,
+          "det_recall": 0.29898169000293745,
+          "det_precision": 0.8944053895723492,
+          "fp_rate": 0.035298149417409184,
+          "fn_rate": 0.7010183099970626,
+          "idsw_per_1k_gt": 283.46225399001275
+        },
+        "trk": {
+          "mota": 0.19739547635366694,
+          "idf1": 0.29671093267449045,
+          "num_false_positives": 542.0,
+          "num_misses": 15490.0,
+          "num_switches": 362.0,
+          "num_objects": 20426.0,
+          "num_predictions": 5478.0,
+          "mostly_tracked": 40.0,
+          "mostly_lost": 347.0,
+          "tp": 4936.0,
+          "det_recall": 0.2416527954567708,
+          "det_precision": 0.9010587805768528,
+          "fp_rate": 0.026534808577303438,
+          "fn_rate": 0.7583472045432292,
+          "idsw_per_1k_gt": 17.722510525800452
+        }
+      },
+      "2": {
+        "raw": {
+          "mota": 0.0014700477765526854,
+          "idf1": 0.055530017468051855,
+          "num_false_positives": 283.0,
+          "num_misses": 5732.0,
+          "num_switches": 2136.0,
+          "num_objects": 8163.0,
+          "num_predictions": 2714.0,
+          "mostly_tracked": 94.0,
+          "mostly_lost": 268.0,
+          "tp": 2431.0,
+          "det_recall": 0.2978071787333088,
+          "det_precision": 0.895725865880619,
+          "fp_rate": 0.03466862673036874,
+          "fn_rate": 0.7021928212666911,
+          "idsw_per_1k_gt": 261.66850422638737
+        },
+        "trk": {
+          "mota": 0.14957736126424104,
+          "idf1": 0.2255952380952381,
+          "num_false_positives": 222.0,
+          "num_misses": 6468.0,
+          "num_switches": 252.0,
+          "num_objects": 8163.0,
+          "num_predictions": 1917.0,
+          "mostly_tracked": 42.0,
+          "mostly_lost": 349.0,
+          "tp": 1695.0,
+          "det_recall": 0.20764424843807425,
+          "det_precision": 0.8841940532081377,
+          "fp_rate": 0.02719588386622565,
+          "fn_rate": 0.7923557515619257,
+          "idsw_per_1k_gt": 30.871003307607495
+        }
+      },
+      "1.2": {
+        "raw": {
+          "mota": 0.025916177363838888,
+          "idf1": 0.08683687509555114,
+          "num_false_positives": 148.0,
+          "num_misses": 3485.0,
+          "num_switches": 1178.0,
+          "num_objects": 4939.0,
+          "num_predictions": 1602.0,
+          "mostly_tracked": 91.0,
+          "mostly_lost": 276.0,
+          "tp": 1454.0,
+          "det_recall": 0.29439157724235676,
+          "det_precision": 0.9076154806491885,
+          "fp_rate": 0.029965580076938652,
+          "fn_rate": 0.7056084227576432,
+          "idsw_per_1k_gt": 238.50981980157925
+        },
+        "trk": {
+          "mota": 0.11480056691637985,
+          "idf1": 0.17407407407407408,
+          "num_false_positives": 123.0,
+          "num_misses": 4061.0,
+          "num_switches": 188.0,
+          "num_objects": 4939.0,
+          "num_predictions": 1001.0,
+          "mostly_tracked": 28.0,
+          "mostly_lost": 371.0,
+          "tp": 878.0,
+          "det_recall": 0.177768779105082,
+          "det_precision": 0.8771228771228772,
+          "fp_rate": 0.02490382668556388,
+          "fn_rate": 0.822231220894918,
+          "idsw_per_1k_gt": 38.06438550313829
+        }
+      },
+      "1": {
+        "raw": {
+          "mota": 0.02689486552567233,
+          "idf1": 0.09721203228173148,
+          "num_false_positives": 149.0,
+          "num_misses": 2877.0,
+          "num_switches": 954.0,
+          "num_objects": 4090.0,
+          "num_predictions": 1362.0,
+          "mostly_tracked": 95.0,
+          "mostly_lost": 275.0,
+          "tp": 1213.0,
+          "det_recall": 0.2965770171149144,
+          "det_precision": 0.8906020558002937,
+          "fp_rate": 0.036430317848410755,
+          "fn_rate": 0.7034229828850855,
+          "idsw_per_1k_gt": 233.2518337408313
+        },
+        "trk": {
+          "mota": 0.10464547677261615,
+          "idf1": 0.15734480639213275,
+          "num_false_positives": 104.0,
+          "num_misses": 3403.0,
+          "num_switches": 155.0,
+          "num_objects": 4090.0,
+          "num_predictions": 791.0,
+          "mostly_tracked": 30.0,
+          "mostly_lost": 371.0,
+          "tp": 687.0,
+          "det_recall": 0.16797066014669926,
+          "det_precision": 0.8685208596713021,
+          "fp_rate": 0.025427872860635695,
+          "fn_rate": 0.8320293398533007,
+          "idsw_per_1k_gt": 37.89731051344744
+        }
+      }
+    }
+  }
+}

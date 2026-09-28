@@ -4,8 +4,8 @@
     "Face Recognition Accuracy": "NOT MEASURED",
     "ANPR Accuracy": "NOT MEASURED",
     "Boundary Semantic Accuracy": "NOT MEASURED",
-    "Boundary Functional Tests (test_boundary_engine.py)": "PASS",
-    "Event Infrastructure (test_event_infrastructure.py)": "PASS",
+    "Boundary Functional Tests (test_boundary_engine.py)": "FAIL",
+    "Event Infrastructure (test_event_infrastructure.py)": "FAIL",
     "Camera/Result Association": "PASS",
     "Tracking ID Continuity": "NOT MEASURED"
   },
@@ -14,8 +14,8 @@
     "Face Recognition Accuracy": "NOT MEASURED",
     "ANPR Accuracy": "NOT MEASURED",
     "Boundary Semantic Accuracy": "NOT MEASURED",
-    "Boundary Functional Tests (test_boundary_engine.py)": "PASS",
-    "Event Infrastructure (test_event_infrastructure.py)": "PASS",
+    "Boundary Functional Tests (test_boundary_engine.py)": "FAIL",
+    "Event Infrastructure (test_event_infrastructure.py)": "FAIL",
     "Camera/Result Association": "PASS",
     "Tracking ID Continuity": "NOT MEASURED"
   }

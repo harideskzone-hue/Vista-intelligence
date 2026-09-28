@@ -1,0 +1,41 @@
+{
+  "experiment_id": "11A_4_batch_4",
+  "git_commit": "734b5195435ee876970f26eb391922c70607278a",
+  "model_hash": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "hardware": {
+    "device": "mps",
+    "os": "Darwin",
+    "compute_provider": "Apple MPS"
+  },
+  "dataset": {
+    "name": "MOT17 Subset",
+    "sampling_protocol": "Live stream simulation @ 30 fps (max 100 frames/seq)",
+    "dataset_hash": "2e3ecb488da8886d3200d402b2b08890c6d2879923839444e9b74fa43a551440"
+  },
+  "evaluation": {
+    "protocol_version": "11A-Live-1.0",
+    "thresholds": {
+      "conf": 0.4,
+      "imgsz": 640
+    }
+  },
+  "metrics": {
+    "performance": {
+      "input_fps": 30,
+      "inference_fps": 23.03017061041018,
+      "p50_latency_ms": 24.745941162109375,
+      "p95_latency_ms": 29.395031929016113,
+      "p50_frame_age_ms": 24.77896213531494,
+      "p95_frame_age_ms": 29.444801807403564,
+      "max_frame_age_ms": 110.47673225402832,
+      "dropped_frames": 0,
+      "processed_frames": 2100
+    }
+  },
+  "resource_usage": {
+    "cpu_avg": 41.81428571428572,
+    "cpu_max": 69.9,
+    "ram_avg_mb": 245.49819642857142,
+    "ram_max_mb": 326.203125
+  }
+}

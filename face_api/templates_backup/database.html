@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Face Database - VISTA AI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d9488",
+                        "secondary": "#14b8a6",
+                        "background-base": "#f4f4f5",
+                        "background-dark": "#09090b",
+                        "surface-white": "#ffffff",
+                        "surface-dark": "#18181b",
+                        "text-primary": "#09090b",
+                        "text-secondary": "#52525b",
+                        "text-tertiary": "#a1a1aa",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-base dark:bg-background-dark font-sans text-text-primary dark:text-gray-100 antialiased min-h-screen flex flex-col">
+    <header class="w-full bg-surface-white dark:bg-surface-dark border-b border-gray-100/30 dark:border-white/30 sticky top-0 z-50">
+        <div class="px-8 h-16 flex items-center justify-between max-w-[1400px] mx-auto w-full">
+            <a href="/" class="flex items-center gap-3 group focus:outline-none">
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-50/80 dark:bg-zinc-800/80 p-1 border border-teal-100/60 dark:border-white/10 shadow-sm group-hover:border-primary/40 transition-all duration-200">
+                    <img src="/static/images/vista_icon.png" alt="VISTA AI Logo" class="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-base font-black tracking-widest text-primary dark:text-white uppercase leading-none">VISTA <span class="font-light text-indigo-500">AI</span></span>
+                    <span class="text-[9px] tracking-[0.22em] text-text-tertiary uppercase font-semibold mt-1">From Sight to Insight</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/50">
+                    <div class="size-1.5 rounded-full bg-primary dark:bg-white"></div>
+                    <span class="text-[10px] font-semibold text-primary dark:text-white uppercase tracking-widest">System Live</span>
+                </div>
+            </div>
+        </div>
+    </header>
+<nav class="sticky top-20 mx-auto w-max max-w-[95vw] flex-wrap justify-center mt-6 mb-2 z-40 bg-primary p-1.5 rounded-2xl shadow-xl flex items-center gap-1 border border-white/10">
+        <a href="/" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">dashboard</span><span class="text-sm tracking-wide">Dash</span>
+        </a>
+        <a href="/preview" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">grid_view</span><span class="text-sm tracking-wide">Preview</span>
+        </a>
+        <a href="/boundary" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">shield</span><span class="text-sm tracking-wide">Border Vigil</span>
+        </a>
+        <a href="/vehicle" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">directions_car</span>
+            <span class="text-sm tracking-wide">Vehicle Intel</span>
+        </a>
+        <a href="/wanted" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium">
+            <span class="material-symbols-outlined text-[20px]">policy</span><span class="text-sm tracking-wide">Wanted</span>
+        </a>
+        <a href="/database" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 bg-white/10 text-white font-medium shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">folder_shared</span><span class="text-sm tracking-wide">Database</span>
+        </a>
+    </nav>
+
+
+    <main class="pt-24 pb-12 px-6 max-w-[1400px] mx-auto min-h-screen flex flex-col w-full">
+        <header class="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-black tracking-tight text-text-primary dark:text-white mb-2 flex items-center gap-3">
+                    <span class="bg-primary/10 text-primary p-2 rounded-xl">
+                        <span class="material-symbols-outlined text-[28px]">folder_shared</span>
+                    </span>
+                    Face Database
+                </h1>
+                <p class="text-text-tertiary text-sm">Manage enrolled identities across the system.</p>
+            </div>
+            <div class="flex items-center gap-4 w-full sm:w-auto">
+                <button onclick="openEnrollmentModal()" class="px-4 py-2 bg-primary text-white rounded-xl font-semibold flex items-center gap-2 hover:bg-secondary transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">person_add</span> New Enrollment
+                </button>
+                <div class="relative w-full sm:w-64">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                    <input type="text" id="searchInput" placeholder="Search identities..." class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none">
+                </div>
+                <select id="filterClassification" class="py-2 pl-4 pr-8 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary outline-none">
+                    <option value="all">All Classifications</option>
+                    <option value="normal">Normal</option>
+                    <option value="wanted">Wanted</option>
+                </select>
+            </div>
+        </header>
+        
+        <!-- Tabs -->
+        <div class="flex gap-8 mb-8 border-b border-gray-200 dark:border-white/10">
+            <button onclick="switchTab('persons')" id="tab-persons" class="text-sm font-bold text-primary dark:text-white pb-3 border-b-2 border-primary transition-colors">Identities</button>
+            <button onclick="switchTab('recordings')" id="tab-recordings" class="text-sm font-bold text-text-tertiary hover:text-text-primary pb-3 border-b-2 border-transparent transition-colors">Video Recordings</button>
+        </div>
+
+        <div id="view-persons">
+            <div id="personsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Persons will be populated here -->
+        </div>
+
+        <div id="loadingIndicator" class="flex flex-col items-center justify-center py-20">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+            <p class="mt-4 text-text-secondary">Loading database...</p>
+        </div>
+        
+        <div id="emptyState" class="hidden flex-col items-center justify-center py-20 bg-white dark:bg-surface-dark rounded-2xl border border-gray-100 dark:border-white/5">
+            <span class="material-symbols-outlined text-[48px] text-gray-300 mb-4">person_off</span>
+            <h3 class="text-lg font-semibold text-text-secondary">No Identities Found</h3>
+            <p class="text-text-tertiary mt-1">Try adjusting your filters or enroll a new person.</p>
+        </div>
+        </div> <!-- end view-persons -->
+
+        <div id="view-recordings" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="fetchRecordings()" class="px-4 py-2 bg-gray-100 dark:bg-white/5 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">refresh</span> Refresh
+                </button>
+            </div>
+            <div id="recordingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Recordings will be populated here -->
+            </div>
+            <div id="recordingsEmpty" class="hidden flex-col items-center justify-center py-20 bg-white dark:bg-surface-dark rounded-2xl border border-gray-100 dark:border-white/5">
+                <span class="material-symbols-outlined text-[48px] text-gray-300 mb-4">videocam_off</span>
+                <h3 class="text-lg font-semibold text-text-secondary">No Recordings Found</h3>
+                <p class="text-text-tertiary mt-1">Enable recording on a camera to start saving video segments.</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Video Player Modal -->
+    <div id="videoModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] flex flex-col items-center justify-center">
+        <div class="w-full max-w-5xl p-6 relative">
+            <button onclick="closeVideoModal()" class="absolute -top-10 right-0 text-white/50 hover:text-white material-symbols-outlined text-4xl transition-colors z-10">close</button>
+            <div class="bg-black rounded-xl overflow-hidden shadow-2xl relative w-full aspect-video border border-white/10">
+                <video id="recordingPlayer" class="w-full h-full" controls controlsList="nodownload"></video>
+            </div>
+            <div id="videoMeta" class="mt-4 text-white flex justify-between"></div>
+        </div>
+    </div>
+
+
+    <!-- Enrollment Modal -->
+    <div id="enrollmentModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center">
+        <div class="bg-white dark:bg-surface-dark w-full max-w-lg rounded-2xl shadow-xl overflow-hidden animate-[slideInRight_0.3s_ease-out] flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-gray-100 dark:border-white/10 flex justify-between items-center bg-gray-50 dark:bg-white/5">
+                <h2 class="text-xl font-bold">New Identity Enrollment</h2>
+                <button onclick="closeEnrollmentModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 overflow-y-auto">
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-1">Display Name *</label>
+                    <input type="text" id="enrollName" required placeholder="e.g. John Doe" class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-1">Category *</label>
+                    <input type="text" id="enrollCategory" required placeholder="e.g. STAFF, VISITOR" class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-1">Classification</label>
+                    <select id="enrollClassification" class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                        <option value="normal">Normal</option>
+                        <option value="wanted">Wanted</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4 border-t border-gray-100 dark:border-white/10">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">Upload Images *</label>
+                    
+                    <div class="flex gap-4 mb-3">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="uploadMode" value="single" checked onchange="toggleUploadMode()" class="accent-primary"> Single Image
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input type="radio" name="uploadMode" value="folder" onchange="toggleUploadMode()" class="accent-primary"> Folder / Multi-Image
+                        </label>
+                    </div>
+
+                    <div id="singleUploadGroup">
+                        <input type="file" id="enrollImageSingle" accept="image/jpeg, image/png, image/webp" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
+                    </div>
+                    <div id="folderUploadGroup" class="hidden">
+                        <input type="file" id="enrollImageFolder" webkitdirectory directory multiple class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
+                        <p class="text-xs text-text-tertiary mt-2">Select a folder containing multiple images of this person. Invalid images will be skipped.</p>
+                    </div>
+                </div>
+                
+                <div id="enrollmentStatus" class="hidden rounded-xl p-4 text-sm mt-4">
+                </div>
+                
+            </div>
+            <div class="p-6 border-t border-gray-100 dark:border-white/10 flex justify-end gap-3 bg-gray-50 dark:bg-white/5">
+                <button onclick="closeEnrollmentModal()" class="px-4 py-2 rounded-xl text-text-secondary hover:bg-gray-200 dark:hover:bg-white/10 font-medium transition-colors">Cancel</button>
+                <button id="enrollSubmitBtn" onclick="submitEnrollment()" class="px-6 py-2 rounded-xl bg-primary text-white hover:bg-secondary font-medium transition-colors shadow-sm flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px] hidden" id="enrollSpinner">refresh</span> 
+                    Enroll Person
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center">
+        <div class="bg-white dark:bg-surface-dark w-full max-w-md rounded-2xl shadow-xl overflow-hidden animate-[slideInRight_0.3s_ease-out]">
+            <div class="p-6 border-b border-gray-100 dark:border-white/10 flex justify-between items-center">
+                <h2 class="text-xl font-bold">Edit Identity</h2>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <input type="hidden" id="editPersonId">
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-1">Display Name</label>
+                    <input type="text" id="editName" class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-1">Category</label>
+                    <input type="text" id="editCategory" class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-1">Classification</label>
+                    <select id="editClassification" class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                        <option value="normal">Normal</option>
+                        <option value="wanted">Wanted</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-secondary mb-1">Status</label>
+                    <select id="editStatus" class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background-dark focus:ring-2 focus:ring-primary outline-none">
+                        <option value="ACTIVE">Active</option>
+                        <option value="DISABLED">Disabled</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4 border-t border-gray-100 dark:border-white/10">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-medium text-text-secondary">Reference Images</label>
+                        <label class="cursor-pointer text-xs font-semibold text-primary hover:text-secondary flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">add_a_photo</span> Add Image
+                            <input type="file" id="editAddImage" accept="image/jpeg, image/png, image/webp" class="hidden" multiple onchange="uploadReferenceImages()">
+                        </label>
+                    </div>
+                    <div id="editReferenceImages" class="flex flex-wrap gap-2">
+                        <!-- Reference images populated here -->
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-gray-100 dark:border-white/10 flex justify-end gap-3 bg-gray-50 dark:bg-white/5">
+                <button onclick="closeEditModal()" class="px-4 py-2 rounded-xl text-text-secondary hover:bg-gray-200 dark:hover:bg-white/10 font-medium transition-colors">Cancel</button>
+                <button onclick="savePersonChanges()" class="px-6 py-2 rounded-xl bg-primary text-white hover:bg-secondary font-medium transition-colors shadow-sm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-24 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+    <script>
+        let allPersons = [];
+        let personsGrid = document.getElementById('personsGrid');
+        let loadingIndicator = document.getElementById('loadingIndicator');
+        let emptyState = document.getElementById('emptyState');
+        let searchInput = document.getElementById('searchInput');
+        let filterClassification = document.getElementById('filterClassification');
+
+        // ── Enrollment Modal ──────────────────────────────────────────────────
+
+        function openEnrollmentModal() {
+            document.getElementById('enrollName').value = '';
+            document.getElementById('enrollCategory').value = '';
+            document.getElementById('enrollClassification').value = 'normal';
+            document.getElementById('enrollImageSingle').value = '';
+            document.getElementById('enrollImageFolder').value = '';
+            document.querySelectorAll('input[name="uploadMode"]').forEach(r => r.checked = (r.value === 'single'));
+            toggleUploadMode();
+            const status = document.getElementById('enrollmentStatus');
+            status.className = 'hidden rounded-xl p-4 text-sm mt-4';
+            status.innerHTML = '';
+            document.getElementById('enrollSubmitBtn').disabled = false;
+            document.getElementById('enrollSpinner').classList.add('hidden');
+            document.getElementById('enrollmentModal').classList.remove('hidden');
+        }
+
+        function closeEnrollmentModal() {
+            document.getElementById('enrollmentModal').classList.add('hidden');
+        }
+
+        function toggleUploadMode() {
+            const mode = document.querySelector('input[name="uploadMode"]:checked')?.value || 'single';
+            document.getElementById('singleUploadGroup').classList.toggle('hidden', mode !== 'single');
+            document.getElementById('folderUploadGroup').classList.toggle('hidden', mode !== 'folder');
+        }
+
+        async function submitEnrollment() {
+            const name = document.getElementById('enrollName').value.trim();
+            const category = document.getElementById('enrollCategory').value.trim();
+            const classification = document.getElementById('enrollClassification').value;
+            const mode = document.querySelector('input[name="uploadMode"]:checked')?.value || 'single';
+
+            if (!name) { showToast('Please enter a display name.', 'error'); return; }
+            if (!category) { showToast('Please enter a category (e.g. STAFF, VISITOR).', 'error'); return; }
+
+            const files = mode === 'single'
+                ? document.getElementById('enrollImageSingle').files
+                : document.getElementById('enrollImageFolder').files;
+
+            if (!files || files.length === 0) {
+                showToast(mode === 'single' ? 'Please select an image.' : 'Please select a folder containing images.', 'error');
+                return;
+            }
+
+            const validExts = ['jpg', 'jpeg', 'png', 'webp'];
+            const validFiles = Array.from(files).filter(f => validExts.includes(f.name.split('.').pop().toLowerCase()));
+
+            if (validFiles.length === 0) {
+                showToast('No valid image files found (JPEG, PNG, WebP only).', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('role', category);
+            formData.append('classification', classification);
+            validFiles.forEach(f => formData.append('images', f));
+
+            const btn = document.getElementById('enrollSubmitBtn');
+            const spinner = document.getElementById('enrollSpinner');
+            btn.disabled = true;
+            spinner.classList.remove('hidden');
+
+            const statusEl = document.getElementById('enrollmentStatus');
+            statusEl.className = 'rounded-xl p-4 text-sm mt-4 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200';
+            statusEl.innerHTML = '<div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Enrolling ' + validFiles.length + ' image(s) for <strong>' + name + '</strong>…</div>';
+
+            try {
+                const res = await fetch('/api/enroll', { method: 'POST', body: formData });
+                const data = await res.json();
+
+                if (data.success) {
+                    let html = '<div class="flex items-center gap-2 font-semibold text-green-700 dark:text-green-300 mb-2"><span class="material-symbols-outlined text-[18px]">check_circle</span> Enrollment Successful</div>';
+                    html += '<p>Person ID: <span class="font-mono text-xs">' + data.person_id + '</span></p>';
+                    if (data.accepted !== undefined) {
+                        html += '<p class="mt-1">✅ Accepted: <strong>' + data.accepted + '</strong> image(s)';
+                        if (data.rejected > 0) html += ' &nbsp;|&nbsp; ⚠️ Rejected: <strong>' + data.rejected + '</strong>';
+                        html += '</p>';
+                    }
+                    if (data.rejected_details && data.rejected_details.length > 0) {
+                        html += '<details class="mt-2 text-xs"><summary class="cursor-pointer font-medium">View rejected details</summary><ul class="mt-1 list-disc list-inside text-red-600 dark:text-red-400">';
+                        data.rejected_details.forEach(r => { html += '<li>#' + r.index + ': ' + r.reason + '</li>'; });
+                        html += '</ul></details>';
+                    }
+                    statusEl.className = 'rounded-xl p-4 text-sm mt-4 bg-green-50 dark:bg-green-900/30 text-green-800 dark:text-green-200';
+                    statusEl.innerHTML = html;
+                    showToast('Enrolled "' + name + '" successfully!', 'success');
+                    fetchPersons();
+                    setTimeout(() => closeEnrollmentModal(), 3000);
+                } else {
+                    const errMsg = data.error || 'Unknown error';
+                    statusEl.className = 'rounded-xl p-4 text-sm mt-4 bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-200';
+                    statusEl.innerHTML = '<div class="flex items-center gap-2 font-semibold mb-1"><span class="material-symbols-outlined text-[18px]">error</span> Enrollment Failed</div><p>' + errMsg + '</p>';
+                    showToast('Enrollment failed: ' + errMsg, 'error');
+                }
+            } catch (e) {
+                statusEl.className = 'rounded-xl p-4 text-sm mt-4 bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-200';
+                statusEl.innerHTML = '<div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">error</span> Network error — could not reach the server.</div>';
+                showToast('Network error during enrollment', 'error');
+            } finally {
+                btn.disabled = false;
+                spinner.classList.add('hidden');
+            }
+        }
+
+        function switchTab(tab) {
+            if(tab === 'persons') {
+                document.getElementById('view-persons').classList.remove('hidden');
+                document.getElementById('view-recordings').classList.add('hidden');
+                document.getElementById('tab-persons').classList.add('text-primary', 'dark:text-white', 'border-primary');
+                document.getElementById('tab-persons').classList.remove('text-text-tertiary', 'border-transparent');
+                document.getElementById('tab-recordings').classList.remove('text-primary', 'dark:text-white', 'border-primary');
+                document.getElementById('tab-recordings').classList.add('text-text-tertiary', 'border-transparent');
+            } else {
+                document.getElementById('view-persons').classList.add('hidden');
+                document.getElementById('view-recordings').classList.remove('hidden');
+                document.getElementById('tab-recordings').classList.add('text-primary', 'dark:text-white', 'border-primary');
+                document.getElementById('tab-recordings').classList.remove('text-text-tertiary', 'border-transparent');
+                document.getElementById('tab-persons').classList.remove('text-primary', 'dark:text-white', 'border-primary');
+                document.getElementById('tab-persons').classList.add('text-text-tertiary', 'border-transparent');
+                fetchRecordings();
+            }
+        }
+        
+        async function fetchRecordings() {
+            try {
+                const res = await fetch('/api/recordings');
+                const data = await res.json();
+                renderRecordings(data.recordings || []);
+            } catch(e) { console.error('Failed to fetch recordings', e); }
+        }
+        
+        function renderRecordings(recordings) {
+            const grid = document.getElementById('recordingsGrid');
+            const empty = document.getElementById('recordingsEmpty');
+            if (recordings.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                empty.style.display = 'flex';
+                return;
+            }
+            empty.classList.add('hidden');
+            empty.style.display = 'none';
+            grid.innerHTML = recordings.map(r => {
+                const startStr = new Date(r.start_time).toLocaleString();
+                const mb = (r.size / 1048576).toFixed(1);
+                return `
+                <div class="bg-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden flex flex-col group transition-all hover:shadow-md">
+                    <div class="aspect-video bg-gray-900 relative cursor-pointer" onclick="playRecording('${r.id}', '${r.camera_id}', '${startStr}')">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white text-5xl opacity-50 group-hover:opacity-100 transition-opacity">play_circle</span>
+                        </div>
+                        <div class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] font-mono px-2 py-1 rounded">
+                            ${r.duration.toFixed(0)}s
+                        </div>
+                    </div>
+                    <div class="p-4 flex flex-col gap-1">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-sm truncate">${r.camera_id}</h3>
+                            <span class="text-[10px] uppercase font-bold text-gray-500 bg-gray-100 dark:bg-white/10 px-2 py-0.5 rounded">${r.status}</span>
+                        </div>
+                        <p class="text-xs text-text-tertiary mt-1">${startStr}</p>
+                        <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-100 dark:border-white/10">
+                            <span class="text-xs font-mono text-text-secondary">${mb} MB</span>
+                            <button onclick="deleteRecording('${r.id}')" class="text-red-500 hover:text-red-700 transition-colors p-1" title="Delete Recording">
+                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+        
+        function playRecording(id, camId, timestamp) {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('recordingPlayer');
+            const meta = document.getElementById('videoMeta');
+            
+            meta.innerHTML = `<span class="font-bold uppercase tracking-widest">${camId}</span> <span class="text-gray-400">${timestamp}</span>`;
+            player.src = `/api/recordings/${id}/stream`;
+            modal.classList.remove('hidden');
+            player.play().catch(e => console.error("Auto-play blocked", e));
+        }
+        
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('recordingPlayer');
+            player.pause();
+            player.src = "";
+            modal.classList.add('hidden');
+        }
+        
+        async function deleteRecording(id) {
+            if(!confirm("Are you sure you want to delete this recording completely?")) return;
+            try {
+                await fetch(`/api/recordings/${id}`, { method: 'DELETE' });
+                fetchRecordings();
+            } catch(e) { console.error('Error deleting', e); }
+        }
+
+        async function fetchPersons() {
+            loadingIndicator.style.display = 'flex';
+            personsGrid.innerHTML = '';
+            emptyState.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/persons');
+                const data = await res.json();
+                if (data.success) {
+                    allPersons = data.persons;
+                    renderGrid();
+                } else {
+                    showToast('Failed to load database: ' + data.error, 'error');
+                }
+            } catch (e) {
+                showToast('Error connecting to API', 'error');
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function renderGrid() {
+            const query = searchInput.value.toLowerCase();
+            const classFilter = filterClassification.value;
+
+            const filtered = allPersons.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(query) || p.id.toLowerCase().includes(query) || (p.category && p.category.toLowerCase().includes(query));
+                const matchesClass = classFilter === 'all' || p.classification === classFilter;
+                return matchesSearch && matchesClass;
+            });
+
+            if (filtered.length === 0) {
+                personsGrid.innerHTML = '';
+                emptyState.style.display = 'flex';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            personsGrid.innerHTML = filtered.map(p => {
+                const isWanted = p.classification === 'wanted';
+                return `
+                <div class="bg-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden flex flex-col transition-all hover:shadow-md">
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-xl font-bold text-gray-400 uppercase">
+                                    ${p.name.charAt(0)}
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg leading-tight truncate w-32" title="${p.name}">${p.name}</h3>
+                                    <p class="text-xs text-text-tertiary mt-0.5 uppercase tracking-wider">${p.category}</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end gap-2">
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${isWanted ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-blue-50 text-blue-700 border border-blue-100'}">
+                                    ${p.classification}
+                                </span>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${p.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">
+                                    ${p.status}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-text-tertiary font-mono truncate mb-4 bg-gray-50 dark:bg-white/5 px-2 py-1 rounded">
+                            ID: ${p.id}
+                        </div>
+                        <div class="mt-auto grid grid-cols-2 gap-2">
+                            <button onclick='openEditModal(${JSON.stringify(p).replace(/'/g, "&#39;")})' class="px-3 py-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-sm font-medium transition-colors flex items-center justify-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">edit</span> Edit
+                            </button>
+                            <button onclick="deletePerson('${p.id}')" class="px-3 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium transition-colors flex items-center justify-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">delete</span> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function openEditModal(p) {
+            document.getElementById('editPersonId').value = p.id;
+            document.getElementById('editName').value = p.name;
+            document.getElementById('editCategory').value = p.category;
+            document.getElementById('editClassification').value = p.classification || 'normal';
+            document.getElementById('editStatus').value = p.status;
+            
+            const refContainer = document.getElementById('editReferenceImages');
+            if (p.reference_images && p.reference_images.length > 0) {
+                refContainer.innerHTML = p.reference_images.map(img_id => `
+                    <div class="relative group w-16 h-16 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10">
+                        <img src="/api/image/${img_id}" class="w-full h-full object-cover">
+                        <button onclick="deleteReferenceImage('${img_id}', '${p.id}')" class="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="material-symbols-outlined text-white text-[16px]">delete</span>
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                refContainer.innerHTML = '<span class="text-xs text-gray-400">No reference images found.</span>';
+            }
+            
+            document.getElementById('editModal').style.display = 'flex';
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        async function savePersonChanges() {
+            const id = document.getElementById('editPersonId').value;
+            const payload = {
+                display_name: document.getElementById('editName').value,
+                category: document.getElementById('editCategory').value,
+                classification: document.getElementById('editClassification').value,
+                status: document.getElementById('editStatus').value
+            };
+
+            try {
+                const res = await fetch(`/api/persons/${id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Identity updated successfully', 'success');
+                    closeEditModal();
+                    fetchPersons();
+                } else {
+                    showToast('Failed to update: ' + data.error, 'error');
+                }
+            } catch (e) {
+                showToast('Error connecting to server', 'error');
+            }
+        }
+
+        async function uploadReferenceImages() {
+            const input = document.getElementById('editAddImage');
+            if (!input.files || input.files.length === 0) return;
+            
+            const personId = document.getElementById('editPersonId').value;
+            const formData = new FormData();
+            for(let i=0; i<input.files.length; i++) {
+                formData.append('images', input.files[i]);
+            }
+            
+            try {
+                showToast('Uploading images...', 'info');
+                const res = await fetch(`/api/persons/${personId}/images`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    showToast(`Added ${data.added_count} reference image(s)`, 'success');
+                    input.value = ''; // clear input
+                    await fetchPersons();
+                    const p = allPersons.find(p => p.id === personId);
+                    if (p) openEditModal(p);
+                } else {
+                    showToast('Failed to add images: ' + data.error, 'error');
+                }
+            } catch (e) {
+                showToast('Error uploading images', 'error');
+            }
+        }
+
+        async function deleteReferenceImage(imageId, personId) {
+            if (!confirm('Are you sure you want to delete this reference image?')) return;
+            try {
+                const res = await fetch(`/api/image/${imageId}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Reference image deleted', 'success');
+                    // Refresh person list to get updated images
+                    await fetchPersons();
+                    // Update modal UI without closing it
+                    const p = allPersons.find(p => p.id === personId);
+                    if (p) openEditModal(p);
+                    else closeEditModal();
+                } else {
+                    showToast('Failed to delete: ' + data.error, 'error');
+                }
+            } catch (e) {
+                showToast('Error connecting to server', 'error');
+            }
+        }
+
+        async function deletePerson(id) {
+            if (!confirm('Are you sure you want to permanently delete this identity and all associated evidence?')) return;
+            
+            try {
+                const res = await fetch(`/api/persons/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Identity deleted', 'success');
+                    fetchPersons();
+                } else {
+                    showToast('Failed to delete: ' + data.error, 'error');
+                }
+            } catch (e) {
+                showToast('Error connecting to server', 'error');
+            }
+        }
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            el.className = `toast-enter px-4 py-3 rounded-xl shadow-lg border flex items-center gap-3 w-80 pointer-events-auto bg-white`;
+            if (type === 'error') el.className += ' border-red-200 text-red-800';
+            else if (type === 'success') el.className += ' border-green-200 text-green-800';
+            
+            const icon = type === 'error' ? 'error' : type === 'success' ? 'check_circle' : 'info';
+            const iconColor = type === 'error' ? 'text-red-500' : type === 'success' ? 'text-green-500' : 'text-blue-500';
+            
+            el.innerHTML = `<span class="material-symbols-outlined ${iconColor}">${icon}</span><p class="text-sm font-medium flex-1">${msg}</p>`;
+            
+            container.appendChild(el);
+            setTimeout(() => {
+                el.remove();
+            }, 3000);
+        }
+
+        searchInput.addEventListener('input', renderGrid);
+        filterClassification.addEventListener('change', renderGrid);
+        
+        // Initial load
+        fetchPersons();
+    </script>
+</body>
+</html>

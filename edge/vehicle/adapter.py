@@ -6,7 +6,7 @@ from typing import List, Optional, Dict, Any
 
 # We need to import the SIH26187 package from the submodule.
 # Add to sys.path so we can import from it.
-V_INT_PATH = "/Users/hariharans/Documents/SIH26187/Vehicle Intelligence/SIH26187"
+V_INT_PATH = os.environ.get("SIH26187_VEHICLE_INT", "/Users/hariharans/Documents/SIH26187/Vehicle Intelligence/SIH26187")
 if V_INT_PATH not in sys.path:
     sys.path.insert(0, V_INT_PATH)
 

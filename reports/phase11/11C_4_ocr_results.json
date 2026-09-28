@@ -1,0 +1,715 @@
+{
+  "total_localized_plates": 14,
+  "results_by_filter": {
+    "original": [
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34A465",
+        "ocr_output": "KL34A465",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34F",
+        "ocr_output": "KL34F",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": true,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35F4337",
+        "ocr_output": "KL35F4337",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35H5834",
+        "ocr_output": "KL35H5834",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0029.jpg",
+        "gt_text": "UP84AE9889",
+        "ocr_output": "UP84AE9889",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0030.jpg",
+        "gt_text": "GJ01DY6855",
+        "ocr_output": "GJ01DY6855",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0031.jpg",
+        "gt_text": "KL498262",
+        "ocr_output": "KL498262",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0032.jpg",
+        "gt_text": "WB42AX7446",
+        "ocr_output": "WB42AX7446",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0036.jpg",
+        "gt_text": "KL41L7001",
+        "ocr_output": "KL41L7001",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0041.jpg",
+        "gt_text": "TN58AP5280",
+        "ocr_output": "TN58AP5280",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0042.jpg",
+        "gt_text": "DL3CD1210",
+        "ocr_output": "DL3CD1210",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0044.jpg",
+        "gt_text": "MP13GA9462",
+        "ocr_output": "MP13GA9462",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0045.jpg",
+        "gt_text": "KA09C2763",
+        "ocr_output": "KA09C2763",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0046.jpg",
+        "gt_text": "MH18AA1002",
+        "ocr_output": "MH48AA1002",
+        "ocr_failure": false,
+        "exact_e2e_match": false,
+        "invalid_format": false,
+        "cer": 0.1,
+        "char_accuracy": 0.9
+      }
+    ],
+    "grayscale": [
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34A465",
+        "ocr_output": "KL34A465",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34F",
+        "ocr_output": "KL34F",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": true,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35F4337",
+        "ocr_output": "KL35F4337",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35H5834",
+        "ocr_output": "KL35H5834",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0029.jpg",
+        "gt_text": "UP84AE9889",
+        "ocr_output": "UP84AE9889",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0030.jpg",
+        "gt_text": "GJ01DY6855",
+        "ocr_output": "GJ01DY6855",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0031.jpg",
+        "gt_text": "KL498262",
+        "ocr_output": "KL498262",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0032.jpg",
+        "gt_text": "WB42AX7446",
+        "ocr_output": "WB42AX7446",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0036.jpg",
+        "gt_text": "KL41L7001",
+        "ocr_output": "KL41L7001",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0041.jpg",
+        "gt_text": "TN58AP5280",
+        "ocr_output": "TN58AP5280",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0042.jpg",
+        "gt_text": "DL3CD1210",
+        "ocr_output": "DL3CD1210",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0044.jpg",
+        "gt_text": "MP13GA9462",
+        "ocr_output": "MP13GA9462",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0045.jpg",
+        "gt_text": "KA09C2763",
+        "ocr_output": "KA09C2763",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0046.jpg",
+        "gt_text": "MH18AA1002",
+        "ocr_output": "MH48AA1002",
+        "ocr_failure": false,
+        "exact_e2e_match": false,
+        "invalid_format": false,
+        "cer": 0.1,
+        "char_accuracy": 0.9
+      }
+    ],
+    "contrast": [
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34A465",
+        "ocr_output": "KL34A465",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34F",
+        "ocr_output": "KL34F",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": true,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35F4337",
+        "ocr_output": "KL35F4337",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35H5834",
+        "ocr_output": "KL35H5834",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0029.jpg",
+        "gt_text": "UP84AE9889",
+        "ocr_output": "UP84AE9889",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0030.jpg",
+        "gt_text": "GJ01DY6855",
+        "ocr_output": "GJ01DY6855",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0031.jpg",
+        "gt_text": "KL498262",
+        "ocr_output": "KL498262",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0032.jpg",
+        "gt_text": "WB42AX7446",
+        "ocr_output": "WB42AX7446",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0036.jpg",
+        "gt_text": "KL41L7001",
+        "ocr_output": "KL41L7001",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0041.jpg",
+        "gt_text": "TN58AP5280",
+        "ocr_output": "TN58AP5280",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0042.jpg",
+        "gt_text": "DL3CD1210",
+        "ocr_output": "DL3CD1210",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0044.jpg",
+        "gt_text": "MP13GA9462",
+        "ocr_output": "MP13GA9462",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0045.jpg",
+        "gt_text": "KA09C2763",
+        "ocr_output": "KA09C2763",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0046.jpg",
+        "gt_text": "MH18AA1002",
+        "ocr_output": "MH18AA1002",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      }
+    ],
+    "upscale": [
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34A465",
+        "ocr_output": "KL34A465",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34F",
+        "ocr_output": "KL34F",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": true,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35F4337",
+        "ocr_output": "KL35F4337",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35H5834",
+        "ocr_output": "KL35H5834",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0029.jpg",
+        "gt_text": "UP84AE9889",
+        "ocr_output": "UP84AE9889",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0030.jpg",
+        "gt_text": "GJ01DY6855",
+        "ocr_output": "GJ01DY6855",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0031.jpg",
+        "gt_text": "KL498262",
+        "ocr_output": "KL498262",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0032.jpg",
+        "gt_text": "WB42AX7446",
+        "ocr_output": "WB42AX7446",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0036.jpg",
+        "gt_text": "KL41L7001",
+        "ocr_output": "KL41L7001",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0041.jpg",
+        "gt_text": "TN58AP5280",
+        "ocr_output": "TN58AP5280",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0042.jpg",
+        "gt_text": "DL3CD1210",
+        "ocr_output": "DL3CD1210",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0044.jpg",
+        "gt_text": "MP13GA9462",
+        "ocr_output": "MP13GA9462",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0045.jpg",
+        "gt_text": "KA09C2763",
+        "ocr_output": "KA09C2763",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0046.jpg",
+        "gt_text": "MH18AA1002",
+        "ocr_output": "MH48AA1002",
+        "ocr_failure": false,
+        "exact_e2e_match": false,
+        "invalid_format": false,
+        "cer": 0.1,
+        "char_accuracy": 0.9
+      }
+    ],
+    "sharpen": [
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34A465",
+        "ocr_output": "KL34D465",
+        "ocr_failure": false,
+        "exact_e2e_match": false,
+        "invalid_format": false,
+        "cer": 0.125,
+        "char_accuracy": 0.875
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL34F",
+        "ocr_output": "KL34F",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": true,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35F4337",
+        "ocr_output": "KL35F4331",
+        "ocr_failure": false,
+        "exact_e2e_match": false,
+        "invalid_format": false,
+        "cer": 0.1111111111111111,
+        "char_accuracy": 0.8888888888888888
+      },
+      {
+        "image_id": "image_0028.jpg",
+        "gt_text": "KL35H5834",
+        "ocr_output": "KL35H5834",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0029.jpg",
+        "gt_text": "UP84AE9889",
+        "ocr_output": "UP84AE9889",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0030.jpg",
+        "gt_text": "GJ01DY6855",
+        "ocr_output": "G301DY6855",
+        "ocr_failure": false,
+        "exact_e2e_match": false,
+        "invalid_format": true,
+        "cer": 0.1,
+        "char_accuracy": 0.9
+      },
+      {
+        "image_id": "image_0031.jpg",
+        "gt_text": "KL498262",
+        "ocr_output": "KL498262",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0032.jpg",
+        "gt_text": "WB42AX7446",
+        "ocr_output": "WB42AX7446",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0036.jpg",
+        "gt_text": "KL41L7001",
+        "ocr_output": "KL41L7001",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0041.jpg",
+        "gt_text": "TN58AP5280",
+        "ocr_output": "TN58AP5280",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0042.jpg",
+        "gt_text": "DL3CD1210",
+        "ocr_output": "DL3CD1210",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0044.jpg",
+        "gt_text": "MP13GA9462",
+        "ocr_output": "MP13GA9462",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0045.jpg",
+        "gt_text": "KA09C2763",
+        "ocr_output": "KA09C2763",
+        "ocr_failure": false,
+        "exact_e2e_match": true,
+        "invalid_format": false,
+        "cer": 0.0,
+        "char_accuracy": 1.0
+      },
+      {
+        "image_id": "image_0046.jpg",
+        "gt_text": "MH18AA1002",
+        "ocr_output": "MR38AA1002",
+        "ocr_failure": false,
+        "exact_e2e_match": false,
+        "invalid_format": true,
+        "cer": 0.2,
+        "char_accuracy": 0.8
+      }
+    ]
+  }
+}

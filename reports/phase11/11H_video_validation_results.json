@@ -1,0 +1,3955 @@
+{
+  "baseline": {
+    "test_video.mp4": {
+      "resolution": "1920x1080",
+      "fps": 30.0,
+      "total_frames": 450,
+      "processing_time_s": 15.099004030227661,
+      "processing_fps": 29.803290276571637,
+      "total_tracks_with_ocr": 0,
+      "total_ocr_observations": 0,
+      "unknown_tracks": 0,
+      "errors": 0,
+      "tracks": {}
+    },
+    "far_vehicles.mp4": {
+      "resolution": "3840x2160",
+      "fps": 30.0,
+      "total_frames": 1800,
+      "processing_time_s": 178.8564019203186,
+      "processing_fps": 10.063939454635282,
+      "total_tracks_with_ocr": 82,
+      "total_ocr_observations": 936,
+      "unknown_tracks": 10,
+      "errors": 0,
+      "tracks": {
+        "1": {
+          "observations": [
+            "AA22222",
+            "AA"
+          ],
+          "final_plate": "AA22222",
+          "status": "PROBABLE"
+        },
+        "2": {
+          "observations": [
+            "NA13NRU",
+            "NA13NRU",
+            "NA13NRU",
+            "NA13NRU",
+            "NA13NRU",
+            "NA13NRU"
+          ],
+          "final_plate": "NA13NRU",
+          "status": "PROBABLE"
+        },
+        "4": {
+          "observations": [
+            "HW51VSU",
+            "HM51VSU",
+            "MM51VSU",
+            "HW51VSU",
+            "HW51VSU",
+            "MW51VSU",
+            "MW51VSU",
+            "MN51VSU",
+            "MH51VSU",
+            "MW51VSU",
+            "MH51VSU",
+            "MH51VSU",
+            "MY51VSU"
+          ],
+          "final_plate": "MW51VSU",
+          "status": "PROBABLE"
+        },
+        "5": {
+          "observations": [
+            "AP05J",
+            "AP35L3",
+            "AP05J3",
+            "AP355",
+            "AP05J",
+            "AP05J3",
+            "AP05JG1",
+            "AP05JEO",
+            "AP09JGO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO"
+          ],
+          "final_plate": "AP05JEO",
+          "status": "PROBABLE"
+        },
+        "7": {
+          "observations": [
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ"
+          ],
+          "final_plate": "GX15OGJ",
+          "status": "PROBABLE"
+        },
+        "8": {
+          "observations": [
+            "AA31L",
+            "NM3921",
+            "UP25ZZK",
+            "XHJ5ZAK",
+            "HH0544K",
+            "WH0S24N",
+            "KH0S27K",
+            "KH05ZAK",
+            "KN05ZIK",
+            "KH05ZRK",
+            "KH05ZAN",
+            "KH05ZZN",
+            "KH05ZZN",
+            "A",
+            "KH05ZZK",
+            "AA",
+            "KH052ZK",
+            "KH052ZK",
+            "A",
+            "KH05ZZK",
+            "KH052ZK",
+            "KH052ZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KN052ZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH052ZK",
+            "KH052ZK",
+            "KH05ZZK",
+            "NH05ZZN",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KN05ZZK"
+          ],
+          "final_plate": "KH05ZZK",
+          "status": "PROBABLE"
+        },
+        "10": {
+          "observations": [
+            "APCEIL11",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65UJJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "DC661111"
+          ],
+          "final_plate": "BG65USJ",
+          "status": "PROBABLE"
+        },
+        "11": {
+          "observations": [
+            "624K",
+            "HR6215",
+            "AA12",
+            "AAY7722",
+            "FJ14ZHY",
+            "FJ14ZHY",
+            "FJ14ZHY",
+            "FJ14ZHY",
+            "FJ14ZHY",
+            "AI17HMV"
+          ],
+          "final_plate": "FJ14ZHY",
+          "status": "PROBABLE"
+        },
+        "16": {
+          "observations": [
+            "AP251",
+            "AP05LL6666",
+            "PP53",
+            "AP05J3",
+            "AP05J333",
+            "AP00C22300",
+            "LM13VCV",
+            "LM13VCV",
+            "LH13VCV",
+            "LH13VCV"
+          ],
+          "final_plate": "LH13VCV",
+          "status": "PROBABLE"
+        },
+        "19": {
+          "observations": [
+            "AP3112",
+            "UQ07FM1",
+            "HB02FKO",
+            "HPJ2FF",
+            "UR02FKD",
+            "HR02FKD",
+            "WR02FKD",
+            "WR02FKD",
+            "WR02FKD",
+            "WR02FKO",
+            "WR02FKD",
+            "WR02FKD",
+            "WR02FKD"
+          ],
+          "final_plate": "WR02FKD",
+          "status": "PROBABLE"
+        },
+        "37": {
+          "observations": [
+            "AA"
+          ],
+          "final_plate": "AA",
+          "status": "PROBABLE"
+        },
+        "48": {
+          "observations": [
+            "P",
+            "CYC1HDC",
+            "C3406",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "A122",
+            "FY61NH6",
+            "AAP33A2555",
+            "AA333A"
+          ],
+          "final_plate": "EY61NBG",
+          "status": "PROBABLE"
+        },
+        "52": {
+          "observations": [
+            "HN144H",
+            "HR414",
+            "HP114",
+            "HN14CH",
+            "HN14C",
+            "HN14C",
+            "HN14C",
+            "HN14C",
+            "HN14CZ",
+            "HP16E",
+            "HN14CDY"
+          ],
+          "final_plate": "HN14C",
+          "status": "PROBABLE"
+        },
+        "58": {
+          "observations": [
+            "AV00WVE",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF"
+          ],
+          "final_plate": "AV08HVF",
+          "status": "PROBABLE"
+        },
+        "70": {
+          "observations": [
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV"
+          ],
+          "final_plate": "AF65JKV",
+          "status": "PROBABLE"
+        },
+        "71": {
+          "observations": [
+            "AP29333",
+            "AJ62HYJ",
+            "GU62HI3",
+            "OU62MMJ",
+            "DU62HYJ",
+            "OU62HYJ",
+            "DL62HYJ",
+            "OJ62HYJ",
+            "MU62HYJ",
+            "A706HH11"
+          ],
+          "final_plate": "DU62HYJ",
+          "status": "PROBABLE"
+        },
+        "79": {
+          "observations": [
+            "L12LLCJ",
+            "MA54KGJ",
+            "NA54KGJ",
+            "HA54KGJ",
+            "AP0222",
+            "HA54KGJ",
+            "NA54KGJ",
+            "DPW2332",
+            "NA54KGJ",
+            "PP1V",
+            "NA54KGJ",
+            "DP11",
+            "NA54KGJ",
+            "AHV222",
+            "NA54KGJ",
+            "A0011",
+            "NA54KGJ",
+            "A5ADMN",
+            "NA54KGJ",
+            "K54DHH",
+            "NA54KGJ",
+            "P600MM4444",
+            "NA54KGJ",
+            "K66DMM",
+            "NA54KGJ",
+            "VK64DM",
+            "NA54KGJ",
+            "AK64DM",
+            "NA54KGJ",
+            "KB4UHN",
+            "NA54KGJ",
+            "KO4UMV",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ"
+          ],
+          "final_plate": "NA54KGJ",
+          "status": "PROBABLE"
+        },
+        "86": {
+          "observations": [
+            "AA",
+            "AR40HA034",
+            "ARA0HA554",
+            "APA0MA6",
+            "ORAUNA064"
+          ],
+          "final_plate": "ARA0HA554",
+          "status": "PROBABLE"
+        },
+        "87": {
+          "observations": [
+            "GJ466",
+            "AP51PP",
+            "GL000",
+            "G2210",
+            "GJ28AP2",
+            "GJ09AP0",
+            "GJ26AF1",
+            "G335APD",
+            "GJ06FP",
+            "GJ05FP2",
+            "GJ06PP2",
+            "GJ06EPO",
+            "LJ06EP99",
+            "GJ06EPD",
+            "GJ06EFJ",
+            "GJ06EPO",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPO",
+            "GJ06EPO",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPI",
+            "GJ06EPO",
+            "GJ06EPO",
+            "GJ06EPO",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD"
+          ],
+          "final_plate": "GJ06EPD",
+          "status": "PROBABLE"
+        },
+        "91": {
+          "observations": [
+            "AP00222",
+            "PPAW",
+            "PPAV",
+            "DP1V",
+            "DHV",
+            "CAD0VV",
+            "AAD0M",
+            "K54DMV",
+            "W660MMV",
+            "KK6DMVV",
+            "VK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "A",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DHV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV"
+          ],
+          "final_plate": "AK64DMV",
+          "status": "PROBABLE"
+        },
+        "101": {
+          "observations": [
+            "AA33333"
+          ],
+          "final_plate": "AA33333",
+          "status": "PROBABLE"
+        },
+        "103": {
+          "observations": [
+            "A",
+            "AP13A11111",
+            "A",
+            "AA11111",
+            "AA333",
+            "L117L",
+            "KY07NM",
+            "A131V4",
+            "LP1193",
+            "AP1445",
+            "AP13AA111",
+            "FA11NN",
+            "CI11MM",
+            "IL1195",
+            "A111111",
+            "CY09701",
+            "AK69YM51",
+            "TY69YM",
+            "LY09VM1",
+            "LY09VO",
+            "LY03HW",
+            "FT232",
+            "CY09N",
+            "AP2222",
+            "EX05",
+            "EY09WM",
+            "CY09VME",
+            "EY09YMS",
+            "EY09",
+            "EY09VWS",
+            "EY09VMS",
+            "EY09",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VMS",
+            "EY09YMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VMS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWE",
+            "AA2"
+          ],
+          "final_plate": "EY09VWS",
+          "status": "PROBABLE"
+        },
+        "113": {
+          "observations": [
+            "A",
+            "AA"
+          ],
+          "final_plate": "A",
+          "status": "PROBABLE"
+        },
+        "119": {
+          "observations": [
+            "BG65USJ"
+          ],
+          "final_plate": "BG65USJ",
+          "status": "PROBABLE"
+        },
+        "123": {
+          "observations": [
+            "KH06KSU",
+            "KH26MSU",
+            "KH06KSU",
+            "KH06KSU",
+            "KH06KSU",
+            "KH06KSU",
+            "KH06KSU",
+            "KH06KSU",
+            "KH06KSU"
+          ],
+          "final_plate": "KH06KSU",
+          "status": "PROBABLE"
+        },
+        "125": {
+          "observations": [
+            "EP27A97",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10D7T"
+          ],
+          "final_plate": "EF10DZT",
+          "status": "PROBABLE"
+        },
+        "126": {
+          "observations": [
+            "A11"
+          ],
+          "final_plate": "A11",
+          "status": "PROBABLE"
+        },
+        "127": {
+          "observations": [
+            "LN16ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "AP33322",
+            "LN15ZZC",
+            "AA022222",
+            "LN15ZZC",
+            "AP022333"
+          ],
+          "final_plate": "LN15ZZC",
+          "status": "PROBABLE"
+        },
+        "129": {
+          "observations": [
+            "NP3",
+            "AP323P3",
+            "AP2222",
+            "AP22",
+            "AN",
+            "AP2",
+            "AP32",
+            "AP1",
+            "AP7641",
+            "AP225555",
+            "PA23AA",
+            "LY09UK",
+            "LY09VM9",
+            "YL38M",
+            "AI099N",
+            "YE09MM",
+            "YL31",
+            "E729K",
+            "SY29N",
+            "AA23FL4",
+            "DA07GL1",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07GYV"
+          ],
+          "final_plate": "DA07CLX",
+          "status": "PROBABLE"
+        },
+        "148": {
+          "observations": [
+            "A337AA222"
+          ],
+          "final_plate": "A337AA222",
+          "status": "PROBABLE"
+        },
+        "153": {
+          "observations": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A",
+            "A",
+            "AA",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "final_plate": "A",
+          "status": "PROBABLE"
+        },
+        "162": {
+          "observations": [
+            "A"
+          ],
+          "final_plate": "A",
+          "status": "PROBABLE"
+        },
+        "166": {
+          "observations": [
+            "AA222222",
+            "A",
+            "PP0722222",
+            "A3",
+            "AP3422",
+            "AP3444",
+            "APUA",
+            "AP0A22",
+            "HR1A",
+            "DHIA",
+            "5DHNA",
+            "GOWNA",
+            "AP613"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "173": {
+          "observations": [
+            "0RA1NAG6",
+            "ORA1HAG66",
+            "DRA1NAG60",
+            "ORAINAGE",
+            "DRA1NAGE",
+            "ORA1NAGE",
+            "DRA1NAGE",
+            "DIVIS10N",
+            "DRA1NAGE",
+            "ARA1NAGE6",
+            "ORAINAGEH",
+            "ARA1NAGE",
+            "DIVISION",
+            "ARA1NAGE",
+            "ARA1NAGEH",
+            "ARA1NAGE6",
+            "DRA1NAG4H7",
+            "ORAINAGE",
+            "DRA1NAGEH7",
+            "DIVISION",
+            "ORAINAGEH",
+            "ARAINAGE1",
+            "ORA1NAGE",
+            "ARA1NAGEH1",
+            "DIV1SION",
+            "HRA1NAGE",
+            "ORA1NAGE",
+            "DIVISION",
+            "ORA1NAGE1",
+            "ORAINAGEH",
+            "DIVISI0N",
+            "URA1NAGE",
+            "ORA1NAGE6",
+            "DIV1SION",
+            "ARA1NAGE",
+            "ORAINAGEH",
+            "APX2222",
+            "ARAINAG4H",
+            "AP3122332",
+            "ARA1NAGE",
+            "AP31222222",
+            "ARA1NAG6",
+            "DRA1NA666",
+            "2HBY22",
+            "M2331",
+            "ORA1NAGE"
+          ],
+          "final_plate": "ORA1NAGEH",
+          "status": "PROBABLE"
+        },
+        "176": {
+          "observations": [
+            "LY29N",
+            "AY09W"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "180": {
+          "observations": [
+            "AL3333",
+            "AP1141"
+          ],
+          "final_plate": "AL3333",
+          "status": "PROBABLE"
+        },
+        "185": {
+          "observations": [
+            "AA",
+            "A",
+            "A111",
+            "AP11111",
+            "AP111A1111"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "197": {
+          "observations": [
+            "AA"
+          ],
+          "final_plate": "AA",
+          "status": "PROBABLE"
+        },
+        "198": {
+          "observations": [
+            "ODE3I",
+            "BP63L",
+            "BP63L",
+            "BP63L",
+            "BP63LYM",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH"
+          ],
+          "final_plate": "BP63LYH",
+          "status": "PROBABLE"
+        },
+        "211": {
+          "observations": [
+            "DRAINAG4H",
+            "ARA1NAGE",
+            "DIVISION"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "214": {
+          "observations": [
+            "AA"
+          ],
+          "final_plate": "AA",
+          "status": "PROBABLE"
+        },
+        "226": {
+          "observations": [
+            "DIVISION"
+          ],
+          "final_plate": "DIVISION",
+          "status": "PROBABLE"
+        },
+        "227": {
+          "observations": [
+            "DRAINAGE"
+          ],
+          "final_plate": "DRAINAGE",
+          "status": "PROBABLE"
+        },
+        "230": {
+          "observations": [
+            "LLP",
+            "LIP",
+            "IJP33",
+            "LIP",
+            "1I0",
+            "A30",
+            "AIP",
+            "AI0"
+          ],
+          "final_plate": "LIP",
+          "status": "PROBABLE"
+        },
+        "241": {
+          "observations": [
+            "EY09VWS"
+          ],
+          "final_plate": "EY09VWS",
+          "status": "PROBABLE"
+        },
+        "250": {
+          "observations": [
+            "AP317A1111"
+          ],
+          "final_plate": "AP317A1111",
+          "status": "PROBABLE"
+        },
+        "259": {
+          "observations": [
+            "AA11",
+            "TP1111"
+          ],
+          "final_plate": "TP1111",
+          "status": "PROBABLE"
+        },
+        "268": {
+          "observations": [
+            "C100",
+            "AACN07C",
+            "AJC1D7C",
+            "I1C1D7S",
+            "II61P7S",
+            "II61PZS",
+            "LL61PZS",
+            "LL61PZS",
+            "LL61PZS"
+          ],
+          "final_plate": "LL61PZS",
+          "status": "PROBABLE"
+        },
+        "270": {
+          "observations": [
+            "AP",
+            "PP37B",
+            "MMM4H111",
+            "AP20MM1",
+            "LP144",
+            "P306MK",
+            "LP1422",
+            "DP05VKJ",
+            "LP14LP2422",
+            "OF05VKJ",
+            "PP322A2"
+          ],
+          "final_plate": "DP05VKJ",
+          "status": "PROBABLE"
+        },
+        "277": {
+          "observations": [
+            "KG65ZEY",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "HG66EEY"
+          ],
+          "final_plate": "WG65ZFX",
+          "status": "PROBABLE"
+        },
+        "280": {
+          "observations": [
+            "A"
+          ],
+          "final_plate": "A",
+          "status": "PROBABLE"
+        },
+        "293": {
+          "observations": [
+            "AA"
+          ],
+          "final_plate": "AA",
+          "status": "PROBABLE"
+        },
+        "294": {
+          "observations": [
+            "BP63LYH"
+          ],
+          "final_plate": "BP63LYH",
+          "status": "PROBABLE"
+        },
+        "296": {
+          "observations": [
+            "AA00E2",
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "298": {
+          "observations": [
+            "A1"
+          ],
+          "final_plate": "A1",
+          "status": "PROBABLE"
+        },
+        "302": {
+          "observations": [
+            "AP222222"
+          ],
+          "final_plate": "AP222222",
+          "status": "PROBABLE"
+        },
+        "304": {
+          "observations": [
+            "LP1A",
+            "LP14",
+            "LP146",
+            "LP14",
+            "LP14L",
+            "LP14",
+            "LP14",
+            "LP14",
+            "LP14LJA",
+            "LP14",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA"
+          ],
+          "final_plate": "LP14LJA",
+          "status": "PROBABLE"
+        },
+        "313": {
+          "observations": [
+            "LP144"
+          ],
+          "final_plate": "LP144",
+          "status": "PROBABLE"
+        },
+        "323": {
+          "observations": [
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "325": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "326": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "327": {
+          "observations": [
+            "AA",
+            "AA",
+            "AP7",
+            "AP31111",
+            "AP111111",
+            "A",
+            "AP11A1",
+            "PP11",
+            "AP33"
+          ],
+          "final_plate": "AP111111",
+          "status": "CONFIRMED"
+        },
+        "334": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "338": {
+          "observations": [
+            "PP57LS19",
+            "AN00AS111",
+            "PU09AY1",
+            "AP015555"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "339": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "342": {
+          "observations": [
+            "AP73",
+            "52BPF2",
+            "UX52BPF",
+            "HX52BPF",
+            "HX52BPF",
+            "HX52BPF",
+            "HX52BPF",
+            "HX52BPF",
+            "HX52BPF",
+            "HX52BPF"
+          ],
+          "final_plate": "HX52BPF",
+          "status": "PROBABLE"
+        },
+        "346": {
+          "observations": [
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LD14L44"
+          ],
+          "final_plate": "LP14LJA",
+          "status": "PROBABLE"
+        },
+        "351": {
+          "observations": [
+            "AA"
+          ],
+          "final_plate": "AA",
+          "status": "PROBABLE"
+        },
+        "352": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "355": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "363": {
+          "observations": [
+            "AP011",
+            "AP43A",
+            "AA022",
+            "AA11",
+            "AP111",
+            "AK01A211",
+            "PP21A2",
+            "PP022"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "366": {
+          "observations": [
+            "AP11221",
+            "CF21HYL",
+            "AE61HVL",
+            "GE61HY",
+            "GE61MVL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61KVL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61HYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61NYL",
+            "CE61WYL",
+            "CE61HYL",
+            "CE61MYL",
+            "CE61HYL",
+            "CE61HYL",
+            "CE61MYL",
+            "CE61HYL",
+            "CE61HYL",
+            "CE61MYL",
+            "CE61MY1",
+            "CE61MYL",
+            "CE61WYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61WYL",
+            "CE61WYYL",
+            "CE61MYL",
+            "CE61WYL",
+            "CE61WYL",
+            "CE61WYL",
+            "CE61HY1"
+          ],
+          "final_plate": "CE61MYL",
+          "status": "PROBABLE"
+        },
+        "374": {
+          "observations": [
+            "AA10CY000",
+            "OU06XRO",
+            "AD100"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "377": {
+          "observations": [
+            "AA515555",
+            "AA2222"
+          ],
+          "final_plate": "AA2222",
+          "status": "PROBABLE"
+        },
+        "378": {
+          "observations": [
+            "AP54EP",
+            "UP17",
+            "SC46DYP",
+            "BP19JC6618",
+            "UP19",
+            "SC46DYP",
+            "SL169P",
+            "SE56DVP",
+            "SC56DVP",
+            "1ITJ",
+            "JE61YP",
+            "AP58PPP",
+            "SC56DYP",
+            "5C56DYP",
+            "AP10",
+            "SC56DYP",
+            "A116DY5122",
+            "SC56DYP",
+            "CF1122",
+            "AP15AC5609",
+            "SC56DYP",
+            "U110",
+            "AC56DYP20",
+            "SC56DYP",
+            "AP13",
+            "AP13",
+            "SC56DVP",
+            "AP1S",
+            "SC56DVP",
+            "SC56DYP",
+            "A111",
+            "AT11JL2",
+            "SC56DYP",
+            "0115",
+            "G115AC2002",
+            "SC56DYP",
+            "FA18",
+            "FA18",
+            "SC56DYP",
+            "SC56DYP22",
+            "D119",
+            "SC56DYP",
+            "A113",
+            "SC56DYP",
+            "0P15",
+            "PP19EC6010",
+            "SC56DYP",
+            "SC56DVP",
+            "CT12",
+            "AP12JE5222",
+            "SC56DYP",
+            "APTS",
+            "AC56DVP11",
+            "A116555",
+            "SC56DVP",
+            "UP99J",
+            "AC56DV512",
+            "SC56DYP",
+            "AP165C562",
+            "C119J",
+            "AP22",
+            "SC56DYP",
+            "C119",
+            "AC56DY22",
+            "SC56DYP",
+            "AP11J1",
+            "SC56DYP222",
+            "SC56DYP",
+            "AP555YP60P",
+            "0115J",
+            "AP10EC6222",
+            "SC56DYP",
+            "CA19E6",
+            "A119",
+            "SC56DYP",
+            "C113",
+            "SC56DYP5",
+            "SC56DYP",
+            "A110",
+            "A013",
+            "SC56DYP",
+            "SC56DYP",
+            "SC56DYP",
+            "SC56DYP",
+            "CT10"
+          ],
+          "final_plate": "SC56DYP",
+          "status": "PROBABLE"
+        },
+        "394": {
+          "observations": [
+            "AP1",
+            "PP222"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "403": {
+          "observations": [
+            "G181",
+            "G183",
+            "G18S",
+            "G18S",
+            "G185I",
+            "G16SF"
+          ],
+          "final_plate": "G18S",
+          "status": "PROBABLE"
+        },
+        "411": {
+          "observations": [
+            "AP6142",
+            "AP222"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "428": {
+          "observations": [
+            "CI01SF3"
+          ],
+          "final_plate": "CI01SF3",
+          "status": "PROBABLE"
+        },
+        "434": {
+          "observations": [
+            "AP11AN2",
+            "AP07AE3",
+            "AP31A11"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "436": {
+          "observations": [
+            "A11"
+          ],
+          "final_plate": "A11",
+          "status": "PROBABLE"
+        },
+        "439": {
+          "observations": [
+            "AA222"
+          ],
+          "final_plate": "AA222",
+          "status": "PROBABLE"
+        }
+      }
+    },
+    "highway_fast.mp4": {
+      "resolution": "3840x2160",
+      "fps": 29.97002997002997,
+      "total_frames": 450,
+      "processing_time_s": 23.131982803344727,
+      "processing_fps": 19.453585273067603,
+      "total_tracks_with_ocr": 29,
+      "total_ocr_observations": 137,
+      "unknown_tracks": 1,
+      "errors": 0,
+      "tracks": {
+        "446": {
+          "observations": [
+            "C96191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "377": {
+          "observations": [
+            "K619879",
+            "AP22222",
+            "K619879",
+            "AA1434",
+            "K619879",
+            "AP2211",
+            "K619879",
+            "K619B79",
+            "K619879",
+            "AP12321",
+            "K619879",
+            "AP07EA",
+            "K619879",
+            "K619879",
+            "AP2222"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "451": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "453": {
+          "observations": [
+            "C9819TP"
+          ],
+          "final_plate": "C9819TP",
+          "status": "PROBABLE"
+        },
+        "454": {
+          "observations": [
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "455": {
+          "observations": [
+            "K619879",
+            "AP2244545"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "459": {
+          "observations": [
+            "A5764B644",
+            "65764844",
+            "A57546666",
+            "K656466",
+            "AP013",
+            "K657488",
+            "K65764"
+          ],
+          "final_plate": "65764844",
+          "status": "PROBABLE"
+        },
+        "461": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "468": {
+          "observations": [
+            "A5764F",
+            "657648",
+            "K57648",
+            "K65768",
+            "K657648",
+            "K657648",
+            "K657648",
+            "K657648",
+            "K657648",
+            "K657648"
+          ],
+          "final_plate": "K657648",
+          "status": "PROBABLE"
+        },
+        "469": {
+          "observations": [
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "470": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "471": {
+          "observations": [
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "473": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "477": {
+          "observations": [
+            "7BN2396",
+            "7BN2396",
+            "7BN2396",
+            "7BH2396",
+            "7BN2396",
+            "7BN2396",
+            "7BN2396",
+            "7BN2396"
+          ],
+          "final_plate": "7BN2396",
+          "status": "PROBABLE"
+        },
+        "482": {
+          "observations": [
+            "7BN2396",
+            "7BN2396",
+            "6P00",
+            "7BN2396"
+          ],
+          "final_plate": "7BN2396",
+          "status": "PROBABLE"
+        },
+        "483": {
+          "observations": [
+            "K103",
+            "K103",
+            "K1073"
+          ],
+          "final_plate": "K103",
+          "status": "PROBABLE"
+        },
+        "484": {
+          "observations": [
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073"
+          ],
+          "final_plate": "K1073",
+          "status": "PROBABLE"
+        },
+        "485": {
+          "observations": [
+            "7BN2396",
+            "7R42300"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "486": {
+          "observations": [
+            "K3789",
+            "K3789"
+          ],
+          "final_plate": "K3789",
+          "status": "PROBABLE"
+        },
+        "487": {
+          "observations": [
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T"
+          ],
+          "final_plate": "C64457T",
+          "status": "PROBABLE"
+        },
+        "489": {
+          "observations": [
+            "K1073"
+          ],
+          "final_plate": "K1073",
+          "status": "PROBABLE"
+        },
+        "491": {
+          "observations": [
+            "K3789",
+            "F101",
+            "K3789",
+            "K3789",
+            "K3789",
+            "K3789",
+            "K3789",
+            "AA05",
+            "K3789",
+            "AA1"
+          ],
+          "final_plate": "K3789",
+          "status": "PROBABLE"
+        },
+        "494": {
+          "observations": [
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T"
+          ],
+          "final_plate": "C64457T",
+          "status": "PROBABLE"
+        },
+        "495": {
+          "observations": [
+            "JL53567",
+            "3B5350T",
+            "3B53567",
+            "3B53567",
+            "3B53567",
+            "3B53567",
+            "3B53567"
+          ],
+          "final_plate": "3B53567",
+          "status": "PROBABLE"
+        },
+        "496": {
+          "observations": [
+            "FKH9211",
+            "FKH9211",
+            "FKH9211",
+            "FKH9211",
+            "FKH9211",
+            "FKH9211",
+            "FKH9211",
+            "FKH9211"
+          ],
+          "final_plate": "FKH9211",
+          "status": "PROBABLE"
+        },
+        "500": {
+          "observations": [
+            "KX6755",
+            "KX6755",
+            "KX6755"
+          ],
+          "final_plate": "KX6755",
+          "status": "PROBABLE"
+        },
+        "503": {
+          "observations": [
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755"
+          ],
+          "final_plate": "KX6755",
+          "status": "PROBABLE"
+        },
+        "516": {
+          "observations": [
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975"
+          ],
+          "final_plate": "BFE3975",
+          "status": "PROBABLE"
+        },
+        "519": {
+          "observations": [
+            "A076",
+            "AC07823"
+          ],
+          "final_plate": "A076",
+          "status": "PROBABLE"
+        }
+      }
+    },
+    "night_driving.mp4": {
+      "resolution": "848x478",
+      "fps": 29.656875024029585,
+      "total_frames": 1697,
+      "processing_time_s": 46.19415497779846,
+      "processing_fps": 36.736249441419616,
+      "total_tracks_with_ocr": 0,
+      "total_ocr_observations": 0,
+      "unknown_tracks": 0,
+      "errors": 0,
+      "tracks": {}
+    }
+  },
+  "candidate": {
+    "test_video.mp4": {
+      "resolution": "1920x1080",
+      "fps": 30.0,
+      "total_frames": 450,
+      "processing_time_s": 17.133331298828125,
+      "processing_fps": 26.26459455848956,
+      "total_tracks_with_ocr": 0,
+      "total_ocr_observations": 0,
+      "unknown_tracks": 0,
+      "errors": 0,
+      "tracks": {}
+    },
+    "far_vehicles.mp4": {
+      "resolution": "3840x2160",
+      "fps": 30.0,
+      "total_frames": 1800,
+      "processing_time_s": 239.308495759964,
+      "processing_fps": 7.521671950190486,
+      "total_tracks_with_ocr": 101,
+      "total_ocr_observations": 1201,
+      "unknown_tracks": 23,
+      "errors": 0,
+      "tracks": {
+        "1": {
+          "observations": [
+            "GX15OGJ",
+            "GX15OGJ",
+            "AP744444",
+            "GX15OGJ",
+            "A",
+            "ANRUU",
+            "GA15OGM",
+            "DK331",
+            "AP6001"
+          ],
+          "final_plate": "GX15OGJ",
+          "status": "PROBABLE"
+        },
+        "2": {
+          "observations": [
+            "NA13NRU",
+            "NA13NRO",
+            "NA13NRU",
+            "NA13NRU",
+            "NA13NRU",
+            "NA13NRU"
+          ],
+          "final_plate": "NA13NRU",
+          "status": "PROBABLE"
+        },
+        "4": {
+          "observations": [
+            "HW51VSU",
+            "HW51VSU",
+            "MM51VSU",
+            "MW51VSU",
+            "HW51VSU",
+            "MY51VSU",
+            "MW51VSU",
+            "MW51VSU",
+            "MR51VSU",
+            "MW51VSU",
+            "MW51VSU",
+            "MW51VSU",
+            "MW51VSU",
+            "PL36EE82"
+          ],
+          "final_plate": "MW51VSU",
+          "status": "PROBABLE"
+        },
+        "5": {
+          "observations": [
+            "AP055",
+            "AP05JJ33",
+            "AP05J",
+            "AP05JG",
+            "AP05JEO",
+            "AP09JSO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JE01",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP0SJEO",
+            "AP05JEO",
+            "AP05JEO",
+            "AP05JEO",
+            "MB17EMO",
+            "AP05JEO",
+            "HP02FHO",
+            "BB02FK0"
+          ],
+          "final_plate": "AP05JEO",
+          "status": "PROBABLE"
+        },
+        "6": {
+          "observations": [
+            "AN07"
+          ],
+          "final_plate": "AN07",
+          "status": "PROBABLE"
+        },
+        "7": {
+          "observations": [
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "AP03",
+            "GX15OGJ",
+            "XP40E244",
+            "GX15OGJ",
+            "AP05ZAK",
+            "GX15OGJ",
+            "KM05ZXK",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "GX15OGJ",
+            "AV1EOS"
+          ],
+          "final_plate": "GX15OGJ",
+          "status": "PROBABLE"
+        },
+        "8": {
+          "observations": [
+            "AP34TH1",
+            "AM99PZF",
+            "YHJ5ZAK",
+            "TH0524H",
+            "MH0SZZK",
+            "KW00S27K",
+            "KH05ZAK",
+            "KJ35EZ4",
+            "KH05ZZK",
+            "KR05ZZK",
+            "MK05ZZK",
+            "KH05ZZK",
+            "MP4999",
+            "KH05ZZK",
+            "A",
+            "KH052ZK",
+            "KH05ZZK",
+            "KM00EZ6",
+            "KH05ZZK",
+            "KH0S2ZK",
+            "KH052ZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KR052ZK",
+            "KH052ZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH052ZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KH05ZZK",
+            "KW05ZZK",
+            "FJ14ZHY",
+            "FJ14ZHY"
+          ],
+          "final_plate": "KH05ZZK",
+          "status": "PROBABLE"
+        },
+        "10": {
+          "observations": [
+            "BG65USJ",
+            "BG65USJ",
+            "BG65LJJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "BG65USJ",
+            "AP23333",
+            "BG65USJ",
+            "DG65L151",
+            "EF10DZI",
+            "EF10OZT"
+          ],
+          "final_plate": "BG65USJ",
+          "status": "PROBABLE"
+        },
+        "11": {
+          "observations": [
+            "AR24A72",
+            "XR07CC",
+            "BM25ZAK",
+            "AL00",
+            "AP33A222",
+            "MK05E44",
+            "KL00SZ73",
+            "X340S27K",
+            "KH05ZA4",
+            "MH83E274",
+            "KK05ZRX",
+            "MW05ZZK",
+            "KH052ZK",
+            "KH05ZZH",
+            "MH35EZ6",
+            "KH0G2ZK",
+            "MM05EZK",
+            "AP947A5",
+            "MH10E771",
+            "PHY799",
+            "EL44HH",
+            "FJ14ZHY",
+            "FJ14ZHY",
+            "FJ14ZHY",
+            "FJ14ZHY",
+            "FJ14ZHY"
+          ],
+          "final_plate": "FJ14ZHY",
+          "status": "PROBABLE"
+        },
+        "13": {
+          "observations": [
+            "AP24J44"
+          ],
+          "final_plate": "AP24J44",
+          "status": "PROBABLE"
+        },
+        "16": {
+          "observations": [
+            "AP05JJ6",
+            "AP05J4",
+            "AP05J3333",
+            "AP05JEG",
+            "AP05J60",
+            "AP05JEO",
+            "AP05JEO",
+            "AP15JLU",
+            "LM10VC2",
+            "LM13VCV",
+            "LM13VCV",
+            "LH13VCV",
+            "LH13VCV"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "18": {
+          "observations": [
+            "AM393",
+            "AA37A444"
+          ],
+          "final_plate": "AM393",
+          "status": "PROBABLE"
+        },
+        "19": {
+          "observations": [
+            "AK7999222",
+            "HC07EM0",
+            "HB02FKO",
+            "BP02SMD",
+            "HR02FKD",
+            "WR02FKD",
+            "WR02FKD",
+            "EY61HRG",
+            "EY61NBG",
+            "HR02FKD",
+            "EY61NBG",
+            "WR02FKD",
+            "EY61NBG",
+            "WR02FKO",
+            "HR02FKD",
+            "EP01NM0",
+            "WR02FKO",
+            "WR02FKD"
+          ],
+          "final_plate": "WR02FKD",
+          "status": "PROBABLE"
+        },
+        "42": {
+          "observations": [
+            "AP111111"
+          ],
+          "final_plate": "AP111111",
+          "status": "PROBABLE"
+        },
+        "48": {
+          "observations": [
+            "GY64HDG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "EY61NBG",
+            "HP144",
+            "HR14C",
+            "HN14GG",
+            "AP40E9994",
+            "HH874AC61",
+            "W19CL"
+          ],
+          "final_plate": "EY61NBG",
+          "status": "PROBABLE"
+        },
+        "52": {
+          "observations": [
+            "FY61HR55",
+            "EY66HH1",
+            "KH61116",
+            "HP114",
+            "HN14C",
+            "AH114C",
+            "HR14CB",
+            "AP2811",
+            "OG65LS5",
+            "HR14CE",
+            "HN14CL",
+            "BG65USJ",
+            "BG65USJ",
+            "MP74EB",
+            "BG65USJ",
+            "HN14CDV"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "58": {
+          "observations": [
+            "AV00HVE",
+            "AV08HVF",
+            "AV08HVF",
+            "MHCLLCJ",
+            "AVD8HVF",
+            "NA54KGJ",
+            "HA54KGJ",
+            "AV08HVF",
+            "AV08HVF",
+            "HA54HGJ",
+            "AV08HVF",
+            "HA54KUJ",
+            "AV08HVF",
+            "AV08HVF",
+            "AV08HVF",
+            "AV00HVE"
+          ],
+          "final_plate": "AV08HVF",
+          "status": "PROBABLE"
+        },
+        "66": {
+          "observations": [
+            "AV00HVF",
+            "AV08HVF",
+            "AVD8HVF"
+          ],
+          "final_plate": "AV08HVF",
+          "status": "PROBABLE"
+        },
+        "70": {
+          "observations": [
+            "AP77AA111",
+            "GP35AP2",
+            "GN25FP9",
+            "AF65JKV",
+            "AP655A6",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV",
+            "AF65JKV"
+          ],
+          "final_plate": "AF65JKV",
+          "status": "PROBABLE"
+        },
+        "71": {
+          "observations": [
+            "AP",
+            "AP1",
+            "AP434",
+            "CP03HH3",
+            "AB63HY39",
+            "DL15HY33",
+            "OL62HYL",
+            "OU62HY3"
+          ],
+          "final_plate": "OU62HY3",
+          "status": "PROBABLE"
+        },
+        "79": {
+          "observations": [
+            "A11LLK33",
+            "MA54KGJ",
+            "HA54KGJ",
+            "HA64KGJ",
+            "HA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ",
+            "AD37YH4",
+            "NA54KGJ",
+            "DP89A",
+            "NA54KGJ",
+            "DHV232",
+            "NA54KGJ",
+            "AA01HV22",
+            "MA54KGJ",
+            "A54DMV",
+            "NA54KGJ",
+            "A54DMMV",
+            "NA54KGJ",
+            "G660MM1111",
+            "NA54KGJ",
+            "K64DMV",
+            "NA54KGJ",
+            "VK64DMV",
+            "NA54KGJ",
+            "K64DMV",
+            "NA54KGJ",
+            "AK64DMV",
+            "NA54KGJ",
+            "AK64DMV",
+            "AK64DMV",
+            "NA54KGJ",
+            "NA54KGJ",
+            "AK64DMV",
+            "NA54KGJ",
+            "AK64DMV",
+            "AK64DMV",
+            "NA54KGJ",
+            "AK64DMV",
+            "NA54KGJ",
+            "NA54KGJ",
+            "KB14MMV22",
+            "NA54KGJ",
+            "NA54KGJ",
+            "NA54KGJ"
+          ],
+          "final_plate": "NA54KGJ",
+          "status": "PROBABLE"
+        },
+        "86": {
+          "observations": [
+            "AP49",
+            "A391J",
+            "AP40CG555",
+            "AP15MG044",
+            "AP443444",
+            "AP07AC5444",
+            "AA10AG5555",
+            "AP04AC4444",
+            "K0044",
+            "APA0AA4054",
+            "AK14E600",
+            "ARA6HX294",
+            "ORA0MA654",
+            "APA050054",
+            "AP40AA6564",
+            "AP43NA4455",
+            "AP64AA665",
+            "APA0MA065",
+            "AV19A099"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "87": {
+          "observations": [
+            "G560L",
+            "AP2000",
+            "CJ16PO",
+            "GP10FB",
+            "G225CPC06",
+            "GP26AF00",
+            "GJ28APD",
+            "GJ09APD",
+            "G336AFD",
+            "G339AFB",
+            "GJ06EPO",
+            "G105FPD",
+            "GJ06CP3",
+            "GJ06EFO",
+            "A233BE999",
+            "GJ06EPO",
+            "GJ06EFJ",
+            "G106EPB",
+            "GJ0SEPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPO",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "DA07F4277",
+            "GJ06EPD",
+            "DA07ELX",
+            "DA07CLX",
+            "GJ06EPD",
+            "DA07CLX",
+            "GJ06EPD",
+            "DA07CLX",
+            "GJ06EPD",
+            "DA07CLX",
+            "GJ06EPD",
+            "DA07CLX",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD",
+            "GJ06EPD"
+          ],
+          "final_plate": "GJ06EPD",
+          "status": "PROBABLE"
+        },
+        "91": {
+          "observations": [
+            "AP333333",
+            "AP175",
+            "AP87Y33",
+            "DP191",
+            "DHV222",
+            "GAD1VV",
+            "A54DMV",
+            "K54DHV",
+            "64DMV",
+            "AK",
+            "K64DMVV",
+            "VK64DMV",
+            "K666DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV",
+            "AK64DMV"
+          ],
+          "final_plate": "AK64DMV",
+          "status": "PROBABLE"
+        },
+        "103": {
+          "observations": [
+            "AP111",
+            "LP336V",
+            "AR25BJ4",
+            "AS33EK5",
+            "AL3314",
+            "LP29A453",
+            "AP07543",
+            "CP31MM5",
+            "AK01995",
+            "CK21CM8",
+            "CW03780",
+            "AP29YB222",
+            "CV27YSS",
+            "EW296L9",
+            "LT09NN9",
+            "CY23J22",
+            "EPE59M",
+            "CJ091",
+            "E1091",
+            "EY09MMB",
+            "CY09MZE",
+            "EY09BM55",
+            "EY09YMS",
+            "EY09VMS",
+            "EY09YMS",
+            "CY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VNS",
+            "EY09VXS",
+            "EY09VMS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VMS",
+            "EY09VWS",
+            "EY09VMS",
+            "EY09YMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VMS",
+            "EY09VWS",
+            "EY09VMS",
+            "EY09VWS",
+            "EY09VHS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS",
+            "EY09VWS"
+          ],
+          "final_plate": "EY09VMS",
+          "status": "PROBABLE"
+        },
+        "113": {
+          "observations": [
+            "AA07AA4",
+            "JL23",
+            "AP33"
+          ],
+          "final_plate": "JL23",
+          "status": "PROBABLE"
+        },
+        "119": {
+          "observations": [
+            "BG65USJ"
+          ],
+          "final_plate": "BG65USJ",
+          "status": "PROBABLE"
+        },
+        "123": {
+          "observations": [
+            "AP39AA2",
+            "AP",
+            "AP33",
+            "AP3333",
+            "L42EZ70",
+            "LN15ZZC",
+            "MH06KSU",
+            "LN05ZZC",
+            "KH26ESU",
+            "LN15ZZC",
+            "KH06KSU",
+            "KH06KSU",
+            "LN15ZZC",
+            "LN15ZZC",
+            "KH06KSU",
+            "LR155L2C",
+            "KH06KSU",
+            "KH06KSU",
+            "LP19MMC",
+            "KH06KSU",
+            "KH06KSU"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "125": {
+          "observations": [
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "EF10DZT",
+            "AF65JKM",
+            "AF65JKV",
+            "AF65JKV"
+          ],
+          "final_plate": "EF10DZT",
+          "status": "PROBABLE"
+        },
+        "127": {
+          "observations": [
+            "LN1EZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LH15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "LN15ZZC",
+            "AA033",
+            "LN15ZZC",
+            "AP166",
+            "LN15ZZC",
+            "AA0833",
+            "AP03M14",
+            "AP145",
+            "AA11A",
+            "DPA11",
+            "DH0A"
+          ],
+          "final_plate": "LN15ZZC",
+          "status": "PROBABLE"
+        },
+        "129": {
+          "observations": [
+            "AA3344444",
+            "PA210J",
+            "RP36AR4",
+            "PA315",
+            "UK31M2",
+            "CE08A599",
+            "PSJJ03",
+            "AP2335",
+            "AP229H222",
+            "CP51AA5",
+            "AP01695",
+            "AP01EE2",
+            "AXD9784",
+            "AN88YE",
+            "CP29AA1",
+            "CY09649",
+            "CY09GM99",
+            "GY03UM",
+            "LK03SL",
+            "LXD351",
+            "CY6311",
+            "SL299Y",
+            "AE39FL411",
+            "DA07CL277",
+            "DA07CLX",
+            "EY09BM6",
+            "DA07CLX",
+            "DA07CLX",
+            "CY09MEE",
+            "DA07CLX",
+            "EY09BW5",
+            "EY09VKS",
+            "DA07CLX",
+            "EY09VNS",
+            "DA07CLX",
+            "EY09YMS",
+            "DA07CLX",
+            "DA07CLX",
+            "EY09VMS",
+            "DA07CLX",
+            "EY09VMS",
+            "DA07CLX",
+            "EY09YMS",
+            "DA07CLX",
+            "EY09VMS",
+            "EY09VMS",
+            "DA07CLX",
+            "DA07CLX",
+            "EY09VMS",
+            "DA07CLX",
+            "CY09VBS",
+            "DA07CLX",
+            "CY09VH5",
+            "DA07CLX",
+            "CP04KN9",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07CLX",
+            "DA07GLY"
+          ],
+          "final_plate": "DA07CLX",
+          "status": "PROBABLE"
+        },
+        "132": {
+          "observations": [
+            "AP27AC4744"
+          ],
+          "final_plate": "AP27AC4744",
+          "status": "PROBABLE"
+        },
+        "148": {
+          "observations": [
+            "MH06KSU"
+          ],
+          "final_plate": "MH06KSU",
+          "status": "PROBABLE"
+        },
+        "153": {
+          "observations": [
+            "AP212221",
+            "AP11333",
+            "AP27G94",
+            "AP733A5",
+            "AA3224422",
+            "AP3132",
+            "AP02222",
+            "AJ3",
+            "AP311",
+            "AP573",
+            "AP4",
+            "APA73444",
+            "AP33422",
+            "AP33A2220",
+            "AP11"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "162": {
+          "observations": [
+            "AP333A31"
+          ],
+          "final_plate": "AP333A31",
+          "status": "PROBABLE"
+        },
+        "165": {
+          "observations": [
+            "MRA1NA666"
+          ],
+          "final_plate": "MRA1NA666",
+          "status": "PROBABLE"
+        },
+        "166": {
+          "observations": [
+            "LN15ZZC",
+            "AA1EE2211",
+            "AT63333",
+            "AP1831",
+            "AP3A1",
+            "A7095",
+            "AP041",
+            "AP1A6",
+            "AH14",
+            "DHNA",
+            "00IA",
+            "SDHNA",
+            "GOWNA",
+            "DP14A44",
+            "PP022444",
+            "AP37AB1114",
+            "AP03333333"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "168": {
+          "observations": [
+            "AP29B15"
+          ],
+          "final_plate": "AP29B15",
+          "status": "PROBABLE"
+        },
+        "173": {
+          "observations": [
+            "ARAUNAG66",
+            "DRA1NA0E",
+            "APAENAG66",
+            "ORAENAGE4",
+            "ARA1A6662",
+            "DIV1S1ON",
+            "0RA1NAG66",
+            "ORA1NAGG44",
+            "PAV4S10M",
+            "ARAINAGE",
+            "0RA1NAGEH",
+            "0RA1NA0E6",
+            "ARA1NAGEH",
+            "ARA1NA0E4",
+            "APA1NAG5",
+            "DRA1NAG4H0",
+            "DI01S1011",
+            "ORA1NAGE",
+            "ARAINAGEH",
+            "DIVISION",
+            "ARA1NAG4H",
+            "ARANAAGE11",
+            "ARAINAGEH",
+            "DIVISI0H",
+            "AP333",
+            "ARA1NAGE8",
+            "ARAINAG4H",
+            "DIV1SI0N",
+            "ARA1NAG4H7",
+            "2411AAER16",
+            "AVI1I10N",
+            "ARA1NAGEH",
+            "ARAINAGEHH",
+            "DIVISION",
+            "ARAINAG441",
+            "DRA1NAGHH",
+            "DIVISI0M",
+            "DRAINAGEH",
+            "DRA1NAGE",
+            "DIVISIOR0",
+            "ARA1NAGE4",
+            "ARAINAGEH",
+            "ARAINAGE",
+            "ORAINAGEH",
+            "DIVISION",
+            "ARA1NAGEH",
+            "DAVISION",
+            "ARA1NAGE7",
+            "ARAINAGEH",
+            "ARAINAGEH8",
+            "AP87A86",
+            "AB332233",
+            "ARAINAGEH",
+            "ARA1NAGE6",
+            "2KB7242",
+            "ORAINAGE",
+            "ARAINAGEH",
+            "72KBY",
+            "DIVISION",
+            "DRA1NAGE",
+            "DIVISI0R",
+            "ORAINAGEH",
+            "DIVISION",
+            "DIVISION",
+            "ARAINAGE44"
+          ],
+          "final_plate": "ARA1NAGEH",
+          "status": "PROBABLE"
+        },
+        "175": {
+          "observations": [
+            "CP199K"
+          ],
+          "final_plate": "CP199K",
+          "status": "PROBABLE"
+        },
+        "176": {
+          "observations": [
+            "LT29BX",
+            "CB091X"
+          ],
+          "final_plate": "LT29BX",
+          "status": "PROBABLE"
+        },
+        "180": {
+          "observations": [
+            "AP",
+            "A",
+            "AA373",
+            "AP27A13",
+            "AP33AA99",
+            "AP09",
+            "AP32AY4314",
+            "AP01A49999",
+            "AP01A29",
+            "CP04A2223",
+            "AP3113"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "185": {
+          "observations": [
+            "AA3",
+            "AA",
+            "TPJ4377",
+            "TP374132"
+          ],
+          "final_plate": "AA3",
+          "status": "PROBABLE"
+        },
+        "186": {
+          "observations": [
+            "AP2299",
+            "AP11AK1"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "190": {
+          "observations": [
+            "A"
+          ],
+          "final_plate": "A",
+          "status": "PROBABLE"
+        },
+        "191": {
+          "observations": [
+            "AP23A22"
+          ],
+          "final_plate": "AP23A22",
+          "status": "PROBABLE"
+        },
+        "197": {
+          "observations": [
+            "PP4444"
+          ],
+          "final_plate": "PP4444",
+          "status": "PROBABLE"
+        },
+        "198": {
+          "observations": [
+            "AA2222",
+            "DD27B",
+            "BP63LL",
+            "BP63L",
+            "BP63",
+            "BP63LYM",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "BP63LYH",
+            "DP63LYH",
+            "HCC5EW",
+            "WC65ZEX",
+            "WG65ZFX",
+            "HG65ZFX",
+            "AM05LFK"
+          ],
+          "final_plate": "BP63LYH",
+          "status": "PROBABLE"
+        },
+        "211": {
+          "observations": [
+            "DAVISI0N",
+            "ARA1NAGEH"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "214": {
+          "observations": [
+            "AA33A"
+          ],
+          "final_plate": "AA33A",
+          "status": "PROBABLE"
+        },
+        "226": {
+          "observations": [
+            "URAINAGE"
+          ],
+          "final_plate": "URAINAGE",
+          "status": "PROBABLE"
+        },
+        "227": {
+          "observations": [
+            "ARAINAGE"
+          ],
+          "final_plate": "ARAINAGE",
+          "status": "PROBABLE"
+        },
+        "230": {
+          "observations": [
+            "AJ023",
+            "PUU22",
+            "AU192",
+            "AA032",
+            "A1101"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "234": {
+          "observations": [
+            "ARA1NAGE"
+          ],
+          "final_plate": "ARA1NAGE",
+          "status": "PROBABLE"
+        },
+        "235": {
+          "observations": [
+            "ORA1NAGE",
+            "AIVISI0N",
+            "ORA1NAGE4"
+          ],
+          "final_plate": "ORA1NAGE",
+          "status": "PROBABLE"
+        },
+        "240": {
+          "observations": [
+            "DIVISION",
+            "TRAINAGE"
+          ],
+          "final_plate": "DIVISION",
+          "status": "PROBABLE"
+        },
+        "241": {
+          "observations": [
+            "EY09VWS"
+          ],
+          "final_plate": "EY09VWS",
+          "status": "PROBABLE"
+        },
+        "242": {
+          "observations": [
+            "AT09",
+            "21009",
+            "T80"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "243": {
+          "observations": [
+            "DIVISI0N"
+          ],
+          "final_plate": "DIVISI0N",
+          "status": "PROBABLE"
+        },
+        "250": {
+          "observations": [
+            "AP301E",
+            "AP33LL2222"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "256": {
+          "observations": [
+            "BP621",
+            "BP63L",
+            "BP63L",
+            "BP83L"
+          ],
+          "final_plate": "BP63L",
+          "status": "PROBABLE"
+        },
+        "259": {
+          "observations": [
+            "AP07724",
+            "JP3312"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "261": {
+          "observations": [
+            "AP03A5",
+            "AP43",
+            "AP03AE",
+            "APEF4"
+          ],
+          "final_plate": "AP03A5",
+          "status": "PROBABLE"
+        },
+        "268": {
+          "observations": [
+            "A164OGF",
+            "NL64OGX",
+            "NL64OGX",
+            "AA44A000",
+            "AT000A100",
+            "HL64DGX",
+            "AJC1D7C",
+            "NL64OGX",
+            "ALC1D7S",
+            "NL64UGX",
+            "IL61PZS",
+            "NL64DMK",
+            "II61PZS",
+            "LL61PZS",
+            "LL61PZS",
+            "LL61PZS"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "270": {
+          "observations": [
+            "AA3",
+            "LP141",
+            "MM532211",
+            "AL02UM1",
+            "LP141",
+            "R505VKJ",
+            "LP14",
+            "D00VKS",
+            "LP44F",
+            "OF05VKJ",
+            "LP147",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "AB12LMM"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "277": {
+          "observations": [
+            "HG65ZEY",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "HG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "WG65ZFX",
+            "HG66ZEY",
+            "AP0E01111"
+          ],
+          "final_plate": "WG65ZFX",
+          "status": "PROBABLE"
+        },
+        "292": {
+          "observations": [
+            "AA7",
+            "AP233"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "293": {
+          "observations": [
+            "APA7724"
+          ],
+          "final_plate": "APA7724",
+          "status": "PROBABLE"
+        },
+        "294": {
+          "observations": [
+            "BP63LYH"
+          ],
+          "final_plate": "BP63LYH",
+          "status": "PROBABLE"
+        },
+        "296": {
+          "observations": [
+            "AA00522",
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "298": {
+          "observations": [
+            "AA107CC",
+            "JACID7S",
+            "IICID7S",
+            "TI61PZS",
+            "TI61PZS"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "302": {
+          "observations": [
+            "AP77AA04"
+          ],
+          "final_plate": "AP77AA04",
+          "status": "PROBABLE"
+        },
+        "304": {
+          "observations": [
+            "AP29",
+            "APY9",
+            "LP14",
+            "LP446",
+            "LP443",
+            "LP141",
+            "LP14L",
+            "LP44",
+            "LP14",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA"
+          ],
+          "final_plate": "LP14LJA",
+          "status": "PROBABLE"
+        },
+        "311": {
+          "observations": [
+            "AP722"
+          ],
+          "final_plate": "AP722",
+          "status": "PROBABLE"
+        },
+        "313": {
+          "observations": [
+            "LP44"
+          ],
+          "final_plate": "LP44",
+          "status": "PROBABLE"
+        },
+        "320": {
+          "observations": [
+            "AP233",
+            "AP",
+            "AA77444",
+            "AP00",
+            "PP033",
+            "AP11",
+            "AP311E",
+            "AP23",
+            "AP053",
+            "AP39L745"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "323": {
+          "observations": [
+            "NL64OGX",
+            "HL64OGX",
+            "NL64DGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64DGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX",
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "325": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "326": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "327": {
+          "observations": [
+            "AP32299",
+            "AP3355444",
+            "A534A",
+            "AM33444",
+            "AP44444",
+            "AP005544",
+            "AP03A2",
+            "AP03E",
+            "AP33EE",
+            "AP014444",
+            "AP71AC1111",
+            "AP0094444",
+            "AP002202",
+            "A618",
+            "G183",
+            "G185",
+            "G189",
+            "18361"
+          ],
+          "final_plate": "G185",
+          "status": "PROBABLE"
+        },
+        "334": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "338": {
+          "observations": [
+            "AP36",
+            "TI031U",
+            "AP74AE0090",
+            "AP99FV9555",
+            "ABPF",
+            "W62BPF2",
+            "HX52BP",
+            "HX52B"
+          ],
+          "final_plate": "HX52BP",
+          "status": "PROBABLE"
+        },
+        "339": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "342": {
+          "observations": [
+            "AP03AA2",
+            "AP034A4",
+            "APP63",
+            "AP255",
+            "BP062",
+            "AP77AP7775",
+            "J222F",
+            "A2BPF",
+            "52BPF",
+            "UX52BPF",
+            "WX52BPF",
+            "MX52BPF",
+            "MX52BPF",
+            "HX62BPF",
+            "HX52BPF",
+            "HX52BPF",
+            "HX52BPF"
+          ],
+          "final_plate": "HX52BPF",
+          "status": "PROBABLE"
+        },
+        "346": {
+          "observations": [
+            "LP14LJ4",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA",
+            "LP14LJA"
+          ],
+          "final_plate": "LP14LJA",
+          "status": "PROBABLE"
+        },
+        "351": {
+          "observations": [
+            "AP711A1"
+          ],
+          "final_plate": "AP711A1",
+          "status": "PROBABLE"
+        },
+        "352": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "355": {
+          "observations": [
+            "NL64OGX"
+          ],
+          "final_plate": "NL64OGX",
+          "status": "PROBABLE"
+        },
+        "363": {
+          "observations": [
+            "AP01134",
+            "AP03A244",
+            "AP072",
+            "AP31EE5",
+            "AP01444",
+            "AP7714111",
+            "AP00BA4499",
+            "AP00A222"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "366": {
+          "observations": [
+            "CE21AY21",
+            "CE61EYZ",
+            "AE61BYL",
+            "CE61AM42",
+            "CE61HYL",
+            "TE61AYL4",
+            "LE61HYL",
+            "CE61MY21",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61KVL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61RYL",
+            "CE61HYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61NYL",
+            "CE61MYL",
+            "CE61HYL",
+            "CE61HYL",
+            "CE61HYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61HYL",
+            "CE61CY1",
+            "CE61MYL",
+            "CE61HYL",
+            "CE61HYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61MYL",
+            "CE61WYL",
+            "CE61MYL",
+            "CE61WYL",
+            "CE61WYL",
+            "CE61WYL",
+            "CE61MYL"
+          ],
+          "final_plate": "CE61MYL",
+          "status": "PROBABLE"
+        },
+        "374": {
+          "observations": [
+            "GEE1HVL",
+            "DA00GY000",
+            "OU06XPO",
+            "DU00FY0"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "377": {
+          "observations": [
+            "AA339"
+          ],
+          "final_plate": "AA339",
+          "status": "PROBABLE"
+        },
+        "378": {
+          "observations": [
+            "AV0032",
+            "1100L",
+            "AP2A",
+            "AP22AA550",
+            "AP36BE66",
+            "SC54B33",
+            "AC36ETP",
+            "UP76",
+            "AP00GE3689",
+            "SC46DYP",
+            "AP40EC6609",
+            "AP00E66688",
+            "SC26DYP",
+            "AP005C461",
+            "AP00CE6222",
+            "SA555P455",
+            "SL45B7P",
+            "K256DVP222",
+            "SE46DYP",
+            "AP02525622",
+            "SC56DYP",
+            "A1755C5609",
+            "SL38DKP",
+            "AP05E56666",
+            "AP3322522P",
+            "AP38DXP",
+            "AP233444",
+            "SC55DNP",
+            "AP05BC5727",
+            "AP17AE621",
+            "SC56DYP",
+            "AP15EC5528",
+            "SC56DYP",
+            "AP75CC6092",
+            "SC56DXR",
+            "AP05CC5679",
+            "SC56DYP",
+            "AP05AC660",
+            "SC56DYP",
+            "AP66FY2622",
+            "SC56DVP",
+            "SC56DVP55",
+            "AS77S",
+            "SC56DYP",
+            "SC56DVP9",
+            "AP102",
+            "JP151",
+            "SC56DYP",
+            "SC56DYP",
+            "AC56DYP",
+            "SC56DYP",
+            "SC56DP2",
+            "CP1B",
+            "SC56DVP",
+            "SC56DYP",
+            "AC165Y566",
+            "C161EP2222",
+            "SC56DYP",
+            "AP005C560P",
+            "SC56DYP",
+            "AC56DVP",
+            "SC56DYP",
+            "AC56DV552",
+            "0P19",
+            "SC56DYP",
+            "SC56DVP",
+            "SC56DYP",
+            "SC56DYP",
+            "SC51DV96",
+            "SC56DYP",
+            "SC56DVP",
+            "AC56DV5222",
+            "0P136",
+            "SC56DYP",
+            "SC11DV566",
+            "SC56DVP",
+            "SC56DYP",
+            "AC56DYP",
+            "SC56DYP",
+            "SC56DVP",
+            "SC56DYP",
+            "SC51DY666",
+            "SC575V565",
+            "SC56DYP",
+            "AC16DY5562",
+            "SC51DY956",
+            "SC56DYP",
+            "AC56DVP",
+            "SC56DYP",
+            "SC56DYP",
+            "SC56DYP"
+          ],
+          "final_plate": "SC56DYP",
+          "status": "PROBABLE"
+        },
+        "381": {
+          "observations": [
+            "AE088"
+          ],
+          "final_plate": "AE088",
+          "status": "PROBABLE"
+        },
+        "394": {
+          "observations": [
+            "AF06L9",
+            "AS29EL9",
+            "AP26AA00",
+            "AP31AA811",
+            "AK04BY5",
+            "UP27DA4",
+            "KS08B2",
+            "AL66E38",
+            "XP37A3",
+            "VPK33",
+            "AP39P33",
+            "KP323",
+            "AFO683",
+            "APB711"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "403": {
+          "observations": [
+            "5S5RB92",
+            "S455SJN",
+            "SC46DYP",
+            "EC36B1P",
+            "SC46DYP",
+            "GT88",
+            "G18S",
+            "G185I",
+            "G18SF",
+            "AP1155"
+          ],
+          "final_plate": "G18SF",
+          "status": "PROBABLE"
+        },
+        "408": {
+          "observations": [
+            "AJ22HE222",
+            "AP00RE4",
+            "AA"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "411": {
+          "observations": [
+            "AA",
+            "AP44A444"
+          ],
+          "final_plate": "AP44A444",
+          "status": "PROBABLE"
+        },
+        "428": {
+          "observations": [
+            "AP97AA2111",
+            "KF13B63",
+            "AP47AA111",
+            "AX38AH8",
+            "AP21AG31",
+            "AP111111"
+          ],
+          "final_plate": "AP47AA111",
+          "status": "PROBABLE"
+        },
+        "432": {
+          "observations": [
+            "A111A",
+            "AP11441"
+          ],
+          "final_plate": "UNKNOWN",
+          "status": "OCR_UNCERTAIN"
+        },
+        "434": {
+          "observations": [
+            "A233A53",
+            "TY03263",
+            "KF13AB1",
+            "KF66BR",
+            "AP39A82",
+            "AP03AA82",
+            "AB0P852",
+            "GX136YR",
+            "AP00BA611",
+            "MB01GE1"
+          ],
+          "final_plate": "AP39A82",
+          "status": "PROBABLE"
+        }
+      }
+    },
+    "highway_fast.mp4": {
+      "resolution": "3840x2160",
+      "fps": 29.97002997002997,
+      "total_frames": 450,
+      "processing_time_s": 24.711308002471924,
+      "processing_fps": 18.210286560103803,
+      "total_tracks_with_ocr": 29,
+      "total_ocr_observations": 129,
+      "unknown_tracks": 0,
+      "errors": 0,
+      "tracks": {
+        "446": {
+          "observations": [
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C9819TP",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P",
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "377": {
+          "observations": [
+            "K619799",
+            "K61987",
+            "K619879",
+            "K619879",
+            "K619B79",
+            "K619879",
+            "K619879",
+            "AP07EA111",
+            "K619879",
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "451": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "453": {
+          "observations": [
+            "C981STP"
+          ],
+          "final_plate": "C981STP",
+          "status": "PROBABLE"
+        },
+        "454": {
+          "observations": [
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "455": {
+          "observations": [
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "459": {
+          "observations": [
+            "E576484",
+            "A576488",
+            "A637466",
+            "AS56466",
+            "657648",
+            "K657648"
+          ],
+          "final_plate": "A576488",
+          "status": "PROBABLE"
+        },
+        "461": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "468": {
+          "observations": [
+            "G5764S",
+            "657648",
+            "A576488",
+            "K576488",
+            "K657648",
+            "K657648",
+            "K657648",
+            "K657648",
+            "K657648",
+            "K657648",
+            "K657648"
+          ],
+          "final_plate": "K657648",
+          "status": "PROBABLE"
+        },
+        "469": {
+          "observations": [
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "470": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "471": {
+          "observations": [
+            "K619879"
+          ],
+          "final_plate": "K619879",
+          "status": "PROBABLE"
+        },
+        "473": {
+          "observations": [
+            "C98191P"
+          ],
+          "final_plate": "C98191P",
+          "status": "PROBABLE"
+        },
+        "477": {
+          "observations": [
+            "7BN2396",
+            "7BN2396",
+            "7BN2396",
+            "7B42396",
+            "7BN2396",
+            "7BN2396",
+            "7BN2396",
+            "7BN2396"
+          ],
+          "final_plate": "7BN2396",
+          "status": "PROBABLE"
+        },
+        "482": {
+          "observations": [
+            "7B42396",
+            "7BN2396",
+            "7BN2396",
+            "AP16"
+          ],
+          "final_plate": "7BN2396",
+          "status": "PROBABLE"
+        },
+        "483": {
+          "observations": [
+            "AD13",
+            "K013"
+          ],
+          "final_plate": "K013",
+          "status": "PROBABLE"
+        },
+        "484": {
+          "observations": [
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073",
+            "K1073"
+          ],
+          "final_plate": "K1073",
+          "status": "PROBABLE"
+        },
+        "485": {
+          "observations": [
+            "7BN2396",
+            "AP25AJ45",
+            "AP00"
+          ],
+          "final_plate": "7BN2396",
+          "status": "PROBABLE"
+        },
+        "486": {
+          "observations": [
+            "K37893",
+            "K3789"
+          ],
+          "final_plate": "K37893",
+          "status": "PROBABLE"
+        },
+        "487": {
+          "observations": [
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T"
+          ],
+          "final_plate": "C64457T",
+          "status": "PROBABLE"
+        },
+        "489": {
+          "observations": [
+            "K1073"
+          ],
+          "final_plate": "K1073",
+          "status": "PROBABLE"
+        },
+        "491": {
+          "observations": [
+            "K3789",
+            "K3789",
+            "K3789",
+            "K3789",
+            "K3789",
+            "X3789"
+          ],
+          "final_plate": "K3789",
+          "status": "PROBABLE"
+        },
+        "494": {
+          "observations": [
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T",
+            "C64457T"
+          ],
+          "final_plate": "C64457T",
+          "status": "PROBABLE"
+        },
+        "495": {
+          "observations": [
+            "JD5356",
+            "JB53507",
+            "3B53567",
+            "3B53567",
+            "3B53567",
+            "3B53567"
+          ],
+          "final_plate": "3B53567",
+          "status": "PROBABLE"
+        },
+        "496": {
+          "observations": [
+            "FKH9211",
+            "FKH9211",
+            "FKH9211",
+            "KX6755",
+            "AP755",
+            "KX6755",
+            "FKH9211",
+            "FKH9211",
+            "5",
+            "FKH9211",
+            "FKH9211",
+            "FKH9211"
+          ],
+          "final_plate": "FKH9211",
+          "status": "PROBABLE"
+        },
+        "500": {
+          "observations": [
+            "KX6755",
+            "KX6755",
+            "KX6755"
+          ],
+          "final_plate": "KX6755",
+          "status": "PROBABLE"
+        },
+        "503": {
+          "observations": [
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755",
+            "KX6755"
+          ],
+          "final_plate": "KX6755",
+          "status": "PROBABLE"
+        },
+        "516": {
+          "observations": [
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975",
+            "BFE3975"
+          ],
+          "final_plate": "BFE3975",
+          "status": "PROBABLE"
+        },
+        "519": {
+          "observations": [
+            "AP75"
+          ],
+          "final_plate": "AP75",
+          "status": "PROBABLE"
+        }
+      }
+    },
+    "night_driving.mp4": {
+      "resolution": "848x478",
+      "fps": 29.656875024029585,
+      "total_frames": 1697,
+      "processing_time_s": 41.68845582008362,
+      "processing_fps": 40.70671284452954,
+      "total_tracks_with_ocr": 0,
+      "total_ocr_observations": 0,
+      "unknown_tracks": 0,
+      "errors": 0,
+      "tracks": {}
+    }
+  }
+}

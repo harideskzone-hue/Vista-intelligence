@@ -1,0 +1,32 @@
+{
+  "video": "scenario_03_watchlisted_face.mp4",
+  "description": "Enter scenario description here (e.g. 'Person crosses boundary', 'Loitering', 'Watchlisted face')",
+  "boundary": {
+    "id": "B1",
+    "points": [
+      [
+        100,
+        200
+      ],
+      [
+        800,
+        200
+      ]
+    ]
+  },
+  "events": [
+    {
+      "track_id": "GT01",
+      "timestamp": 12.43,
+      "direction": "IN",
+      "event_type": "boundary_crossing"
+    }
+  ],
+  "expected_system_alert": {
+    "person_detected": true,
+    "boundary_event": true,
+    "face_match": false,
+    "risk_event": true,
+    "alert": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "git_commit": "734b5195435ee876970f26eb391922c70607278a",
+  "git_tag": "phase7-final-validated",
+  "python": "3.10.11",
+  "models": {
+    "person_detector": {
+      "weights": "yolo11n.pt",
+      "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    },
+    "face_detector": {
+      "weights": "face_engine/models/yolo26n-face.pt",
+      "sha256": "c6a5405127a2e351292315a6a8084ea3e790dbec25b9d16a8e80d1e3f866efe1"
+    },
+    "face_recognizer": {
+      "weights": "External API (http://127.0.0.1:5001)",
+      "sha256": "BLOCKED (API decoupling requires explicit model capture)"
+    },
+    "anpr": {
+      "weights": "BLOCKED (None detected in production code)",
+      "sha256": "BLOCKED"
+    }
+  },
+  "thresholds": {
+    "yolo_confidence": 0.5,
+    "yolo_iou": 0.7,
+    "tracker_correlation": 0.65,
+    "face_margin": "BLOCKED (Handled by external API)"
+  },
+  "device": "MPS (CentralInferenceWorker)",
+  "input_resolution": "480 (from edge/boundary/adapter.py imgsz=480)"
+}

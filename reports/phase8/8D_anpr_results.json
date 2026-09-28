@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-09-16T17:42:11.562781",
+  "status": "BLOCKED",
+  "blocker_reason": "Dataset directory not found: data/external/anpr/eval_dataset",
+  "configuration": {
+    "plate_detector": "anpr/models/best.pt",
+    "ocr_model": "fast_plate_ocr/models/fine_tuned/2026-09-09_11-29-31/best.onnx",
+    "ocr_config": "fast_plate_ocr/models/cct_xs_v2_global_plate_config.yaml",
+    "format_validator": "IndianFormatValidator",
+    "vehicle_detector": "yolo11n.pt",
+    "execution_provider": "ONNX CPUExecutionProvider / PyTorch MPS (if available)",
+    "confidence_thresholds": {
+      "vehicle": 0.4,
+      "plate_det": 0.25,
+      "lpr_min": 0.2
+    },
+    "sanity_bounds": {
+      "min_crop_area": 100,
+      "min_crop_dim": 8,
+      "aspect_ratio_range": [
+        1.0,
+        8.0
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-09-16T17:56:21.994113",
+  "status": "BLOCKED",
+  "blocker_reason": "Dataset directory not found: data/external/detection/eval_dataset",
+  "configuration": {
+    "model": "yolo11n.pt",
+    "classes": [
+      2,
+      3,
+      5,
+      7
+    ],
+    "confidence_threshold": 0.4,
+    "iou_nms": 0.7,
+    "image_size": 640,
+    "tracker": "bytetrack.yaml",
+    "execution_provider": "MPS (Apple Silicon) fallback to CPU",
+    "cadence_evaluation_required": true,
+    "library_version": "ultralytics==8.4.13"
+  }
+}

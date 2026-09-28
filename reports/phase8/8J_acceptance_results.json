@@ -1,0 +1,98 @@
+{
+  "Native": {
+    "raw": {
+      "mota": -0.026750491998895676,
+      "idf1": 0.004636837703881482,
+      "num_false_positives": 10014.0,
+      "num_misses": 242547.0,
+      "num_switches": 93342.0,
+      "num_objects": 336891.0,
+      "num_predictions": 104358.0,
+      "mostly_tracked": 261.0,
+      "mostly_lost": 864.0,
+      "tp": 94344.0,
+      "det_recall": 0.28004309999376653,
+      "det_precision": 0.9040418559190478,
+      "idsw_per_1k_gt": 277.0688442255804
+    },
+    "trk": {
+      "mota": 0.23824323000614445,
+      "idf1": 0.33352833889672734,
+      "num_false_positives": 8763.0,
+      "num_misses": 246660.0,
+      "num_switches": 1206.0,
+      "num_objects": 336891.0,
+      "num_predictions": 98994.0,
+      "mostly_tracked": 195.0,
+      "mostly_lost": 921.0,
+      "tp": 90231.0,
+      "det_recall": 0.2678344034123797,
+      "det_precision": 0.9114794836050669,
+      "idsw_per_1k_gt": 3.5797928706911137
+    }
+  },
+  "Static_1.2": {
+    "raw": {
+      "mota": 0.025916177363838888,
+      "idf1": 0.08683687509555114,
+      "num_false_positives": 444.0,
+      "num_misses": 10455.0,
+      "num_switches": 3534.0,
+      "num_objects": 14817.0,
+      "num_predictions": 4806.0,
+      "mostly_tracked": 273.0,
+      "mostly_lost": 828.0,
+      "tp": 4362.0,
+      "det_recall": 0.29439157724235676,
+      "det_precision": 0.9076154806491885,
+      "idsw_per_1k_gt": 238.50981980157925
+    },
+    "trk": {
+      "mota": 0.11014375379631502,
+      "idf1": 0.1693589525590886,
+      "num_false_positives": 312.0,
+      "num_misses": 12303.0,
+      "num_switches": 570.0,
+      "num_objects": 14817.0,
+      "num_predictions": 2826.0,
+      "mostly_tracked": 81.0,
+      "mostly_lost": 1107.0,
+      "tp": 2514.0,
+      "det_recall": 0.16966997367888237,
+      "det_precision": 0.8895966029723992,
+      "idsw_per_1k_gt": 38.469325774448265
+    }
+  },
+  "Dynamic_1.2": {
+    "raw": {
+      "mota": 0.025916177363838888,
+      "idf1": 0.08683687509555114,
+      "num_false_positives": 444.0,
+      "num_misses": 10455.0,
+      "num_switches": 3534.0,
+      "num_objects": 14817.0,
+      "num_predictions": 4806.0,
+      "mostly_tracked": 273.0,
+      "mostly_lost": 828.0,
+      "tp": 4362.0,
+      "det_recall": 0.29439157724235676,
+      "det_precision": 0.9076154806491885,
+      "idsw_per_1k_gt": 238.50981980157925
+    },
+    "trk": {
+      "mota": 0.11480056691637985,
+      "idf1": 0.17407407407407408,
+      "num_false_positives": 369.0,
+      "num_misses": 12183.0,
+      "num_switches": 564.0,
+      "num_objects": 14817.0,
+      "num_predictions": 3003.0,
+      "mostly_tracked": 84.0,
+      "mostly_lost": 1113.0,
+      "tp": 2634.0,
+      "det_recall": 0.177768779105082,
+      "det_precision": 0.8771228771228772,
+      "idsw_per_1k_gt": 38.06438550313829
+    }
+  }
+}

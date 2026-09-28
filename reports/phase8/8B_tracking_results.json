@@ -1,0 +1,892 @@
+{
+  "configuration": {
+    "git_commit": "734b5195435ee876970f26eb391922c70607278a",
+    "model_weights": "/Users/hariharans/Documents/SIH26187/models/yolo11n.pt",
+    "model_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "tracker": "bytetrack.yaml",
+    "confidence_threshold": 0.35,
+    "iou_threshold": 0.7,
+    "image_size": 480,
+    "device": "mps:0",
+    "python_version": "3.10.11",
+    "ultralytics_version": "8.4.105",
+    "pytorch_version": "2.13.0"
+  },
+  "modes": {
+    "full_frame": {},
+    "1_fps": {
+      "aggregate_metrics": {
+        "mota": 0.09853300733496329,
+        "idf1": 0.16739537788881947,
+        "mostly_tracked": 75.0,
+        "mostly_lost": 1152.0,
+        "num_false_positives": 243.0,
+        "num_misses": 10374.0,
+        "num_switches": 444.0,
+        "num_fragmentations": 243.0
+      },
+      "sequence_metrics": {
+        "MOT17-02-DPM": {
+          "mota": 0.0484652665589661,
+          "idf1": 0.08430232558139535,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 48.0,
+          "num_false_positives": 6.0,
+          "num_misses": 556.0,
+          "num_switches": 27.0,
+          "num_fragmentations": 7.0
+        },
+        "MOT17-02-FRCNN": {
+          "mota": 0.0484652665589661,
+          "idf1": 0.08430232558139535,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 48.0,
+          "num_false_positives": 6.0,
+          "num_misses": 556.0,
+          "num_switches": 27.0,
+          "num_fragmentations": 7.0
+        },
+        "MOT17-02-SDP": {
+          "mota": 0.0484652665589661,
+          "idf1": 0.08430232558139535,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 48.0,
+          "num_false_positives": 6.0,
+          "num_misses": 556.0,
+          "num_switches": 27.0,
+          "num_fragmentations": 7.0
+        },
+        "MOT17-04-DPM": {
+          "mota": 0.06265822784810127,
+          "idf1": 0.13765642775881684,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 70.0,
+          "num_false_positives": 31.0,
+          "num_misses": 1433.0,
+          "num_switches": 17.0,
+          "num_fragmentations": 21.0
+        },
+        "MOT17-04-FRCNN": {
+          "mota": 0.06265822784810127,
+          "idf1": 0.13765642775881684,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 70.0,
+          "num_false_positives": 31.0,
+          "num_misses": 1433.0,
+          "num_switches": 17.0,
+          "num_fragmentations": 21.0
+        },
+        "MOT17-04-SDP": {
+          "mota": 0.06265822784810127,
+          "idf1": 0.13765642775881684,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 70.0,
+          "num_false_positives": 31.0,
+          "num_misses": 1433.0,
+          "num_switches": 17.0,
+          "num_fragmentations": 21.0
+        },
+        "MOT17-05-DPM": {
+          "mota": 0.25406504065040647,
+          "idf1": 0.3319268635724332,
+          "mostly_tracked": 14.0,
+          "mostly_lost": 69.0,
+          "num_false_positives": 32.0,
+          "num_misses": 305.0,
+          "num_switches": 30.0,
+          "num_fragmentations": 20.0
+        },
+        "MOT17-05-FRCNN": {
+          "mota": 0.25406504065040647,
+          "idf1": 0.3319268635724332,
+          "mostly_tracked": 14.0,
+          "mostly_lost": 69.0,
+          "num_false_positives": 32.0,
+          "num_misses": 305.0,
+          "num_switches": 30.0,
+          "num_fragmentations": 20.0
+        },
+        "MOT17-05-SDP": {
+          "mota": 0.25406504065040647,
+          "idf1": 0.3319268635724332,
+          "mostly_tracked": 14.0,
+          "mostly_lost": 69.0,
+          "num_false_positives": 32.0,
+          "num_misses": 305.0,
+          "num_switches": 30.0,
+          "num_fragmentations": 20.0
+        },
+        "MOT17-09-DPM": {
+          "mota": 0.11731843575418999,
+          "idf1": 0.205761316872428,
+          "mostly_tracked": 2.0,
+          "mostly_lost": 9.0,
+          "num_false_positives": 6.0,
+          "num_misses": 121.0,
+          "num_switches": 31.0,
+          "num_fragmentations": 14.0
+        },
+        "MOT17-09-FRCNN": {
+          "mota": 0.11731843575418999,
+          "idf1": 0.205761316872428,
+          "mostly_tracked": 2.0,
+          "mostly_lost": 9.0,
+          "num_false_positives": 6.0,
+          "num_misses": 121.0,
+          "num_switches": 31.0,
+          "num_fragmentations": 14.0
+        },
+        "MOT17-09-SDP": {
+          "mota": 0.11731843575418999,
+          "idf1": 0.205761316872428,
+          "mostly_tracked": 2.0,
+          "mostly_lost": 9.0,
+          "num_false_positives": 6.0,
+          "num_misses": 121.0,
+          "num_switches": 31.0,
+          "num_fragmentations": 14.0
+        },
+        "MOT17-10-DPM": {
+          "mota": 0.0714285714285714,
+          "idf1": 0.12916666666666668,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 49.0,
+          "num_false_positives": 1.0,
+          "num_misses": 389.0,
+          "num_switches": 13.0,
+          "num_fragmentations": 11.0
+        },
+        "MOT17-10-FRCNN": {
+          "mota": 0.0714285714285714,
+          "idf1": 0.12916666666666668,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 49.0,
+          "num_false_positives": 1.0,
+          "num_misses": 389.0,
+          "num_switches": 13.0,
+          "num_fragmentations": 11.0
+        },
+        "MOT17-10-SDP": {
+          "mota": 0.0714285714285714,
+          "idf1": 0.12916666666666668,
+          "mostly_tracked": 1.0,
+          "mostly_lost": 49.0,
+          "num_false_positives": 1.0,
+          "num_misses": 389.0,
+          "num_switches": 13.0,
+          "num_fragmentations": 11.0
+        },
+        "MOT17-11-DPM": {
+          "mota": 0.27586206896551724,
+          "idf1": 0.3273542600896861,
+          "mostly_tracked": 4.0,
+          "mostly_lost": 40.0,
+          "num_false_positives": 5.0,
+          "num_misses": 197.0,
+          "num_switches": 29.0,
+          "num_fragmentations": 8.0
+        },
+        "MOT17-11-FRCNN": {
+          "mota": 0.27586206896551724,
+          "idf1": 0.3273542600896861,
+          "mostly_tracked": 4.0,
+          "mostly_lost": 40.0,
+          "num_false_positives": 5.0,
+          "num_misses": 197.0,
+          "num_switches": 29.0,
+          "num_fragmentations": 8.0
+        },
+        "MOT17-11-SDP": {
+          "mota": 0.27586206896551724,
+          "idf1": 0.3273542600896861,
+          "mostly_tracked": 4.0,
+          "mostly_lost": 40.0,
+          "num_false_positives": 5.0,
+          "num_misses": 197.0,
+          "num_switches": 29.0,
+          "num_fragmentations": 8.0
+        },
+        "MOT17-13-DPM": {
+          "mota": 0.01927194860813708,
+          "idf1": 0.020964360587002098,
+          "mostly_tracked": 2.0,
+          "mostly_lost": 99.0,
+          "num_false_positives": 0.0,
+          "num_misses": 457.0,
+          "num_switches": 1.0,
+          "num_fragmentations": 0.0
+        },
+        "MOT17-13-FRCNN": {
+          "mota": 0.01927194860813708,
+          "idf1": 0.020964360587002098,
+          "mostly_tracked": 2.0,
+          "mostly_lost": 99.0,
+          "num_false_positives": 0.0,
+          "num_misses": 457.0,
+          "num_switches": 1.0,
+          "num_fragmentations": 0.0
+        },
+        "MOT17-13-SDP": {
+          "mota": 0.01927194860813708,
+          "idf1": 0.020964360587002098,
+          "mostly_tracked": 2.0,
+          "mostly_lost": 99.0,
+          "num_false_positives": 0.0,
+          "num_misses": 457.0,
+          "num_switches": 1.0,
+          "num_fragmentations": 0.0
+        }
+      },
+      "sequence_stats": {
+        "MOT17-02-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 600,
+          "processed_frame_count": 20,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 18581,
+          "predicted_track_count": 4,
+          "runtime": 0.7927882671356201
+        },
+        "MOT17-02-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 600,
+          "processed_frame_count": 20,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 18581,
+          "predicted_track_count": 4,
+          "runtime": 0.7396049499511719
+        },
+        "MOT17-02-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 600,
+          "processed_frame_count": 20,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 18581,
+          "predicted_track_count": 4,
+          "runtime": 0.7808840274810791
+        },
+        "MOT17-04-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 1050,
+          "processed_frame_count": 35,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 47557,
+          "predicted_track_count": 9,
+          "runtime": 1.165881872177124
+        },
+        "MOT17-04-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 1050,
+          "processed_frame_count": 35,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 47557,
+          "predicted_track_count": 9,
+          "runtime": 1.2242991924285889
+        },
+        "MOT17-04-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 1050,
+          "processed_frame_count": 35,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 47557,
+          "predicted_track_count": 9,
+          "runtime": 1.2128660678863525
+        },
+        "MOT17-05-DPM": {
+          "source_fps": 14,
+          "sampled_fps": 1.0,
+          "source_frame_count": 837,
+          "processed_frame_count": 60,
+          "frame_skip_ratio": 0.9283154121863799,
+          "gt_object_count": 6917,
+          "predicted_track_count": 5,
+          "runtime": 1.4840610027313232
+        },
+        "MOT17-05-FRCNN": {
+          "source_fps": 14,
+          "sampled_fps": 1.0,
+          "source_frame_count": 837,
+          "processed_frame_count": 60,
+          "frame_skip_ratio": 0.9283154121863799,
+          "gt_object_count": 6917,
+          "predicted_track_count": 5,
+          "runtime": 1.5555970668792725
+        },
+        "MOT17-05-SDP": {
+          "source_fps": 14,
+          "sampled_fps": 1.0,
+          "source_frame_count": 837,
+          "processed_frame_count": 60,
+          "frame_skip_ratio": 0.9283154121863799,
+          "gt_object_count": 6917,
+          "predicted_track_count": 5,
+          "runtime": 1.7065660953521729
+        },
+        "MOT17-09-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 525,
+          "processed_frame_count": 18,
+          "frame_skip_ratio": 0.9657142857142857,
+          "gt_object_count": 5325,
+          "predicted_track_count": 6,
+          "runtime": 0.7268481254577637
+        },
+        "MOT17-09-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 525,
+          "processed_frame_count": 18,
+          "frame_skip_ratio": 0.9657142857142857,
+          "gt_object_count": 5325,
+          "predicted_track_count": 6,
+          "runtime": 0.6637098789215088
+        },
+        "MOT17-09-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 525,
+          "processed_frame_count": 18,
+          "frame_skip_ratio": 0.9657142857142857,
+          "gt_object_count": 5325,
+          "predicted_track_count": 6,
+          "runtime": 0.645543098449707
+        },
+        "MOT17-10-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 654,
+          "processed_frame_count": 22,
+          "frame_skip_ratio": 0.9663608562691132,
+          "gt_object_count": 12839,
+          "predicted_track_count": 1,
+          "runtime": 0.756659984588623
+        },
+        "MOT17-10-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 654,
+          "processed_frame_count": 22,
+          "frame_skip_ratio": 0.9663608562691132,
+          "gt_object_count": 12839,
+          "predicted_track_count": 1,
+          "runtime": 0.7634217739105225
+        },
+        "MOT17-10-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 654,
+          "processed_frame_count": 22,
+          "frame_skip_ratio": 0.9663608562691132,
+          "gt_object_count": 12839,
+          "predicted_track_count": 1,
+          "runtime": 0.7690517902374268
+        },
+        "MOT17-11-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 900,
+          "processed_frame_count": 30,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 9436,
+          "predicted_track_count": 6,
+          "runtime": 1.1046178340911865
+        },
+        "MOT17-11-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 900,
+          "processed_frame_count": 30,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 9436,
+          "predicted_track_count": 6,
+          "runtime": 1.1424450874328613
+        },
+        "MOT17-11-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 1.0,
+          "source_frame_count": 900,
+          "processed_frame_count": 30,
+          "frame_skip_ratio": 0.9666666666666667,
+          "gt_object_count": 9436,
+          "predicted_track_count": 6,
+          "runtime": 1.064014196395874
+        },
+        "MOT17-13-DPM": {
+          "source_fps": 25,
+          "sampled_fps": 1.0,
+          "source_frame_count": 750,
+          "processed_frame_count": 30,
+          "frame_skip_ratio": 0.96,
+          "gt_object_count": 11642,
+          "predicted_track_count": 0,
+          "runtime": 1.1079449653625488
+        },
+        "MOT17-13-FRCNN": {
+          "source_fps": 25,
+          "sampled_fps": 1.0,
+          "source_frame_count": 750,
+          "processed_frame_count": 30,
+          "frame_skip_ratio": 0.96,
+          "gt_object_count": 11642,
+          "predicted_track_count": 0,
+          "runtime": 0.9890758991241455
+        },
+        "MOT17-13-SDP": {
+          "source_fps": 25,
+          "sampled_fps": 1.0,
+          "source_frame_count": 750,
+          "processed_frame_count": 30,
+          "frame_skip_ratio": 0.96,
+          "gt_object_count": 11642,
+          "predicted_track_count": 0,
+          "runtime": 0.9609417915344238
+        }
+      },
+      "HOTA": "NOT MEASURED"
+    },
+    "full": {
+      "aggregate_metrics": {
+        "mota": 0.23824323000614445,
+        "idf1": 0.33352833889672734,
+        "mostly_tracked": 195.0,
+        "mostly_lost": 921.0,
+        "num_false_positives": 8763.0,
+        "num_misses": 246660.0,
+        "num_switches": 1206.0,
+        "num_fragmentations": 3396.0
+      },
+      "sequence_metrics": {
+        "MOT17-02-DPM": {
+          "mota": 0.1450944513212421,
+          "idf1": 0.22880471762304377,
+          "mostly_tracked": 6.0,
+          "mostly_lost": 48.0,
+          "num_false_positives": 365.0,
+          "num_misses": 15482.0,
+          "num_switches": 38.0,
+          "num_fragmentations": 98.0
+        },
+        "MOT17-02-FRCNN": {
+          "mota": 0.1450944513212421,
+          "idf1": 0.22880471762304377,
+          "mostly_tracked": 6.0,
+          "mostly_lost": 48.0,
+          "num_false_positives": 365.0,
+          "num_misses": 15482.0,
+          "num_switches": 38.0,
+          "num_fragmentations": 98.0
+        },
+        "MOT17-02-SDP": {
+          "mota": 0.1450944513212421,
+          "idf1": 0.22880471762304377,
+          "mostly_tracked": 6.0,
+          "mostly_lost": 48.0,
+          "num_false_positives": 365.0,
+          "num_misses": 15482.0,
+          "num_switches": 38.0,
+          "num_fragmentations": 98.0
+        },
+        "MOT17-04-DPM": {
+          "mota": 0.1770717244569674,
+          "idf1": 0.2786410962701176,
+          "mostly_tracked": 6.0,
+          "mostly_lost": 56.0,
+          "num_false_positives": 849.0,
+          "num_misses": 38240.0,
+          "num_switches": 47.0,
+          "num_fragmentations": 336.0
+        },
+        "MOT17-04-FRCNN": {
+          "mota": 0.1770717244569674,
+          "idf1": 0.2786410962701176,
+          "mostly_tracked": 6.0,
+          "mostly_lost": 56.0,
+          "num_false_positives": 849.0,
+          "num_misses": 38240.0,
+          "num_switches": 47.0,
+          "num_fragmentations": 336.0
+        },
+        "MOT17-04-SDP": {
+          "mota": 0.1770717244569674,
+          "idf1": 0.2786410962701176,
+          "mostly_tracked": 6.0,
+          "mostly_lost": 56.0,
+          "num_false_positives": 849.0,
+          "num_misses": 38240.0,
+          "num_switches": 47.0,
+          "num_fragmentations": 336.0
+        },
+        "MOT17-05-DPM": {
+          "mota": 0.46233916437762035,
+          "idf1": 0.5693366266760762,
+          "mostly_tracked": 21.0,
+          "mostly_lost": 42.0,
+          "num_false_positives": 566.0,
+          "num_misses": 3064.0,
+          "num_switches": 89.0,
+          "num_fragmentations": 133.0
+        },
+        "MOT17-05-FRCNN": {
+          "mota": 0.46233916437762035,
+          "idf1": 0.5693366266760762,
+          "mostly_tracked": 21.0,
+          "mostly_lost": 42.0,
+          "num_false_positives": 566.0,
+          "num_misses": 3064.0,
+          "num_switches": 89.0,
+          "num_fragmentations": 133.0
+        },
+        "MOT17-05-SDP": {
+          "mota": 0.46233916437762035,
+          "idf1": 0.5693366266760762,
+          "mostly_tracked": 21.0,
+          "mostly_lost": 42.0,
+          "num_false_positives": 566.0,
+          "num_misses": 3064.0,
+          "num_switches": 89.0,
+          "num_fragmentations": 133.0
+        },
+        "MOT17-09-DPM": {
+          "mota": 0.5342723004694836,
+          "idf1": 0.5638090877875701,
+          "mostly_tracked": 7.0,
+          "mostly_lost": 4.0,
+          "num_false_positives": 253.0,
+          "num_misses": 2166.0,
+          "num_switches": 61.0,
+          "num_fragmentations": 130.0
+        },
+        "MOT17-09-FRCNN": {
+          "mota": 0.5342723004694836,
+          "idf1": 0.5638090877875701,
+          "mostly_tracked": 7.0,
+          "mostly_lost": 4.0,
+          "num_false_positives": 253.0,
+          "num_misses": 2166.0,
+          "num_switches": 61.0,
+          "num_fragmentations": 130.0
+        },
+        "MOT17-09-SDP": {
+          "mota": 0.5342723004694836,
+          "idf1": 0.5638090877875701,
+          "mostly_tracked": 7.0,
+          "mostly_lost": 4.0,
+          "num_false_positives": 253.0,
+          "num_misses": 2166.0,
+          "num_switches": 61.0,
+          "num_fragmentations": 130.0
+        },
+        "MOT17-10-DPM": {
+          "mota": 0.24519043539216445,
+          "idf1": 0.29857678794735903,
+          "mostly_tracked": 7.0,
+          "mostly_lost": 36.0,
+          "num_false_positives": 361.0,
+          "num_misses": 9246.0,
+          "num_switches": 84.0,
+          "num_fragmentations": 199.0
+        },
+        "MOT17-10-FRCNN": {
+          "mota": 0.24519043539216445,
+          "idf1": 0.29857678794735903,
+          "mostly_tracked": 7.0,
+          "mostly_lost": 36.0,
+          "num_false_positives": 361.0,
+          "num_misses": 9246.0,
+          "num_switches": 84.0,
+          "num_fragmentations": 199.0
+        },
+        "MOT17-10-SDP": {
+          "mota": 0.24519043539216445,
+          "idf1": 0.29857678794735903,
+          "mostly_tracked": 7.0,
+          "mostly_lost": 36.0,
+          "num_false_positives": 361.0,
+          "num_misses": 9246.0,
+          "num_switches": 84.0,
+          "num_fragmentations": 199.0
+        },
+        "MOT17-11-DPM": {
+          "mota": 0.5151547265790589,
+          "idf1": 0.5231054829940993,
+          "mostly_tracked": 13.0,
+          "mostly_lost": 39.0,
+          "num_false_positives": 376.0,
+          "num_misses": 4165.0,
+          "num_switches": 34.0,
+          "num_fragmentations": 65.0
+        },
+        "MOT17-11-FRCNN": {
+          "mota": 0.5151547265790589,
+          "idf1": 0.5231054829940993,
+          "mostly_tracked": 13.0,
+          "mostly_lost": 39.0,
+          "num_false_positives": 376.0,
+          "num_misses": 4165.0,
+          "num_switches": 34.0,
+          "num_fragmentations": 65.0
+        },
+        "MOT17-11-SDP": {
+          "mota": 0.5151547265790589,
+          "idf1": 0.5231054829940993,
+          "mostly_tracked": 13.0,
+          "mostly_lost": 39.0,
+          "num_false_positives": 376.0,
+          "num_misses": 4165.0,
+          "num_switches": 34.0,
+          "num_fragmentations": 65.0
+        },
+        "MOT17-13-DPM": {
+          "mota": 0.1361449922693695,
+          "idf1": 0.22448077772867875,
+          "mostly_tracked": 5.0,
+          "mostly_lost": 82.0,
+          "num_false_positives": 151.0,
+          "num_misses": 9857.0,
+          "num_switches": 49.0,
+          "num_fragmentations": 171.0
+        },
+        "MOT17-13-FRCNN": {
+          "mota": 0.1361449922693695,
+          "idf1": 0.22448077772867875,
+          "mostly_tracked": 5.0,
+          "mostly_lost": 82.0,
+          "num_false_positives": 151.0,
+          "num_misses": 9857.0,
+          "num_switches": 49.0,
+          "num_fragmentations": 171.0
+        },
+        "MOT17-13-SDP": {
+          "mota": 0.1361449922693695,
+          "idf1": 0.22448077772867875,
+          "mostly_tracked": 5.0,
+          "mostly_lost": 82.0,
+          "num_false_positives": 151.0,
+          "num_misses": 9857.0,
+          "num_switches": 49.0,
+          "num_fragmentations": 171.0
+        }
+      },
+      "sequence_stats": {
+        "MOT17-02-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 600,
+          "processed_frame_count": 600,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 18581,
+          "predicted_track_count": 6,
+          "runtime": 20.999905109405518
+        },
+        "MOT17-02-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 600,
+          "processed_frame_count": 600,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 18581,
+          "predicted_track_count": 6,
+          "runtime": 17.251744747161865
+        },
+        "MOT17-02-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 600,
+          "processed_frame_count": 600,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 18581,
+          "predicted_track_count": 6,
+          "runtime": 16.88463592529297
+        },
+        "MOT17-04-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 1050,
+          "processed_frame_count": 1050,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 47557,
+          "predicted_track_count": 12,
+          "runtime": 31.761403799057007
+        },
+        "MOT17-04-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 1050,
+          "processed_frame_count": 1050,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 47557,
+          "predicted_track_count": 12,
+          "runtime": 31.69541311264038
+        },
+        "MOT17-04-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 1050,
+          "processed_frame_count": 1050,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 47557,
+          "predicted_track_count": 12,
+          "runtime": 31.239468097686768
+        },
+        "MOT17-05-DPM": {
+          "source_fps": 14,
+          "sampled_fps": 14.0,
+          "source_frame_count": 837,
+          "processed_frame_count": 837,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 6917,
+          "predicted_track_count": 7,
+          "runtime": 18.84828019142151
+        },
+        "MOT17-05-FRCNN": {
+          "source_fps": 14,
+          "sampled_fps": 14.0,
+          "source_frame_count": 837,
+          "processed_frame_count": 837,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 6917,
+          "predicted_track_count": 7,
+          "runtime": 17.777818202972412
+        },
+        "MOT17-05-SDP": {
+          "source_fps": 14,
+          "sampled_fps": 14.0,
+          "source_frame_count": 837,
+          "processed_frame_count": 837,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 6917,
+          "predicted_track_count": 7,
+          "runtime": 17.89209794998169
+        },
+        "MOT17-09-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 525,
+          "processed_frame_count": 525,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 5325,
+          "predicted_track_count": 6,
+          "runtime": 15.143235921859741
+        },
+        "MOT17-09-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 525,
+          "processed_frame_count": 525,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 5325,
+          "predicted_track_count": 6,
+          "runtime": 15.67472791671753
+        },
+        "MOT17-09-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 525,
+          "processed_frame_count": 525,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 5325,
+          "predicted_track_count": 6,
+          "runtime": 14.602902889251709
+        },
+        "MOT17-10-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 654,
+          "processed_frame_count": 654,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 12839,
+          "predicted_track_count": 5,
+          "runtime": 18.03412103652954
+        },
+        "MOT17-10-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 654,
+          "processed_frame_count": 654,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 12839,
+          "predicted_track_count": 5,
+          "runtime": 17.86660408973694
+        },
+        "MOT17-10-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 654,
+          "processed_frame_count": 654,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 12839,
+          "predicted_track_count": 5,
+          "runtime": 18.14359974861145
+        },
+        "MOT17-11-DPM": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 900,
+          "processed_frame_count": 900,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 9436,
+          "predicted_track_count": 5,
+          "runtime": 25.30805516242981
+        },
+        "MOT17-11-FRCNN": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 900,
+          "processed_frame_count": 900,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 9436,
+          "predicted_track_count": 5,
+          "runtime": 25.391685009002686
+        },
+        "MOT17-11-SDP": {
+          "source_fps": 30,
+          "sampled_fps": 30.0,
+          "source_frame_count": 900,
+          "processed_frame_count": 900,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 9436,
+          "predicted_track_count": 5,
+          "runtime": 25.493445873260498
+        },
+        "MOT17-13-DPM": {
+          "source_fps": 25,
+          "sampled_fps": 25.0,
+          "source_frame_count": 750,
+          "processed_frame_count": 750,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 11642,
+          "predicted_track_count": 1,
+          "runtime": 22.50344181060791
+        },
+        "MOT17-13-FRCNN": {
+          "source_fps": 25,
+          "sampled_fps": 25.0,
+          "source_frame_count": 750,
+          "processed_frame_count": 750,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 11642,
+          "predicted_track_count": 1,
+          "runtime": 21.594197988510132
+        },
+        "MOT17-13-SDP": {
+          "source_fps": 25,
+          "sampled_fps": 25.0,
+          "source_frame_count": 750,
+          "processed_frame_count": 750,
+          "frame_skip_ratio": 0.0,
+          "gt_object_count": 11642,
+          "predicted_track_count": 1,
+          "runtime": 22.45276117324829
+        }
+      },
+      "HOTA": "NOT MEASURED"
+    }
+  }
+}

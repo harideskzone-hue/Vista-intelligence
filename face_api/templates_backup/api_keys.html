@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>API Key Management — Vista AI</title>
+    <meta name="description" content="Manage State Government API integrations for Vista AI">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary":          "#0d9488",
+                        "secondary":        "#14b8a6",
+                        "background-base":  "#f4f4f5",
+                        "background-dark":  "#09090b",
+                        "surface-white":    "#ffffff",
+                        "surface-dark":     "#18181b",
+                        "text-primary":     "#09090b",
+                        "text-secondary":   "#52525b",
+                        "text-tertiary":    "#a1a1aa",
+                    },
+                    fontFamily: { "sans": ["Inter","sans-serif"] },
+                    boxShadow: { "none": "none" }
+                }
+            }
+        }
+    </script>
+    <style>
+        .skeleton{background:linear-gradient(90deg,#e4e4e7 25%,#f4f4f5 50%,#e4e4e7 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
+        .dark .skeleton{background:linear-gradient(90deg,#27272a 25%,#3f3f46 50%,#27272a 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .pulse-dot{animation:pulse-anim 2s cubic-bezier(.4,0,.6,1) infinite}
+        @keyframes pulse-anim{0%,100%{opacity:1}50%{opacity:.4}}
+        .modal-bg{backdrop-filter:blur(4px)}
+        details>summary{list-style:none}
+        details>summary::-webkit-details-marker{display:none}
+        pre,code{font-family:'JetBrains Mono',ui-monospace,monospace}
+    </style>
+</head>
+
+<body class="bg-background-base dark:bg-background-dark font-sans text-text-primary dark:text-gray-100 antialiased min-h-screen flex flex-col">
+
+<!-- Header — exact match to dashboard.html -->
+<header class="w-full bg-surface-white dark:bg-surface-dark border-b border-gray-100/30 dark:border-white/30 sticky top-0 z-50">
+    <div class="px-8 h-16 flex items-center justify-between max-w-[1400px] mx-auto w-full">
+        <a href="/" class="flex items-center gap-3 group focus:outline-none">
+            <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-50/80 dark:bg-zinc-800/80 p-1 border border-teal-100/60 dark:border-white/10 shadow-sm group-hover:border-primary/40 transition-all duration-200">
+                <img src="/static/images/vista_icon.png" alt="VISTA AI Logo" class="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105">
+            </div>
+            <div class="flex flex-col">
+                <span class="text-base font-black tracking-widest text-primary dark:text-white uppercase leading-none">VISTA <span class="font-light text-indigo-500">AI</span></span>
+                <span class="text-[9px] tracking-[0.22em] text-text-tertiary uppercase font-semibold mt-1">From Sight to Insight</span>
+            </div>
+        </a>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/50">
+                <div class="size-1.5 rounded-full bg-primary dark:bg-white pulse-dot"></div>
+                <span class="text-[10px] font-semibold text-primary dark:text-white uppercase tracking-widest">System Live</span>
+            </div>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-primary dark:text-white" aria-label="Toggle Dark Mode">
+                <span class="material-symbols-outlined theme-icon-light hidden">light_mode</span>
+                <span class="material-symbols-outlined theme-icon-dark">dark_mode</span>
+            </button>
+            <button onclick="doLogout()" class="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Sign Out</button>
+            <button onclick="confirmShutdown()" class="text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">&#9211; Shutdown</button>
+        </div>
+    </div>
+</header>
+
+<!-- Nav pill — exact match, API Keys active -->
+<nav class="sticky top-16 mx-auto w-max max-w-[95vw] flex-wrap justify-center mt-6 mb-2 z-40 bg-primary p-1.5 rounded-2xl shadow-xl flex items-center gap-1 border border-white/10">
+    <a href="/"               class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="text-sm tracking-wide">Dash</span></a>
+    <a href="/preview"        class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="text-sm tracking-wide">Live Preview</span></a>
+    <a href="/boundary"       class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium"><span class="material-symbols-outlined text-[20px]">shield</span><span class="text-sm tracking-wide">Border Vigil</span></a>
+    <a href="/vehicle"        class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium"><span class="material-symbols-outlined text-[20px]">directions_car</span><span class="text-sm tracking-wide">Vehicle Intel</span></a>
+    <a href="/wanted"         class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium"><span class="material-symbols-outlined text-[20px]">policy</span><span class="text-sm tracking-wide">Wanted Persons</span></a>
+    <a href="/database"       class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium"><span class="material-symbols-outlined text-[20px]">folder_shared</span><span class="text-sm tracking-wide">Face Database</span></a>
+    <a href="/#camera-management" class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/5 font-medium"><span class="material-symbols-outlined text-[20px]">videocam</span><span class="text-sm tracking-wide">Cameras</span></a>
+    <a href="/api-keys"       class="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all duration-200 bg-white/10 text-white font-medium shadow-sm"><span class="material-symbols-outlined text-[20px]">key</span><span class="text-sm tracking-wide">API Keys</span></a>
+</nav>
+
+<!-- Main -->
+<main class="flex-1 w-full max-w-[1400px] mx-auto px-8 py-8 pb-48 space-y-6">
+
+    <!-- Section 1: Stats + header -->
+    <section>
+        <div class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/50 dark:border-white/30">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8 border-b border-gray-50 dark:border-white/30 pb-4">
+                <div>
+                    <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">API Key Management</h2>
+                    <p class="text-text-tertiary text-xs mt-1">Central &#8596; State Government Integration</p>
+                </div>
+                <button onclick="openGenerateModal()" class="px-5 py-2 text-xs font-bold rounded-lg bg-primary dark:bg-white text-white dark:text-primary hover:opacity-90 shadow-sm transition-all focus:outline-none flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-[16px]">add</span> Generate New API Key
+                </button>
+            </div>
+            <div class="grid grid-cols-3 divide-x divide-gray-100 dark:divide-white/30">
+                <div class="flex flex-col items-center justify-center gap-1 px-4 py-2">
+                    <span class="material-symbols-outlined text-primary/80 dark:text-white/80 font-light text-4xl mb-1">key</span>
+                    <span id="stat-total" class="text-5xl font-light text-primary dark:text-white tracking-tight">—</span>
+                    <p class="text-text-secondary dark:text-white/60 text-[10px] font-bold uppercase tracking-wider mt-1">Total Keys</p>
+                </div>
+                <div class="flex flex-col items-center justify-center gap-1 px-4 py-2">
+                    <span class="material-symbols-outlined text-primary/80 dark:text-white/80 font-light text-4xl mb-1">check_circle</span>
+                    <span id="stat-active" class="text-5xl font-light text-primary dark:text-white tracking-tight">—</span>
+                    <p class="text-text-secondary dark:text-white/60 text-[10px] font-bold uppercase tracking-wider mt-1">Active</p>
+                </div>
+                <div class="flex flex-col items-center justify-center gap-1 px-4 py-2">
+                    <span class="material-symbols-outlined text-primary/80 dark:text-white/80 font-light text-4xl mb-1">upload</span>
+                    <span id="stat-uploads" class="text-5xl font-light text-primary dark:text-white tracking-tight">—</span>
+                    <p class="text-text-secondary dark:text-white/60 text-[10px] font-bold uppercase tracking-wider mt-1">API Uploads</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Registered Integrations -->
+    <section>
+        <div class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/30 dark:border-white/30">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 border-b border-gray-50 dark:border-white/30 pb-4">
+                <div>
+                    <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">Registered Integrations</h2>
+                    <p class="text-text-tertiary text-xs mt-1">State Government systems connected to Vista AI</p>
+                </div>
+                <span id="keys-count-badge" class="text-[9px] font-bold text-primary dark:text-white uppercase bg-blue-50 dark:bg-white/10 px-3 py-1 rounded hidden"></span>
+            </div>
+            <!-- Column headers -->
+            <div class="grid grid-cols-[2fr_1fr_1.2fr_1fr_1fr_auto] gap-3 px-3 pb-2 mb-1">
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Organization</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">State</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Key Prefix</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Created</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Last Used</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Status / Actions</span>
+            </div>
+            <div id="keys-list">
+                <div class="space-y-1.5 py-1">
+                    <div class="h-9 skeleton w-full"></div>
+                    <div class="h-9 skeleton w-full"></div>
+                    <div class="h-9 skeleton w-4/5"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Recent API Uploads -->
+    <section>
+        <div class="bg-surface-white dark:bg-surface-dark rounded-xl p-8 border border-gray-100/30 dark:border-white/30">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 border-b border-gray-50 dark:border-white/30 pb-4">
+                <div>
+                    <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">Recent API Uploads</h2>
+                    <p class="text-text-tertiary text-xs mt-1">Wanted persons submitted by State Government systems</p>
+                </div>
+                <a href="/wanted" class="text-[9px] font-bold text-text-tertiary dark:text-white/40 uppercase tracking-widest hover:text-primary dark:hover:text-white transition-colors">View All Wanted &#8594;</a>
+            </div>
+            <div class="grid grid-cols-[2fr_1fr_1.5fr_1fr_1fr] gap-3 px-3 pb-2 mb-1">
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Person</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">State</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Crime / Case</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Uploaded</span>
+                <span class="text-[9px] font-bold text-text-tertiary uppercase tracking-widest">Status</span>
+            </div>
+            <div id="uploads-list">
+                <div class="space-y-1.5 py-1">
+                    <div class="h-9 skeleton w-full"></div>
+                    <div class="h-9 skeleton w-5/6"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Developer Guide (collapsible) -->
+    <section>
+        <div class="bg-surface-white dark:bg-surface-dark rounded-xl border border-gray-100/30 dark:border-white/30 overflow-hidden">
+            <details id="dev-guide">
+                <summary class="flex items-center justify-between px-8 py-5 cursor-pointer select-none hover:bg-gray-50 dark:hover:bg-white/3 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary/80 dark:text-white/80 text-[20px]">integration_instructions</span>
+                        <div>
+                            <h2 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">Developer Integration Guide</h2>
+                            <p class="text-text-tertiary text-xs mt-0.5">API reference for State Government development teams</p>
+                        </div>
+                    </div>
+                    <span id="guide-chev" class="material-symbols-outlined text-text-tertiary text-[20px] transition-transform duration-200">expand_more</span>
+                </summary>
+                <div class="border-t border-gray-100 dark:border-white/10 px-8 py-6 space-y-5">
+                    <p class="text-xs text-text-secondary dark:text-white/60">All endpoints require <code class="bg-gray-100 dark:bg-white/10 px-1.5 py-0.5 rounded text-primary dark:text-teal-300 text-[11px]">X-API-Key: vsk_xxxxx</code> header. Send <code class="bg-gray-100 dark:bg-white/10 px-1.5 py-0.5 rounded text-[11px]">Idempotency-Key</code> on uploads to prevent duplicates.</p>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <p class="text-[10px] font-bold text-primary dark:text-white/80 uppercase tracking-[0.18em] mb-2">1 — Health Check</p>
+                            <div class="relative group">
+                                <pre class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-[11px] text-text-primary dark:text-green-400 overflow-x-auto leading-relaxed">curl GET /api/v1/health \
+  -H "X-API-Key: vsk_YOUR_KEY"</pre>
+                                <button onclick="copySnippet(this,'curl GET /api/v1/health -H X-API-Key: vsk_YOUR_KEY')" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20">
+                                    <span class="material-symbols-outlined text-text-tertiary text-[14px]">content_copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-primary dark:text-white/80 uppercase tracking-[0.18em] mb-2">2 — Upload Wanted Person</p>
+                            <div class="relative group">
+                                <pre class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-[11px] text-text-primary dark:text-green-400 overflow-x-auto leading-relaxed">curl POST /api/v1/wanted \
+  -H "X-API-Key: vsk_YOUR_KEY" \
+  -H "Idempotency-Key: FIR-001" \
+  -F "image=@photo.jpg" \
+  -F "name=John Doe" \
+  -F "crime=Robbery" \
+  -F "case_number=FIR/2026/001"</pre>
+                                <button onclick="copySnippet(this,'curl POST /api/v1/wanted -H X-API-Key: vsk_YOUR_KEY -F image=@photo.jpg -F name=John Doe')" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20">
+                                    <span class="material-symbols-outlined text-text-tertiary text-[14px]">content_copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-primary dark:text-white/80 uppercase tracking-[0.18em] mb-2">3 — Verify Upload</p>
+                            <div class="relative group">
+                                <pre class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-[11px] text-text-primary dark:text-green-400 overflow-x-auto leading-relaxed">curl GET /api/v1/wanted/{person_id} \
+  -H "X-API-Key: vsk_YOUR_KEY"</pre>
+                                <button onclick="copySnippet(this,'curl GET /api/v1/wanted/{person_id} -H X-API-Key: vsk_YOUR_KEY')" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20">
+                                    <span class="material-symbols-outlined text-text-tertiary text-[14px]">content_copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-primary dark:text-white/80 uppercase tracking-[0.18em] mb-2">Python Example</p>
+                            <div class="relative group">
+                                <pre class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-[11px] text-text-primary dark:text-green-400 overflow-x-auto leading-relaxed">import requests
+r = requests.post(
+  f"{SERVER}/api/v1/wanted",
+  headers={"X-API-Key": KEY,
+           "Idempotency-Key": "FIR-001"},
+  files={"image": open("photo.jpg","rb")},
+  data={"name":"John Doe","crime":"Robbery"}
+)
+print(r.json())</pre>
+                                <button onclick="copySnippet(this,'import requests\nr = requests.post(...)')" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20">
+                                    <span class="material-symbols-outlined text-text-tertiary text-[14px]">content_copy</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </section>
+</main>
+
+<!-- Generate Key Modal -->
+<div id="generate-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-bg bg-black/40">
+    <div class="bg-surface-white dark:bg-surface-dark rounded-xl border border-gray-100/50 dark:border-white/30 shadow-2xl w-full max-w-md mx-4 p-8">
+        <div class="flex items-center justify-between mb-6 border-b border-gray-50 dark:border-white/20 pb-4">
+            <div>
+                <h3 class="text-[11px] font-bold text-primary dark:text-white uppercase tracking-[0.2em]">Generate New API Key</h3>
+                <p class="text-text-tertiary text-xs mt-0.5">Key shown only once — store it securely</p>
+            </div>
+            <button onclick="closeGenModal()" class="text-text-tertiary hover:text-text-primary dark:hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">Organization Name *</label>
+                <input id="gen-name" type="text" placeholder="e.g. Tamil Nadu State Police"
+                    class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white">
+            </div>
+            <div>
+                <label class="text-[9px] font-bold text-text-tertiary uppercase tracking-wider block mb-1">State</label>
+                <input id="gen-state" type="text" placeholder="e.g. Tamil Nadu"
+                    class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-white/20 bg-gray-50 dark:bg-white/5 text-text-primary dark:text-white focus:outline-none focus:border-primary dark:focus:border-white">
+            </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+            <button onclick="closeGenModal()" class="flex-1 text-xs font-semibold py-2.5 rounded-lg border border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Cancel</button>
+            <button onclick="generateKey()" class="flex-1 text-xs font-bold py-2.5 rounded-lg bg-primary dark:bg-white text-white dark:text-primary hover:opacity-90 shadow-sm transition-all">Generate Key</button>
+        </div>
+    </div>
+</div>
+
+<!-- Reveal Key Modal -->
+<div id="reveal-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-bg bg-black/40">
+    <div class="bg-surface-white dark:bg-surface-dark rounded-xl border border-yellow-200/60 dark:border-yellow-500/30 shadow-2xl w-full max-w-md mx-4 p-8">
+        <div class="flex items-start gap-3 mb-5 border-b border-gray-50 dark:border-white/20 pb-4">
+            <span class="material-symbols-outlined text-yellow-500 text-[22px] mt-0.5">warning</span>
+            <div>
+                <h3 class="text-[11px] font-bold text-text-primary dark:text-white uppercase tracking-[0.2em]">Copy This Key Now</h3>
+                <p class="text-text-tertiary text-xs mt-1">This is the <strong class="text-text-primary dark:text-white">only time</strong> this key will be shown. It cannot be recovered.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 mb-5">
+            <code id="revealed-key" class="text-sm text-primary dark:text-teal-300 flex-1 break-all">—</code>
+            <button onclick="copyRevealedKey()" class="shrink-0 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">content_copy</span> Copy
+            </button>
+        </div>
+        <button onclick="closeRevealModal()" class="w-full text-xs font-bold py-2.5 rounded-lg bg-primary dark:bg-white text-white dark:text-primary hover:opacity-90 shadow-sm transition-all">I've saved the key — Close</button>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="hidden fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-lg border"></div>
+
+<script>
+// Theme — same logic as dashboard
+(function(){
+    const s = localStorage.getItem('theme');
+    if(s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches)){
+        document.documentElement.classList.replace('light','dark');
+    }
+})();
+document.getElementById('theme-toggle').addEventListener('click',()=>{
+    const d=document.documentElement.classList.contains('dark');
+    document.documentElement.classList.replace(d?'dark':'light',d?'light':'dark');
+    localStorage.setItem('theme',d?'light':'dark');
+    document.querySelector('.theme-icon-light').classList.toggle('hidden',!d);
+    document.querySelector('.theme-icon-dark').classList.toggle('hidden',d);
+});
+async function doLogout(){await fetch('/auth/logout',{method:'POST'});location.href='/login';}
+async function confirmShutdown(){
+    if(!confirm('Shut down the entire Vista AI pipeline?'))return;
+    await fetch('/api/shutdown',{method:'POST'}).catch(()=>{});
+}
+
+// Guide chevron
+document.getElementById('dev-guide').addEventListener('toggle',function(){
+    document.getElementById('guide-chev').style.transform=this.open?'rotate(180deg)':'rotate(0deg)';
+});
+
+// Data loading
+async function loadKeys(){
+    try{
+        const d=await(await fetch('/api/admin/keys')).json();
+        const keys=d.keys||[];
+        document.getElementById('stat-total').textContent=keys.length;
+        document.getElementById('stat-active').textContent=keys.filter(k=>k.is_active).length;
+        renderKeys(keys);
+    }catch(e){document.getElementById('keys-list').innerHTML=empty('Could not load API keys.');}
+}
+async function loadUploads(){
+    try{
+        const d=await(await fetch('/api/admin/uploads/recent?limit=8')).json();
+        const ups=d.uploads||[];
+        document.getElementById('stat-uploads').textContent=ups.length;
+        renderUploads(ups);
+    }catch(e){document.getElementById('uploads-list').innerHTML=empty('Could not load uploads.');}
+}
+
+function renderKeys(keys){
+    const el=document.getElementById('keys-list');
+    if(!keys.length){el.innerHTML=empty('No API keys yet. Click "Generate New API Key" to get started.');return;}
+    const badge=document.getElementById('keys-count-badge');
+    badge.textContent=keys.length+' Key'+(keys.length!==1?'s':'');
+    badge.classList.remove('hidden');
+    el.innerHTML=keys.map(k=>{
+        const a=k.is_active;
+        const status=a
+            ? `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-700/40 uppercase tracking-wider"><i class="pulse-dot w-1.5 h-1.5 rounded-full bg-teal-500 inline-block not-italic"></i>Active</span>`
+            : `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/40 uppercase tracking-wider"><i class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block not-italic"></i>Stopped</span>`;
+        const revokeBtn = a
+            ? `<button onclick="revokeKey('${k.id}','${k.name}')" title="Stop API service (Revoke key) — record is kept" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded border border-amber-200 dark:border-amber-500/30 text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[13px]">pause_circle</span>Revoke</button>`
+            : `<button onclick="enableKey('${k.id}','${k.name}')" title="Resume API service (Enable key)" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded border border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/20 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[13px]">play_circle</span>Enable</button>`;
+        const deleteBtn = `<button onclick="deleteKey('${k.id}','${k.name}')" title="Permanently delete API key (Clear key from database)" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[13px]">delete</span>Delete</button>`;
+        return `<div class="grid grid-cols-[2fr_1fr_1.2fr_1fr_1fr_auto] gap-3 items-center px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/3 transition-colors border-b border-gray-50 dark:border-white/5 last:border-0">
+            <span class="text-sm font-medium text-text-primary dark:text-white truncate">${k.name}</span>
+            <span class="text-xs text-text-secondary dark:text-white/60 truncate">${k.state||'—'}</span>
+            <code class="text-xs text-primary dark:text-teal-300 font-mono">${k.key_prefix}&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</code>
+            <span class="text-xs text-text-tertiary">${fd(k.created_at)}</span>
+            <span class="text-xs text-text-tertiary">${k.last_used?fd(k.last_used):'Never'}</span>
+            <div class="flex items-center justify-end gap-1.5 flex-wrap">${status}<button onclick="viewLogs('${k.id}')" title="View Audit Log" class="p-1 rounded text-text-tertiary hover:text-text-primary dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[16px]">receipt_long</span></button>${revokeBtn}${deleteBtn}</div>
+        </div>`;
+    }).join('');
+}
+
+function renderUploads(ups){
+    const el=document.getElementById('uploads-list');
+    if(!ups.length){el.innerHTML=empty('No uploads via State API yet.');return;}
+    el.innerHTML=ups.map(u=>`<div class="grid grid-cols-[2fr_1fr_1.5fr_1fr_1fr] gap-3 items-center px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/3 transition-colors border-b border-gray-50 dark:border-white/5 last:border-0">
+        <span class="flex items-center gap-2 text-sm font-medium text-text-primary dark:text-white truncate"><span class="text-[9px] font-bold bg-blue-50 dark:bg-white/10 text-primary dark:text-teal-300 px-1.5 py-0.5 rounded shrink-0">API</span>${u.name||'—'}</span>
+        <span class="text-xs text-text-secondary dark:text-white/60">${u.source_state||'—'}</span>
+        <span class="text-xs text-text-tertiary truncate">${u.crime||'—'}${u.case_number?' · '+u.case_number:''}</span>
+        <span class="text-xs text-text-tertiary">${fd(u.created_at)}</span>
+        <span class="flex items-center gap-1 text-[9px] font-bold text-primary dark:text-teal-300 uppercase tracking-wider"><i class="pulse-dot w-1.5 h-1.5 rounded-full bg-primary dark:bg-teal-400 inline-block not-italic"></i>Wanted</span>
+    </div>`).join('');
+}
+
+function empty(msg){return`<div class="text-center py-8 text-xs text-text-tertiary">${msg}</div>`;}
+function fd(iso){if(!iso)return'—';const d=new Date(iso.endsWith('Z')?iso:iso+'Z');return d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+
+// Actions
+async function generateKey(){
+    const name=document.getElementById('gen-name').value.trim();
+    const state=document.getElementById('gen-state').value.trim();
+    if(!name){showToast('Organization name is required','error');return;}
+    const r=await fetch('/api/admin/keys',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,state:state||null})});
+    const d=await r.json();
+    if(!d.ok){showToast(d.detail||'Error','error');return;}
+    closeGenModal();
+    document.getElementById('revealed-key').textContent=d.key;
+    document.getElementById('reveal-modal').classList.remove('hidden');
+    loadKeys();
+}
+async function revokeKey(id,name){
+    if(!confirm(`Revoke API key for "${name}"?
+
+This will STOP the service immediately. The State Government system using this key will no longer be able to submit wanted persons.`))return;
+    try {
+        const r = await fetch(`/api/admin/keys/${id}/revoke`, {method: 'POST'});
+        const d = await r.json();
+        if(d.ok) {
+            showToast('Service stopped — API key revoked', 'info');
+            loadKeys();
+        } else {
+            showToast(d.detail || 'Failed to revoke key', 'error');
+        }
+    } catch(e) {
+        showToast('Network error while revoking', 'error');
+    }
+}
+async function enableKey(id,name){
+    try {
+        const r = await fetch(`/api/admin/keys/${id}/enable`, {method: 'POST'});
+        const d = await r.json();
+        if(d.ok) {
+            showToast('Service resumed — API key active', 'success');
+            loadKeys();
+        } else {
+            showToast(d.detail || 'Failed to enable key', 'error');
+        }
+    } catch(e) {
+        showToast('Network error while enabling', 'error');
+    }
+}
+async function deleteKey(id,name){
+    // Hard delete — permanently removes key record and all audit logs
+    if(!confirm(`Permanently DELETE the API key for "${name}"?
+
+This will CLEAR the API key and erase all its audit logs from the database. This action cannot be undone.`))return;
+    try {
+        const r = await fetch(`/api/admin/keys/${id}?mode=hard`, {
+            method: 'DELETE',
+            headers: {'X-Delete-Mode': 'hard'}
+        });
+        const d = await r.json();
+        if(d.ok) {
+            showToast('API key permanently cleared/deleted', 'success');
+            loadKeys();
+        } else {
+            showToast(d.detail || 'Failed to delete key', 'error');
+        }
+    } catch(e) {
+        showToast('Network error while deleting', 'error');
+    }
+}
+async function viewLogs(id){
+    const d=await(await fetch(`/api/admin/keys/${id}/logs?limit=20`)).json();
+    if(!d.logs?.length){showToast('No audit logs for this key','info');return;}
+    alert('Audit Log (last 20):\n\n'+d.logs.map(l=>`${l.timestamp?.slice(0,19)} | ${l.method} ${l.endpoint} | HTTP ${l.status_code} | ${l.source_ip||'?'}`).join('\n'));
+}
+
+// Modals
+function openGenerateModal(){document.getElementById('gen-name').value='';document.getElementById('gen-state').value='';document.getElementById('generate-modal').classList.remove('hidden');setTimeout(()=>document.getElementById('gen-name').focus(),50);}
+function closeGenModal(){document.getElementById('generate-modal').classList.add('hidden');}
+function closeRevealModal(){document.getElementById('reveal-modal').classList.add('hidden');}
+function copyRevealedKey(){navigator.clipboard.writeText(document.getElementById('revealed-key').textContent);showToast('Key copied','success');}
+function copySnippet(btn,text){navigator.clipboard.writeText(text);const i=btn.querySelector('span');i.textContent='check';setTimeout(()=>i.textContent='content_copy',1500);}
+
+function showToast(msg,type){
+    const el=document.getElementById('toast');
+    el.textContent=msg;
+    const base='fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-lg border ';
+    el.className=base+(type==='success'?'bg-teal-50 dark:bg-teal-900/30 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300':type==='error'?'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400':'bg-white dark:bg-surface-dark border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/70');
+    el.classList.remove('hidden');
+    setTimeout(()=>el.classList.add('hidden'),3000);
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeGenModal();closeRevealModal();}});
+document.addEventListener('DOMContentLoaded',()=>{loadKeys();loadUploads();});
+</script>
+</body>
+</html>

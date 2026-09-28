@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VISTA AI — Vehicle Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d9488", 
+                        "secondary": "#14b8a6", 
+                        "background-base": "#f4f4f5", 
+                        "background-dark": "#09090b", 
+                        "surface-white": "#ffffff",
+                        "surface-dark": "#18181b", 
+                        "text-primary": "#09090b",
+                        "text-secondary": "#52525b", 
+                        "text-tertiary": "#a1a1aa", 
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    }
+                },
+            },
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+</head>
+
+<body class="bg-background-base dark:bg-background-dark font-sans text-text-primary dark:text-gray-100 antialiased min-h-screen flex flex-col" x-data="vehicleApp()">
+    <!-- Header -->
+    <header class="w-full bg-surface-white dark:bg-surface-dark border-b border-gray-100/30 dark:border-white/10 sticky top-0 z-40 backdrop-blur-md bg-opacity-90 dark:bg-opacity-90">
+        <div class="px-8 h-16 flex items-center justify-between max-w-[1440px] mx-auto w-full">
+            <a href="/" class="flex items-center gap-3 group focus:outline-none">
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-50/80 dark:bg-zinc-800/80 p-1 border border-teal-100/60 dark:border-white/10 shadow-sm group-hover:border-primary/40 transition-all duration-200">
+                    <img src="/static/images/vista_icon.png" alt="VISTA AI Logo" class="h-8 w-8 object-contain transition-transform duration-200 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg leading-tight tracking-tight text-zinc-900 dark:text-white group-hover:text-primary transition-colors">VISTA AI</span>
+                    <span class="text-[10px] font-medium tracking-widest text-primary uppercase leading-none">Vehicle Intelligence</span>
+                </div>
+            </a>
+            
+                        <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50/50 dark:bg-teal-900/20 border border-teal-200/50 dark:border-teal-700/30">
+                    <div class="size-1.5 rounded-full bg-primary animate-ping"></div>
+                    <span class="text-[10px] font-bold text-primary dark:text-teal-300 uppercase tracking-widest">Vehicle Intel Active</span>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-primary dark:text-white" aria-label="Toggle Dark Mode">
+                    <span class="material-symbols-outlined theme-icon-light hidden">light_mode</span>
+                    <span class="material-symbols-outlined theme-icon-dark">dark_mode</span>
+                </button>
+                <button onclick="doLogout()" class="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/20 text-text-secondary dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </header>
+    <nav class="sticky top-20 mx-auto w-max max-w-[95vw] flex-wrap justify-center mt-6 mb-2 z-40 bg-primary/95 backdrop-blur-md p-1.5 rounded-2xl shadow-2xl flex items-center gap-1 border border-white/20">
+        <a href="/" class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/10 font-medium text-xs">
+            <span class="material-symbols-outlined text-[18px]">dashboard</span>
+            <span>Dash</span>
+        </a>
+        <a href="/preview" class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/10 font-medium text-xs">
+            <span class="material-symbols-outlined text-[18px]">grid_view</span>
+            <span>Live Preview</span>
+        </a>
+        <a href="/boundary" class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/10 font-medium text-xs">
+            <span class="material-symbols-outlined text-[18px]">shield</span>
+            <span>Border Vigil</span>
+        </a>
+        <a href="/vehicle" class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 bg-white/20 text-white font-semibold text-xs shadow-sm border border-white/20">
+            <span class="material-symbols-outlined text-[18px]">directions_car</span>
+            <span>Vehicle Intel</span>
+        </a>
+        <a href="/wanted" class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/10 font-medium text-xs">
+            <span class="material-symbols-outlined text-[18px]">policy</span>
+            <span>Wanted Persons</span>
+        </a>
+        <a href="/database" class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/10 font-medium text-xs">
+            <span class="material-symbols-outlined text-[18px]">folder_shared</span>
+            <span>Database</span>
+        </a>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-[1440px] mx-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6">
+        
+        <!-- Tab Navigation -->
+        <div class="flex space-x-1 bg-surface-white dark:bg-surface-dark p-1 rounded-xl shadow-sm border border-gray-100 dark:border-white/5 max-w-fit">
+            <button @click="currentTab = 'live'" :class="{'bg-teal-50 dark:bg-teal-900/30 text-primary dark:text-teal-400 shadow-sm': currentTab === 'live', 'text-text-secondary dark:text-zinc-400 hover:text-text-primary dark:hover:text-zinc-200': currentTab !== 'live'}" class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">videocam</span> Live Feed
+            </button>
+            <button @click="currentTab = 'query'" :class="{'bg-teal-50 dark:bg-teal-900/30 text-primary dark:text-teal-400 shadow-sm': currentTab === 'query', 'text-text-secondary dark:text-zinc-400 hover:text-text-primary dark:hover:text-zinc-200': currentTab !== 'query'}" class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">search</span> ANPR Query
+            </button>
+            <button @click="currentTab = 'watchlist'" :class="{'bg-teal-50 dark:bg-teal-900/30 text-primary dark:text-teal-400 shadow-sm': currentTab === 'watchlist', 'text-text-secondary dark:text-zinc-400 hover:text-text-primary dark:hover:text-zinc-200': currentTab !== 'watchlist'}" class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">list_alt</span> Watchlist
+            </button>
+            <button @click="currentTab = 'test'" :class="{'bg-teal-50 dark:bg-teal-900/30 text-primary dark:text-teal-400 shadow-sm': currentTab === 'test', 'text-text-secondary dark:text-zinc-400 hover:text-text-primary dark:hover:text-zinc-200': currentTab !== 'test'}" class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">video_library</span> Video Testing
+            </button>
+        </div>
+
+        <!-- TAB: Live Vehicle Feed -->
+        <div x-show="currentTab === 'live'" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Camera Stream -->
+            <div class="lg:col-span-2 flex flex-col gap-4">
+                <div class="bg-surface-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden flex flex-col">
+                    <div class="px-5 py-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
+                        <h2 class="text-base font-semibold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-[20px]">linked_camera</span>
+                            Live Camera Feed
+                        </h2>
+                        <select x-model="selectedCamera" @change="updateCameraStream" class="text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary">
+                            <template x-for="cam in cameras" :key="cam.id">
+                                <option :value="cam.id" x-text="cam.name"></option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="relative bg-black w-full aspect-video flex items-center justify-center overflow-hidden group">
+                        <img :src="streamUrl" class="w-full h-full object-contain" @error="streamError = true" x-show="!streamError">
+                        <div x-show="streamError" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 gap-2">
+                            <span class="material-symbols-outlined text-4xl opacity-50">videocam_off</span>
+                            <span class="text-sm font-medium">Stream not available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Events -->
+            <div class="flex flex-col gap-4">
+                <div class="bg-surface-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 flex flex-col h-full overflow-hidden max-h-[600px]">
+                    <div class="px-5 py-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-800/20">
+                        <h2 class="text-base font-semibold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-[20px]">format_list_bulleted</span>
+                            Live Events
+                        </h2>
+                        <span class="flex h-3 w-3 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
+                        </span>
+                    </div>
+                    <div class="p-4 overflow-y-auto flex-grow flex flex-col gap-3">
+                        <template x-for="ev in liveEvents" :key="ev.id">
+                            <div class="p-3 rounded-xl border border-gray-100 dark:border-white/5 bg-white dark:bg-zinc-800/50 flex flex-col gap-2 hover:border-primary/30 transition-colors">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-xs font-semibold" 
+                                              :class="getSeverityClass(ev.severity)" 
+                                              x-text="ev.event_type.replace('_', ' ')"></span>
+                                        <span class="text-xs text-text-tertiary" x-text="formatTime(ev.timestamp)"></span>
+                                    </div>
+                                </div>
+                                <div class="font-mono text-sm font-bold text-zinc-800 dark:text-zinc-200">
+                                    Plate: <span x-text="ev.metadata?.plate_text || 'UNKNOWN'"></span>
+                                </div>
+                                <div class="text-xs text-text-secondary flex justify-between">
+                                    <span x-text="'Class: ' + (ev.metadata?.vehicle_class || 'UNKNOWN')"></span>
+                                    <span x-text="'Color: ' + (ev.metadata?.color || 'UNKNOWN')"></span>
+                                </div>
+                                <div class="text-xs text-text-tertiary flex justify-between border-t border-gray-100 dark:border-white/5 pt-2 mt-1">
+                                    <span>Make: UNKNOWN</span>
+                                    <span>Model: UNKNOWN</span>
+                                </div>
+                                <div x-show="ev.clip_status === 'READY'" class="mt-2">
+                                    <button @click="playClip(ev)" class="w-full py-1.5 flex justify-center items-center gap-1 bg-teal-50 hover:bg-teal-100 dark:bg-teal-900/30 dark:hover:bg-teal-900/50 text-primary text-xs font-medium rounded-lg transition-colors">
+                                        <span class="material-symbols-outlined text-[16px]">play_circle</span> Play Clip
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                        <div x-show="liveEvents.length === 0" class="text-center text-sm text-text-tertiary py-8">
+                            No recent vehicle events.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: ANPR Query -->
+        <div x-show="currentTab === 'query'" class="flex flex-col gap-6">
+            <div class="bg-surface-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 p-5">
+                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[20px]">manage_search</span>
+                    Search Vehicle Events
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-medium text-text-secondary mb-1">Plate Number / Search</label>
+                        <input type="text" x-model="queryFilters.search" placeholder="Enter plate..." class="w-full text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-text-secondary mb-1">Camera</label>
+                        <select x-model="queryFilters.camera_id" class="w-full text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary">
+                            <option value="">All Cameras</option>
+                            <template x-for="cam in cameras" :key="cam.id">
+                                <option :value="cam.id" x-text="cam.name"></option>
+                            </template>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-text-secondary mb-1">Event Type</label>
+                        <select x-model="queryFilters.event_type" class="w-full text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary">
+                            <option value="">All Events</option>
+                            <option value="VEHICLE_DETECTED">Vehicle Detected</option>
+                            <option value="VEHICLE_IDENTIFIED">Vehicle Identified</option>
+                            <option value="ANPR_MATCH">Watchlist Match</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button @click="performSearch()" class="w-full py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg shadow-sm transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">search</span> Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Results -->
+            <div class="bg-surface-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+                <div class="px-5 py-4 border-b border-gray-100 dark:border-white/5 bg-zinc-50/50 dark:bg-zinc-800/20 flex justify-between items-center">
+                    <h2 class="text-base font-semibold">Results</h2>
+                    <span class="text-sm font-medium text-text-secondary bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded-full" x-text="searchResults.length + ' events'"></span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-zinc-50/80 dark:bg-zinc-800/50 text-xs text-text-secondary uppercase tracking-wider border-b border-gray-100 dark:border-white/5">
+                                <th class="px-4 py-3 font-medium">Time</th>
+                                <th class="px-4 py-3 font-medium">Camera</th>
+                                <th class="px-4 py-3 font-medium">Event Type</th>
+                                <th class="px-4 py-3 font-medium">Plate</th>
+                                <th class="px-4 py-3 font-medium">Class/Color</th>
+                                <th class="px-4 py-3 font-medium">Make/Model</th>
+                                <th class="px-4 py-3 font-medium text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                            <template x-for="ev in searchResults" :key="ev.id">
+                                <tr class="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
+                                    <td class="px-4 py-3 text-sm text-text-secondary" x-text="formatTimeFull(ev.timestamp)"></td>
+                                    <td class="px-4 py-3 text-sm" x-text="ev.camera_id"></td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <span class="px-2 py-0.5 rounded text-xs font-semibold" :class="getSeverityClass(ev.severity)" x-text="ev.event_type.replace('_', ' ')"></span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm font-mono font-bold" x-text="ev.metadata?.plate_text || '-'"></td>
+                                    <td class="px-4 py-3 text-sm text-text-secondary" x-text="(ev.metadata?.vehicle_class || 'UNKNOWN') + ' / ' + (ev.metadata?.color || 'UNKNOWN')"></td>
+                                    <td class="px-4 py-3 text-sm text-text-secondary">UNKNOWN / UNKNOWN</td>
+                                    <td class="px-4 py-3 text-sm text-right">
+                                        <button x-show="ev.clip_status === 'READY'" @click="playClip(ev)" class="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium">
+                                            <span class="material-symbols-outlined text-[18px]">play_circle</span> Play
+                                        </button>
+                                        <span x-show="ev.clip_status === 'PENDING'" class="text-zinc-400 italic text-xs">Pending...</span>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr x-show="searchResults.length === 0">
+                                <td colspan="7" class="px-4 py-8 text-center text-sm text-text-tertiary">No matching events found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Watchlist -->
+        <div x-show="currentTab === 'watchlist'" class="flex flex-col gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Add Entry Form -->
+                <div class="bg-surface-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 p-5 h-fit">
+                    <h2 class="text-base font-semibold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-[20px]">playlist_add</span>
+                        Add to Watchlist
+                    </h2>
+                    <form @submit.prevent="addToWatchlist" class="flex flex-col gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-text-secondary mb-1">Plate Text</label>
+                            <input type="text" x-model="newWatchlist.plate_text" required class="w-full text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary font-mono uppercase">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-text-secondary mb-1">Reason / Label</label>
+                            <input type="text" x-model="newWatchlist.reason" required class="w-full text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-text-secondary mb-1">Severity</label>
+                            <select x-model="newWatchlist.severity" class="w-full text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary">
+                                <option value="INFO">INFO</option>
+                                <option value="WARNING">WARNING</option>
+                                <option value="CRITICAL">CRITICAL</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="mt-2 w-full py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg shadow-sm transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">add</span> Add Entry
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Watchlist List -->
+                <div class="md:col-span-2 bg-surface-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+                    <div class="px-5 py-4 border-b border-gray-100 dark:border-white/5 bg-zinc-50/50 dark:bg-zinc-800/20">
+                        <h2 class="text-base font-semibold">Active Watchlist</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-zinc-50/80 dark:bg-zinc-800/50 text-xs text-text-secondary uppercase tracking-wider border-b border-gray-100 dark:border-white/5">
+                                    <th class="px-4 py-3 font-medium">Plate</th>
+                                    <th class="px-4 py-3 font-medium">Reason</th>
+                                    <th class="px-4 py-3 font-medium">Severity</th>
+                                    <th class="px-4 py-3 font-medium text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 dark:divide-white/5">
+                                <template x-for="entry in watchlist" :key="entry.plate_text">
+                                    <tr class="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30">
+                                        <td class="px-4 py-3 text-sm font-mono font-bold" x-text="entry.plate_text"></td>
+                                        <td class="px-4 py-3 text-sm" x-text="entry.reason"></td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="px-2 py-0.5 rounded text-xs font-semibold" :class="getSeverityClass(entry.severity)" x-text="entry.severity"></span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-right">
+                                            <button @click="removeFromWatchlist(entry.plate_text)" class="text-red-500 hover:text-red-600 transition-colors p-1">
+                                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <tr x-show="watchlist.length === 0">
+                                    <td colspan="4" class="px-4 py-8 text-center text-sm text-text-tertiary">Watchlist is empty.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Video Testing -->
+        <div x-show="currentTab === 'test'" class="flex flex-col gap-6">
+            <div class="bg-surface-white dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 p-6">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Upload Section -->
+                    <div class="flex-1 flex flex-col gap-4">
+                        <h2 class="text-lg font-semibold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">upload_file</span>
+                            Surveillance Video Test
+                        </h2>
+                        <p class="text-sm text-text-secondary">Upload an MP4/AVI file to validate the full end-to-end detection, tracking, ANPR, and EventHub clip extraction.</p>
+                        
+                        <div class="border-2 border-dashed border-gray-200 dark:border-white/10 rounded-xl p-8 flex flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-800/20 transition-colors" :class="{'border-primary bg-teal-50 dark:bg-teal-900/20': isDragging}" @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false" @drop.prevent="isDragging = false; handleDrop($event)">
+                            <span class="material-symbols-outlined text-4xl text-text-tertiary mb-3">cloud_upload</span>
+                            <p class="text-sm font-medium mb-1" x-show="!selectedFile">Drag and drop video here</p>
+                            <p class="text-sm text-text-tertiary mb-4" x-show="!selectedFile">or click to browse</p>
+                            
+                            <p class="text-sm font-medium text-primary mb-4" x-show="selectedFile" x-text="selectedFile?.name"></p>
+                            
+                            <input type="file" id="video-upload" class="hidden" accept=".mp4,.avi,.mov" @change="handleFileSelect($event)">
+                            <button @click="document.getElementById('video-upload').click()" class="px-4 py-2 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-white/10 shadow-sm rounded-lg text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors">
+                                Select File
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center gap-4">
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-text-secondary mb-1">Simulated Camera ID</label>
+                                <input type="text" x-model="testCameraId" class="w-full text-sm rounded-lg border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary font-mono uppercase">
+                            </div>
+                            <button @click="runVideoTest()" :disabled="!selectedFile || isTesting" class="mt-5 px-6 py-2 bg-primary hover:bg-primary/90 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 text-white text-sm font-medium rounded-lg shadow-sm transition-all flex items-center justify-center gap-2">
+                                <span x-show="!isTesting" class="material-symbols-outlined text-[18px]">play_arrow</span>
+                                <span x-show="isTesting" class="material-symbols-outlined text-[18px] animate-spin">refresh</span>
+                                <span x-text="isTesting ? 'Processing...' : 'Run Test'"></span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Operational Metrics & Progress -->
+                    <div class="flex-1 bg-zinc-50/50 dark:bg-zinc-800/30 rounded-xl border border-gray-100 dark:border-white/5 p-6 flex flex-col gap-4">
+                        <h3 class="text-base font-semibold border-b border-gray-200 dark:border-white/10 pb-2">Processing Status</h3>
+                        
+                        <!-- Progress Bar -->
+                        <div x-show="isTesting || testResults" class="mb-2">
+                            <div class="flex justify-between text-xs text-text-secondary mb-1">
+                                <span>Processing Video</span>
+                                <span x-text="testProgress + '%'"></span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-zinc-700 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full transition-all duration-300 ease-out" :style="`width: ${testProgress}%`"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Real-time Logs -->
+                        <div x-show="isTesting || testResults" id="log-container" class="flex-grow bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-lg p-3 overflow-y-auto max-h-48 text-xs font-mono">
+                            <template x-for="(log, idx) in testLogs" :key="idx">
+                                <div class="mb-1 text-text-secondary whitespace-pre flex">
+                                    <span class="text-gray-400 w-[65px] flex-shrink-0" x-text="log.timestamp"></span> 
+                                    <span class="px-2">&mdash;</span>
+                                    <span class="font-bold text-primary dark:text-blue-400 w-[110px] flex-shrink-0" x-text="log.type"></span> 
+                                    <span class="px-2">&mdash;</span>
+                                    <span class="font-bold tracking-wider" x-text="log.plate"></span>
+                                </div>
+                            </template>
+                            <div x-show="testLogs.length === 0 && isTesting" class="text-gray-400 italic">Initializing stream...</div>
+                        </div>
+
+                        <div x-show="!isTesting && !testResults" class="flex-grow flex items-center justify-center text-sm text-text-tertiary">
+                            Metrics will appear here after processing.
+                        </div>
+                        
+                        <div x-show="testResults" class="grid grid-cols-2 gap-y-3 gap-x-6 text-sm">
+                            <div class="flex justify-between border-b border-gray-100 dark:border-white/5 pb-1">
+                                <span class="text-text-secondary">Processing Status</span>
+                                <span class="font-medium" :class="testResults?.success ? 'text-green-600' : 'text-red-600'" x-text="testResults?.success ? 'SUCCESS' : 'FAILED'"></span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-white/5 pb-1">
+                                <span class="text-text-secondary">Processing Time</span>
+                                <span class="font-medium" x-text="testResults?.duration_seconds?.toFixed(2) + 's'"></span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-white/5 pb-1">
+                                <span class="text-text-secondary">Frames Processed</span>
+                                <span class="font-medium" x-text="testResults?.total_frames || 0"></span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-white/5 pb-1">
+                                <span class="text-text-secondary">Unique Vehicles</span>
+                                <span class="font-medium" x-text="testResults?.vehicles_detected || 0"></span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-white/5 pb-1">
+                                <span class="text-text-secondary">Plates Detected</span>
+                                <span class="font-medium" x-text="testResults?.vehicles?.filter(v => v.plate_text && v.plate_text !== 'UNKNOWN').length || 0"></span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-white/5 pb-1">
+                                <span class="text-text-secondary">Clips Generated</span>
+                                <span class="font-medium" x-text="testResults?.clips_generated || 0"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Clip Player Modal -->
+    <div x-show="clipModalOpen" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" @keydown.escape.window="clipModalOpen = false">
+        <div class="bg-surface-white dark:bg-surface-dark rounded-2xl shadow-xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh]" @click.away="clipModalOpen = false">
+            <div class="px-5 py-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-800/20">
+                <h3 class="text-lg font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">movie</span>
+                    Event Clip Playback
+                </h3>
+                <button @click="clipModalOpen = false" class="text-text-tertiary hover:text-text-primary transition-colors focus:outline-none">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-grow bg-black relative flex justify-center items-center overflow-hidden">
+                <video x-ref="videoPlayer" controls class="max-w-full max-h-[70vh]" :src="currentClipUrl" autoplay>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="px-5 py-3 bg-zinc-50 dark:bg-zinc-800/50 border-t border-gray-100 dark:border-white/5 text-sm flex justify-between text-text-secondary">
+                <div>
+                    <strong>Event:</strong> <span x-text="activeClipEvent?.event_type"></span>
+                </div>
+                <div>
+                    <strong>Plate:</strong> <span class="font-mono" x-text="activeClipEvent?.metadata?.plate_text || 'UNKNOWN'"></span>
+                </div>
+                <div>
+                    <strong>Time:</strong> <span x-text="formatTimeFull(activeClipEvent?.timestamp)"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alpine.js Application Logic -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('vehicleApp', () => ({
+                currentTab: 'live',
+                cameras: [
+                    { id: 'cam_01', name: 'Main Gate Entry' },
+                    { id: 'cam_02', name: 'Highway Exit' },
+                    { id: 'cam_test', name: 'Test Camera' }
+                ],
+                selectedCamera: 'cam_01',
+                streamUrl: '/api/stream/cam_01',
+                streamError: false,
+                
+                // Live Polling Data
+                liveEvents: [],
+                pollingInterval: null,
+                
+                // Query Data
+                queryFilters: {
+                    search: '',
+                    camera_id: '',
+                    event_type: ''
+                },
+                searchResults: [],
+                
+                // Watchlist Data
+                watchlist: [],
+                newWatchlist: {
+                    plate_text: '',
+                    reason: '',
+                    severity: 'WARNING'
+                },
+                
+                // Testing Data
+                isDragging: false,
+                selectedFile: null,
+                testCameraId: 'CAM_TEST_01',
+                isTesting: false,
+                testProgress: 0,
+                testLogs: [],
+                testResults: null,
+                
+                // Clip Modal
+                clipModalOpen: false,
+                currentClipUrl: '',
+                activeClipEvent: null,
+
+                init() {
+                    this.startLivePolling();
+                    this.fetchWatchlist();
+                    
+                    this.$watch('currentTab', value => {
+                        if (value === 'query' && this.searchResults.length === 0) {
+                            this.performSearch();
+                        }
+                    });
+                },
+                
+                updateCameraStream() {
+                    this.streamError = false;
+                    this.streamUrl = `/api/stream/${this.selectedCamera}?t=${Date.now()}`;
+                    this.fetchLiveEvents();
+                },
+                
+                startLivePolling() {
+                    this.fetchLiveEvents();
+                    this.pollingInterval = setInterval(() => {
+                        if (this.currentTab === 'live') {
+                            this.fetchLiveEvents();
+                        }
+                    }, 3000);
+                },
+                
+                async fetchLiveEvents() {
+                    try {
+                        const res = await fetch(`/api/vehicle/events?limit=20&camera_id=${this.selectedCamera}`);
+                        if (res.ok) {
+                            this.liveEvents = await res.json();
+                        }
+                    } catch (e) {
+                        console.error('Failed to fetch live events', e);
+                    }
+                },
+                
+                async performSearch() {
+                    try {
+                        const params = new URLSearchParams();
+                        params.append('limit', '100');
+                        if (this.queryFilters.search) params.append('search_query', this.queryFilters.search);
+                        if (this.queryFilters.camera_id) params.append('camera_id', this.queryFilters.camera_id);
+                        if (this.queryFilters.event_type) params.append('event_type', this.queryFilters.event_type);
+                        
+                        const res = await fetch(`/api/vehicle/events?${params.toString()}`);
+                        if (res.ok) {
+                            this.searchResults = await res.json();
+                        }
+                    } catch (e) {
+                        console.error('Failed to perform search', e);
+                    }
+                },
+                
+                async fetchWatchlist() {
+                    try {
+                        const res = await fetch('/api/vehicle/watchlist');
+                        if (res.ok) {
+                            this.watchlist = await res.json();
+                        }
+                    } catch (e) {}
+                },
+                
+                async addToWatchlist() {
+                    try {
+                        const res = await fetch('/api/vehicle/watchlist', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(this.newWatchlist)
+                        });
+                        if (res.ok) {
+                            this.newWatchlist.plate_text = '';
+                            this.newWatchlist.reason = '';
+                            this.fetchWatchlist();
+                        }
+                    } catch(e) {}
+                },
+                
+                async removeFromWatchlist(plate) {
+                    try {
+                        const res = await fetch(`/api/vehicle/watchlist/${plate}`, { method: 'DELETE' });
+                        if (res.ok) {
+                            this.fetchWatchlist();
+                        }
+                    } catch(e) {}
+                },
+                
+                handleFileSelect(e) {
+                    if (e.target.files && e.target.files.length > 0) {
+                        this.selectedFile = e.target.files[0];
+                    }
+                },
+                
+                handleDrop(e) {
+                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        this.selectedFile = e.dataTransfer.files[0];
+                    }
+                },
+                
+
+                async runVideoTest() {
+                    if (!this.selectedFile) return;
+                    
+                    this.isTesting = true;
+                    this.testResults = null;
+                    this.testProgress = 1;
+                    this.testLogs = [];
+                    
+                    const formData = new FormData();
+                    formData.append('file', this.selectedFile);
+                    formData.append('camera_id', this.testCameraId);
+                    
+                    try {
+                        const res = await fetch('/api/vehicle/test-video-stream', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (!res.ok) {
+                            alert("Test failed or unsupported format.");
+                            this.isTesting = false;
+                            return;
+                        }
+
+                        const reader = res.body.getReader();
+                        const decoder = new TextDecoder('utf-8');
+                        let buffer = '';
+
+                        while (true) {
+                            const { value, done } = await reader.read();
+                            if (done) break;
+                            
+                            buffer += decoder.decode(value, { stream: true });
+                            const lines = buffer.split('\n');
+                            
+                            for (let i = 0; i < lines.length - 1; i++) {
+                                const line = lines[i].trim();
+                                if (!line) continue;
+                                
+                                try {
+                                    const data = JSON.parse(line);
+                                    if (data.error) {
+                                        alert(data.error);
+                                        this.isTesting = false;
+                                        return;
+                                    }
+                                    if (data.progress !== undefined) {
+                                        this.testProgress = data.progress;
+                                    }
+                                    if (data.logs && data.logs.length > 0) {
+                                        this.testLogs.push(...data.logs);
+                                        // Scroll to bottom of logs
+                                        setTimeout(() => {
+                                            const ldiv = document.getElementById('log-container');
+                                            if(ldiv) ldiv.scrollTop = ldiv.scrollHeight;
+                                        }, 50);
+                                    }
+                                    if (data.results) {
+                                        this.testResults = data.results;
+                                    }
+                                } catch(e) {
+                                    console.error("JSON parse error", line);
+                                }
+                            }
+                            buffer = lines[lines.length - 1];
+                        }
+                        
+                    } catch (e) {
+                        console.error(e);
+                        alert("Error during test execution.");
+                    } finally {
+                        this.isTesting = false;
+                    }
+                },
+
+                
+                playClip(eventObj) {
+                    this.activeClipEvent = eventObj;
+                    this.currentClipUrl = `/api/events/${eventObj.id}/clip`;
+                    this.clipModalOpen = true;
+                    
+                    this.$nextTick(() => {
+                        if (this.$refs.videoPlayer) {
+                            this.$refs.videoPlayer.load();
+                            this.$refs.videoPlayer.play();
+                        }
+                    });
+                },
+                
+                getSeverityClass(severity) {
+                    const map = {
+                        'CRITICAL': 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+                        'WARNING': 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+                        'INFO': 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                    };
+                    return map[severity] || 'bg-gray-100 text-gray-700';
+                },
+                
+                formatTime(ts) {
+                    if (!ts) return '';
+                    const d = new Date(ts * 1000);
+                    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                },
+                
+                formatTimeFull(ts) {
+                    if (!ts) return '';
+                    const d = new Date(ts * 1000);
+                    return d.toLocaleDateString() + ' ' + this.formatTime(ts);
+                }
+            }));
+        });
+    </script>
+</body>
+</html>
