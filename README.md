@@ -1,3 +1,14 @@
+---
+title: VISTA AI
+emoji: 👁️
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+---
+
 # Vista Intelligence — AI Border & Perimeter Surveillance System
 
 An end-to-end AI surveillance platform for SIH 2026 (Problem Statement 26187):
