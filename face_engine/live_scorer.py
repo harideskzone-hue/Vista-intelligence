@@ -234,7 +234,7 @@ def _preflight():
             cap.release()
     except Exception:
         pass
-    checks.append(("✓" if cam_ok else "✗", "Camera 0", cam_detail))
+    checks.append(("✓" if cam_ok else "⚠", "Camera 0", cam_detail))
 
     # 3. API health
     api_ok = False
@@ -250,7 +250,7 @@ def _preflight():
                 api_detail = f"200 OK, {data.get('person_count', 0)} persons"
     except Exception:
         pass
-    checks.append(("✓" if api_ok else "✗", "API health", api_detail))
+    checks.append(("✓" if api_ok else "⚠", "API health", api_detail))
 
     # 4. Session token
     token_ok = False
