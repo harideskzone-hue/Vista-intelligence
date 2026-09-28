@@ -29,3 +29,10 @@ sys.path.insert(0, os.path.abspath("face_api"))
 
 # Import the main FastAPI application instance from our existing code
 from face_api.run import app
+
+if __name__ == "__main__":
+    import uvicorn
+    # Hugging Face Spaces expects the server to run on 0.0.0.0:7860 and block the main thread.
+    port = int(os.environ.get("PORT", 7860))
+    print(f"Starting Uvicorn server on port {port}...")
+    uvicorn.run(app, host="0.0.0.0", port=port)
