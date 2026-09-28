@@ -26,7 +26,6 @@ threading.Thread(target=start_live_scorer, daemon=True).start()
 # Hugging Face Spaces (Gradio SDK) will look for an object named 'app' in 'app.py'
 # and run it using Uvicorn if it detects it's a FastAPI app!
 sys.path.insert(0, os.path.abspath("face_api"))
-sys.path.insert(0, os.path.abspath("."))
 
 # Import the main FastAPI application instance from our existing code
 from face_api.run import app
