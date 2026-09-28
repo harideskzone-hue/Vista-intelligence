@@ -28,6 +28,13 @@ threading.Thread(target=start_live_scorer, daemon=True).start()
 sys.path.insert(0, os.path.abspath("face_api"))
 
 # Import the main FastAPI application instance from our existing code
+try:
+    import spaces
+    @spaces.GPU
+    def _dummy(): pass
+except ImportError:
+    pass
+
 from face_api.run import app
 
 if __name__ == "__main__":
